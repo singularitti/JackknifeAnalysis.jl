@@ -26,8 +26,6 @@
 \usepackage{accents} % Align hat on top of bar, see https://tex.stackexchange.com/a/490151/61591
 % \addbibresource{ref.bib}
 
-\DeclareSIUnit{\angstrom}{\textup{\AA}}
-
 \newminted{julia}{
   autogobble,
   breaklines,
@@ -39,7 +37,8 @@
 \renewcommand*{\ALG@name}{Snippet} % See https://tex.stackexchange.com/a/169119
 \makeatother
 \newcommand{\code}[1]{\mintinline[fontsize=\footnotesize]{julia}{#1}}
-% \setmonofont{JuliaMono}
+\defaultfontfeatures{} % Fix font switching, see https://tex.stackexchange.com/a/638763/61591
+\setmonofont{JuliaMono}
 
 \definecolor{CUBlueDarkest}{RGB}{3,33,105}
 
