@@ -12,12 +12,12 @@ We will use $M$ to represent the total number of values, i.e. $M = 1600000$. $M$
 enough so that it represents an effectively ``infinite'' sample size. Thus, the true data
 mean can be well approximated by averaging over all $M$ values. Averages, standard
 deviations, \etc. determined from the ``infinite'' sample will be denoted with a hat, i.e.
-$\hat{\bar{v}}_1$, \etc.
+$\barhat{v}_1$, \etc.
 
 We will use $N$ to represent the number of measurements in a sample of the data. $N$
 corresponds to the amount of data you might actually collect in a simulation.
 
-\Question{} Determine the true means, $\hat{\bar{v}}_a$ for $v_1$, $v_2$, $\ldots$, $v_5$ from
+\Question{} Determine the true means, $\barhat{v}_a$ for $v_1$, $v_2$, $\ldots$, $v_5$ from
 all $M$ values.
 
 \Answer{}
@@ -41,21 +41,21 @@ Snippet~\ref{lst:readdata}.
 
 The definition of the true mean is
 \begin{equation}
-    \hat{\bar{x}} = \bigl \langle \bar{x} \bigr \rangle = \frac{ 1 }{ M } \sum_{i=1}^{M} x_i.
+    \barhat{x} = \bigl \langle \bar{x} \bigr \rangle = \frac{ 1 }{ M } \sum_{i=1}^{M} x_i.
 \end{equation}
 
-Therefore, the true means, $\hat{\bar{v}}_a$ for $v_1$, $v_2$, $\ldots$, $v_5$ from
+Therefore, the true means, $\barhat{v}_a$ for $v_1$, $v_2$, $\ldots$, $v_5$ from
 all $M$ values are shown in Table~\ref{tab:truemean}.
 
 \begin{table}[H]
     \centering
-    \caption{The true means $\hat{\bar{v}}_a$ from all $M$ values.}
+    \caption{The true means $\barhat{v}_a$ from all $M$ values.}
     \label{tab:truemean}
     \begin{tabular}{@{}ccccc@{}}
         \toprule
-        $\hat{\bar{v}}_1$ & $\hat{\bar{v}}_2$ & $\hat{\bar{v}}_3$ & $\hat{\bar{v}}_4$ & $\hat{\bar{v}}_5$ \\
+        $\barhat{v}_1$ & $\barhat{v}_2$ & $\barhat{v}_3$ & $\barhat{v}_4$ & $\barhat{v}_5$ \\
         \midrule
-        1.76084           & 2.88634           & 4.01185           & 5.13712           & 6.26238           \\
+        1.76084        & 2.88634        & 4.01185        & 5.13712        & 6.26238        \\
         \bottomrule
     \end{tabular}
 \end{table}
