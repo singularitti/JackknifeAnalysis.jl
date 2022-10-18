@@ -1,0 +1,47 @@
+\section{Statistical Analysis of Mock Dataset}
+
+There are $5$ plain text files given, called $v_1$, $v_2$, $v_3$, $v_4$ and $v_5$. ($v_1$ is
+short for variable $1$, \etc{}) Each text file contains $1600000$ lines, which correspond to
+measurements of the given variable from a simulation. There are autocorrelations
+(correlations in time or measurement number) for each variable. There are also correlations
+between variables. In this problem, you need to analyze this data, using the methods
+discussed in class, to find average values, standard deviations of means, autocorrelations,
+etc.
+
+We will use $M$ to represent the total number of values, i.e. $M = 1600000$. $M$ is large
+enough so that it represents an effectively ``infinite'' sample size. Thus, the true data
+mean can be well approximated by averaging over all $M$ values. Averages, standard
+deviations, \etc. determined from the ``infinite'' sample will be denoted with a hat, i.e.
+$\hat{\bar{v}}_1$, \etc.
+
+We will use $N$ to represent the number of measurements in a sample of the data. $N$
+corresponds to the amount of data you might actually collect in a simulation.
+
+\Question{} Determine the true means, $\hat{\bar{v}}_a$ for $v_1$, $v_2$, $\ldots$, $v_5$ from
+all $M$ values.
+
+\Answer{}
+First, we need to read the data from each file. This is pretty simple since all $5$ files
+are plain text files. The method is shown in function \code{readdata} in
+Snippet~\ref{lst:readdata}.
+
+\begin{algorithm}[H]
+    \caption{Function \code{readdata} reads the data from each file.}
+    \label{lst:readdata}
+    \begin{juliacode}
+        function readdata(filename)
+            open(filename, "r") do io
+                return map(eachline(io)) do line
+                    parse(Float64, strip(line))
+                end
+            end
+        end
+    \end{juliacode}
+\end{algorithm}
+
+The definition of the true mean is
+\begin{equation}
+    \bigl \langle \hat{\bar{x}} \bigr \rangle = \frac{ 1 }{ M } \sum_{i=1}^{M} x_i.
+\end{equation}
+
+
