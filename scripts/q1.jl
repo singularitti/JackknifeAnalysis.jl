@@ -54,3 +54,26 @@ let variables = [v1, v2, v3, v4, v5]
     insertcols!(df, 1, :N => [1000, 10000])
     latexify(df; env=:table)
 end
+
+let variables = [v1, v2, v3, v4, v5]
+    plt = plot(;
+        framestyle=:box,
+        labelfontsize=12,
+        tickfontsize=10,
+        legendfontsize=12,
+        right_margin=2mm,
+    )
+    for (i, variable) in enumerate(variables)
+        C₀ = truecor(variable, 0)
+        N = 0:300
+        r = map(N) do n
+            Cₙ = truecor(variable, n)
+            Cₙ / C₀
+        end
+        plot!(plt, N, r; label=L"$v_{%$i}$")
+        xlims!(extrema(N))
+        xlabel!(L"$n$")
+        ylabel!(L"$\hat{C}_{v_a}(n) / \hat{C}_{v_a}(0)$")
+    end
+    savefig("tex/plots/Cn_C0.pdf")
+end
