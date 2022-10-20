@@ -55,7 +55,7 @@ all $M$ values are shown in Table~\ref{tab:truemean}.
         \toprule
         $\barhat{v}_1$ & $\barhat{v}_2$ & $\barhat{v}_3$ & $\barhat{v}_4$ & $\barhat{v}_5$ \\
         \midrule
-        1.76084        & 2.88634        & 4.01185        & 5.13712        & 6.26238        \\
+        $1.76084$      & $2.88634$      & $4.01185$      & $5.13712$      & $6.26238$      \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -170,7 +170,13 @@ autocorrelation functions
 %
 We plot $\hat{C}_{v_a}(n) / \hat{C}_{v_a}(0)$ as a function of $n$ for $a = 1$, $\ldots$,
 $5$ in Figure~\ref{fig:truecor}.
-Here the $n_\textnormal{cut}$ is $300$ since it is large enough to see the trend.
+Here the $n_\textnormal{cut}$ is $300$ since it is large enough to see the trend
+that
+%
+\begin{equation}
+    \lim_{n \rightarrow \infty} \frac{ \hat{C}_{v_a}(n) }{ \hat{C}_{v_a}(0) } = 0
+    \textnormal{  for } a = 1, \ldots, 5.
+\end{equation}
 
 \begin{figure}[h]
     \centering
@@ -179,3 +185,48 @@ Here the $n_\textnormal{cut}$ is $300$ since it is large enough to see the trend
         $a = 1$, $\ldots$, $5$.}
     \label{fig:truecor}
 \end{figure}
+
+\Question{} Find the integrated autocorrelation times
+%
+\begin{equation}
+    \hat{\tau}_{v_a} \equiv \frac{ 1 }{ 2 \hat{C}_{v_a}(0) }
+    \sum_{n=-n_\textnormal{cut}}^{n=n_\textnormal{cut}} \hat{C}_{v_a}(n).
+\end{equation}
+%
+Estimate a value for $n_\textnormal{cut}$ from your plots.
+$n_\textnormal{cut}$ should be large enough that $\hat{C}_{v_a}(n) / \hat{C}_{v_a}(0)$
+has gotten close enough to zero that the value of $\hat{\tau}_{v_a}$
+is not affected by modest changes in $n_\textnormal{cut}$.
+
+
+\Question{} Calculate the true standard deviation of the data, i.e.,
+%
+\begin{equation}
+    \hat{\sigma}_{v_a} \equiv \sqrt{\frac{ 1 }{ M - 1 }
+        \sum_{i=1}^M (v_{a,i} - \barhat{v}_a)}.
+\end{equation}
+%
+For a sample of size $N$, we should have
+%
+\begin{equation}
+    \sgbar{a} = \sqrt{\frac{ 2 \hat{\tau}_{v_a} }{ N }} \hat{\sigma}_{v_a}.
+\end{equation}
+%
+Does this relation hold for your analysis?
+
+\Answer{}
+The true standard deviation of all $M$ data is listed in Table~\ref{tab:std}.
+
+\begin{table}[H]
+    \centering
+    \caption{The true standard deviation of all $M$ data.}
+    \label{tab:std}
+    \begin{tabular}{@{}ccccc@{}}
+        \toprule
+        $\hat{\sigma}_{v_1}$ & $\hat{\sigma}_{v_2}$ & $\hat{\sigma}_{v_3}$ & $\hat{\sigma}_{v_4}$ & $\hat{\sigma}_{v_5}$ \\
+        \midrule
+        $0.751404$           & $0.461788$           & $0.406673$           & $0.457226$           & $0.742713$           \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
