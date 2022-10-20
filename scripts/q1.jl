@@ -1,4 +1,6 @@
+using DataFrames
 using JackknifeAnalysis
+using Latexify
 using LaTeXStrings
 using Plots
 using Plots.Measures
@@ -15,7 +17,7 @@ v5 = read("data/v5", Population)
 
 map(mean, (v1, v2, v3, v4, v5))
 
-let variables = (v1, v2, v3, v4, v5)
+let variables = [v1, v2, v3, v4, v5]
     for n in (1000, 10000)
         histograms = []
         for (i, variable) in enumerate(variables)
@@ -43,4 +45,12 @@ let variables = (v1, v2, v3, v4, v5)
         end
         savefig("tex/plots/sample means N=$n.pdf")
     end
+    stds = hcat(map([1000, 10000]) do n
+        map(variables) do variable
+            round(truestd(variable, ContinuousSampler(n)); digits=5)
+        end
+    end...)
+    df = DataFrame(stds', [:v1, :v2, :v3, :v4, :v5])
+    insertcols!(df, 1, :N => [1000, 10000])
+    latexify(df; env=:table)
 end
