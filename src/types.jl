@@ -1,5 +1,3 @@
-using Statistics: mean
-
 export Population, Sample, ContinuousSampler, sample
 
 struct Population{T} <: AbstractVector{T}
