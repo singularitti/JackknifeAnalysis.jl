@@ -1,4 +1,4 @@
-export mean, var, truevar, std, truestd
+export mean, var, truevar, std, truestd, truecor
 
 mean(population::Population) = sum(population) / length(population)
 mean(sample::Sample) = sum(sample) / length(sample)
@@ -23,4 +23,11 @@ std(sample::Sample) = sqrt(var(sample))
 
 function truestd(population::Population, sampler::ContinuousSampler)
     return sqrt(truevar(population, sampler))
+end
+
+function truecor(population::Population, n)
+    μ = mean(population)
+    return sum(firstindex(population):(lastindex(population) - n)) do i
+        (population[i] - μ) * (population[i + n] - μ)
+    end / (length(population) - n)
 end
