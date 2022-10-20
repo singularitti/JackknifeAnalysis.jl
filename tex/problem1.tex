@@ -62,10 +62,10 @@ all $M$ values are shown in Table~\ref{tab:truemean}.
 
 \Question{} Consider two values for our sample size: $N = 1000$ and $N = 10000$. There are
 $M/N$ samples of this size in our $M$ values. Histogram the sample means for these values of
-$N$ and determine the true standard deviation of the means $\hat{\sigma}_{\barhat{v}_a,N}$.
-You can determine $\hat{\sigma}_{\barhat{v}_a,N}$ by assuming each of the $M/N$ samples is
+$N$ and determine the true standard deviation of the means $\sgbar{a}$.
+You can determine $\sgbar{a}$ by assuming each of the $M/N$ samples is
 independent. This is reasonable, provided the autocorrelations in the data are smaller than
-the values of $N$ you use. Do your two values for $\hat{\sigma}_{\barhat{v}_a,N}$ show the
+the values of $N$ you use. Do your two values for $\sgbar{a}$ show the
 correct behavior with $N$?
 
 \Answer{}
@@ -91,15 +91,44 @@ since more values are averaged.
         \subcaption{Histogram of the sample means for $N = 10000$.}
         \label{fig:hist_mean:b}
     \end{minipage}
-    \label{fig:hist_mean}
     \caption{Take $N = 1000$ and $N = 10000$ as each sample size
         for $v_1$, $v_2$, $\ldots$, $v_5$ from all $M$ values
         and histogram their mean values.}
+    \label{fig:hist_mean}
 \end{figure}
 
-The true variance is defined as
-
+The true variance of the means is defined as
+%
 \begin{equation}
-    \hat{\mathbb{V}}(v) = \frac{ 1 }{ M/N - 1 }
-    \sum_{\eta=1}^{M/N} (\bar{v}_\eta - \barhat{v})^2.
+    \hat{\mathbb{V}}(v_a) = \frac{ 1 }{ M/N - 1 }
+    \sum_{\eta=1}^{M/N} (\bar{v}_{\eta,a} - \barhat{v}_a)^2.
 \end{equation}
+%
+And the true standard deviation is defined as
+%
+\begin{equation}
+    \hat{\sigma}_{\barhat{v}_a} = \sqrt{\hat{\mathbb{V}}(v_a)}.
+\end{equation}
+%
+Therefore, we have list the true standard deviation of the means
+$\sgbar{a}$ for $a = 1$, $\ldots$, $5$ and $N = 1000$ and $10000$
+in Table~\ref{tab:truestd}.
+We can see that the $\sgbar{a}$'s for $N = 10000$ are much smaller than
+when $N = 1000$. This is consistent with the results in Figure~\ref{fig:hist_mean}
+since the distribution of $\bar{v}_a$ is narrower when $N = 10000$ since
+we are averaging more values in one sample.
+
+\begin{table}[H]
+    \centering
+    \caption{The true standard deviation of the means
+        $\sgbar{a}$ for $a = 1$, $\ldots$, $5$ and $N = 1000$ and $10000$.}
+    \label{tab:truestd}
+    \begin{tabular}{@{}cccccc@{}}
+        \toprule
+        $N$     & $\sgbar{1}$ & $\sgbar{2}$ & $\sgbar{3}$ & $\sgbar{4}$ & $\sgbar{5}$ \\
+        \midrule
+        $1000$  & $0.24312$   & $0.19294$   & $0.17706$   & $0.19428$   & $0.24565$   \\
+        $10000$ & $0.08173$   & $0.06387$   & $0.05607$   & $0.05901$   & $0.07425$   \\
+        \bottomrule
+    \end{tabular}
+\end{table}
