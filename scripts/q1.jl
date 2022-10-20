@@ -17,6 +17,8 @@ v5 = read("data/v5", Population)
 
 map(mean, (v1, v2, v3, v4, v5))
 
+map(var, (v1, v2, v3, v4, v5))
+
 let variables = [v1, v2, v3, v4, v5]
     for n in (1000, 10000)
         histograms = []
