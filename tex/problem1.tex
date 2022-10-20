@@ -41,7 +41,7 @@ Snippet~\ref{lst:readdata}.
 
 The definition of the true mean is
 \begin{equation}
-    \barhat{x} = \bigl \langle \bar{x} \bigr \rangle = \frac{ 1 }{ M } \sum_{i=1}^{M} x_i.
+    \barhat{v} = \bigl \langle \bar{v} \bigr \rangle = \frac{ 1 }{ M } \sum_{i=1}^{M} v_i.
 \end{equation}
 
 Therefore, the true means, $\barhat{v}_a$ for $v_1$, $v_2$, $\ldots$, $v_5$ from
@@ -60,3 +60,46 @@ all $M$ values are shown in Table~\ref{tab:truemean}.
     \end{tabular}
 \end{table}
 
+\Question{} Consider two values for our sample size: $N = 1000$ and $N = 10000$. There are
+$M/N$ samples of this size in our $M$ values. Histogram the sample means for these values of
+$N$ and determine the true standard deviation of the means $\hat{\sigma}_{\barhat{v}_a,N}$.
+You can determine $\hat{\sigma}_{\barhat{v}_a,N}$ by assuming each of the $M/N$ samples is
+independent. This is reasonable, provided the autocorrelations in the data are smaller than
+the values of $N$ you use. Do your two values for $\hat{\sigma}_{\barhat{v}_a,N}$ show the
+correct behavior with $N$?
+
+\Answer{}
+
+There are $1600$ and $160$ samples for $N = 1000$ and $N = 10000$, resepectively.
+We calculate their means and plot them in histograms, as shown in
+Figures~\ref{fig:hist_mean:a} and~\ref{fig:hist_mean:b}.
+We can see that the distribution of the mean values changes in Figure~\ref{fig:hist_mean:b}
+since more values are averaged.
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{sample means N=1000}
+        \subcaption{Histogram of the sample means for $N = 1000$.}
+        \label{fig:hist_mean:a}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{sample means N=10000}
+        \subcaption{Histogram of the sample means for $N = 10000$.}
+        \label{fig:hist_mean:b}
+    \end{minipage}
+    \label{fig:hist_mean}
+    \caption{Take $N = 1000$ and $N = 10000$ as each sample size
+        for $v_1$, $v_2$, $\ldots$, $v_5$ from all $M$ values
+        and histogram their mean values.}
+\end{figure}
+
+The true variance is defined as
+
+\begin{equation}
+    \hat{\mathbb{V}}(v) = \frac{ 1 }{ M/N - 1 }
+    \sum_{\eta=1}^{M/N} (\bar{v}_\eta - \barhat{v})^2.
+\end{equation}
