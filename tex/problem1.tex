@@ -69,14 +69,13 @@ the values of $N$ you use. Do your two values for $\sgbar{a}$ show the
 correct behavior with $N$?
 
 \Answer{}
-
 There are $1600$ and $160$ samples for $N = 1000$ and $N = 10000$, resepectively.
 We calculate their means and plot them in histograms, as shown in
 Figures~\ref{fig:hist_mean:a} and~\ref{fig:hist_mean:b}.
 We can see that the distribution of the mean values changes in Figure~\ref{fig:hist_mean:b}
 since more values are averaged.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{minipage}[t]{0.8\linewidth}
         \centering
@@ -132,3 +131,51 @@ we are averaging more values in one sample.
         \bottomrule
     \end{tabular}
 \end{table}
+
+\Question{} You can now determine the true autocorrelation function for each variable,
+$\hat{C}_{v_a}(n)$, which is given by
+%
+\begin{equation}
+    \hat{C}_{v_a}(n) = \frac{ 1 }{ M - n }
+    \sum_{i=1}^{M-n} (v_{a,i} - \barhat{v}_a) (v_{a,i + n} - \barhat{v}_a).
+\end{equation}
+%
+Here $n$ goes from $0$ to some maximum value $n_\textnormal{cut}$ with
+$n_\textnormal{cut} \ll M$.
+Plot $\hat{C}_{v_a}(n) / \hat{C}_{v_a}(0)$ versus $n$ for $a = 1$, $\ldots$, $5$.
+
+\Answer{}
+The code snippet for the true autocorrelation function is shown in Snippet~\ref{lst:truecor}.
+%
+\begin{algorithm}
+    \caption{The true autocorrelation function $\hat{C}_{v_a}(n)$ for variable $v_a$.}
+    \label{lst:truecor}
+    \begin{juliacode}
+        function truecor(population::Population, n)
+            μ = mean(population)
+            return sum(firstindex(population):(lastindex(population) - n)) do i
+                (population[i] - μ) * (population[i + n] - μ)
+            end / (length(population) - n)
+        end
+    \end{juliacode}
+\end{algorithm}
+%
+As we can see, the true autocorrelation function is different from the sample's
+autocorrelation functions
+%
+\begin{equation}
+    C_{v_a}(n) = \frac{ 1 }{ N - n - 1 }
+    \sum_{i=1}^{N-n} (v_{a,i} - \bar{v}_a) (v_{a,i + n} - \bar{v}_a).
+\end{equation}
+%
+We plot $\hat{C}_{v_a}(n) / \hat{C}_{v_a}(0)$ as a function of $n$ for $a = 1$, $\ldots$,
+$5$ in Figure~\ref{fig:truecor}.
+Here the $n_\textnormal{cut}$ is $300$ since it is large enough to see the trend.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Cn_C0}
+    \caption{$\hat{C}_{v_a}(n) / \hat{C}_{v_a}(0)$ as a function of $n$ for
+        $a = 1$, $\ldots$, $5$.}
+    \label{fig:truecor}
+\end{figure}
