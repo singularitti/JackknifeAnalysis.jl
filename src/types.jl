@@ -1,4 +1,4 @@
-export Population, Sample, ContinuousSampler, sample
+export Population, Sample, PartitionSampler, sample
 
 struct Population{T} <: AbstractVector{T}
     data::Vector{T}
@@ -10,11 +10,12 @@ struct Sample{T} <: AbstractVector{T}
 end
 Sample(A::AbstractVector) = Sample(collect(A))
 
-struct ContinuousSampler
+abstract type Sampler end
+struct PartitionSampler <: Sampler
     n::Int
 end
 
-function sample(population::Population, sampler::ContinuousSampler)
+function sample(population::Population, sampler::PartitionSampler)
     return Sample.(Iterators.partition(population.data, sampler.n))
 end
 

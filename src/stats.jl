@@ -10,7 +10,7 @@ end
 var(sample::Sample) = var(sample, mean(sample))
 var(sample::Sample, mean) = sum(abs2, sample .- mean) / (length(sample) - 1)
 
-function truevar(population::Population, sampler::ContinuousSampler)
+function truevar(population::Population, sampler::PartitionSampler)
     μ = mean(population)
     samples = sample(population, sampler)
     return sum(abs2, mean(s) - μ for s in samples) / (length(samples) - 1)
@@ -19,7 +19,7 @@ end
 std(population::Population) = sqrt(var(population))
 std(sample::Sample) = sqrt(var(sample))
 
-function truestd(population::Population, sampler::ContinuousSampler)
+function truestd(population::Population, sampler::PartitionSampler)
     return sqrt(truevar(population, sampler))
 end
 
