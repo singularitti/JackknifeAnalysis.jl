@@ -28,5 +28,5 @@ Base.size(sample::Sample) = size(parent(sample))
 Base.getindex(population::Population, I...) = getindex(parent(population), I...)
 Base.getindex(sample::Sample, I...) = getindex(parent(sample), I...)
 
-Base.IndexStyle(::Type{<:Population}) = IndexLinear()
-Base.IndexStyle(::Type{<:Sample}) = IndexLinear()
+Base.IndexStyle(::Type{Population{T}}) where {T} = IndexLinear()
+Base.IndexStyle(::Type{Sample{T}}) where {T} = IndexLinear()
