@@ -7,10 +7,8 @@ function var(population::Population)
     μ = mean(population)
     return sum(abs2, population .- μ) / length(population)
 end
-function var(sample::Sample)
-    μ = mean(sample)
-    return sum(abs2, sample .- μ) / (length(sample) - 1)
-end
+var(sample::Sample) = var(sample, mean(sample))
+var(sample::Sample, mean) = sum(abs2, sample .- mean) / (length(sample) - 1)
 
 function truevar(population::Population, sampler::ContinuousSampler)
     μ = mean(population)
