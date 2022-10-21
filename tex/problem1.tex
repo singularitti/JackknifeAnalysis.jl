@@ -186,9 +186,9 @@ that
     \label{fig:truecor}
 \end{figure}
 
-\Question{} Find the integrated autocorrelation times
+\Question{} Find the integrated autocorrelation time
 %
-\begin{equation}
+\begin{equation}\label{eq:tau}
     \hat{\tau}_{v_a} \equiv \frac{ 1 }{ 2 \hat{C}_{v_a}(0) }
     \sum_{n=-n_\textnormal{cut}}^{n=n_\textnormal{cut}} \hat{C}_{v_a}(n).
 \end{equation}
@@ -198,6 +198,42 @@ $n_\textnormal{cut}$ should be large enough that $\hat{C}_{v_a}(n) / \hat{C}_{v_
 has gotten close enough to zero that the value of $\hat{\tau}_{v_a}$
 is not affected by modest changes in $n_\textnormal{cut}$.
 
+\Answer{}
+Equation \eqref{eq:tau} can be rewritten as
+%
+\begin{equation}
+    \hat{\tau}_{v_a} = \frac{ 1 }{ 2 \hat{C}_{v_a}(0) }
+    \biggl( 2\sum_{n=1}^{n_\textnormal{cut}} \hat{C}_{v_a}(n) + \hat{C}_{v_a}(0) \biggr)
+    = \frac{ \sum_{n=1}^{n_\textnormal{cut}} \hat{C}_{v_a}(n) }{ \hat{C}_{v_a}(0) }
+    + \frac{ 1 }{ 2 }
+\end{equation}
+%
+since the autocorrelation function is symmetric.
+Therefore, we select $n_\textnormal{cut} = 200$ since it is enough for $\hat{\tau}_{v_a}$
+to converge.
+The final results are shown in Figure~\ref{fig:tau} and Table~\ref{tab:tau}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{tau}
+    \caption{The integrated autocorrelation time $\hat{\tau}_{v_a}$ as a
+        function of $n_\textnormal{cut}$ for $a = 1$, $\ldots$, $5$.}
+    \label{fig:tau}
+\end{figure}
+
+\begin{table}
+    \centering
+    \caption{The integrated autocorrelation time $\hat{\tau}_{v_a}$ with
+        $n_\textnormal{cut} = 200$ for $a = 1$, $\ldots$, $5$.}
+    \label{tab:tau}
+    \begin{tabular}{@{}ccccc@{}}
+        \toprule
+        $\hat{\tau}_{v_1}$ & $\hat{\tau}_{v_2}$ & $\hat{\tau}_{v_3}$ & $\hat{\tau}_{v_4}$ & $\hat{\tau}_{v_5}$ \\
+        \midrule
+        $42.08254$         & $42.70645$         & $40.00157$         & $42.60346$         & $41.80298$         \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \Question{} Calculate the true standard deviation of the data, i.e.,
 %
