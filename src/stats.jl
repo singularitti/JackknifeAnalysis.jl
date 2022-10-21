@@ -1,4 +1,4 @@
-export mean, var, std, autocor, int_autocor_time
+export mean, var, std, autocor, int_autocor_time, relation
 
 mean(arg) = sum(arg) / length(arg)
 
@@ -29,4 +29,11 @@ function int_autocor_time(population::Population, nₘₐₓ)
         autocor(population, n)  # Cₙ
     end
     return ∑ₙ₌₁Cₙ / C₀ + 1 / 2
+end
+
+function relation(population::Population, sampler::PartitionSampler, nₘₐₓ)
+    σ̂ₙ = std(population, sampler)
+    τ = int_autocor_time(population, nₘₐₓ)
+    s = sqrt(2τ / sampler.n) * std(Sample(population))
+    return (real=σ̂ₙ, estimated=s)
 end
