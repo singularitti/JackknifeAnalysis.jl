@@ -79,3 +79,28 @@ let variables = [v1, v2, v3, v4, v5]
     end
     savefig("tex/plots/Cn_C0.pdf")
 end
+
+let variables = [v1, v2, v3, v4, v5]
+    plt = plot(;
+        framestyle=:box,
+        legend=:bottomright,
+        labelfontsize=12,
+        tickfontsize=10,
+        legendfontsize=12,
+        right_margin=2mm,
+    )
+    for (i, variable) in enumerate(variables)
+        N = 1:200
+        τₙ = map(Base.Fix1(int_autocor_time, variable), N)
+        plot!(plt, N, τₙ; label=L"$v_{%$i}$")
+        xlims!(extrema(N))
+        xlabel!(L"$n_\textnormal{cut}$")
+        ylabel!(L"$\hat{\tau}_{v_a}$")
+    end
+    savefig("tex/plots/tau.pdf")
+    τᵥ = map(variables) do variable
+        round(int_autocor_time(variable, 200); digits=5)
+    end
+    df = DataFrame(τᵥ', [:v1, :v2, :v3, :v4, :v5])
+    latexify(df; env=:table)
+end
