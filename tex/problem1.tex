@@ -237,31 +237,80 @@ The final results are shown in Figure~\ref{fig:tau} and Table~\ref{tab:tau}.
 
 \Question{} Calculate the true standard deviation of the data, i.e.,
 %
-\begin{equation}
+\begin{equation}\label{eq:truestd}
     \hat{\sigma}_{v_a} \equiv \sqrt{\frac{ 1 }{ M - 1 }
-        \sum_{i=1}^M (v_{a,i} - \barhat{v}_a)}.
+        \sum_{i=1}^M \bigl( v_{a,i} - \barhat{v}_a \bigr)^2}.
 \end{equation}
 %
 For a sample of size $N$, we should have
 %
-\begin{equation}
+\begin{equation}\label{eq:relation}
     \sgbar{a} = \sqrt{\frac{ 2 \hat{\tau}_{v_a} }{ N }} \hat{\sigma}_{v_a}.
 \end{equation}
 %
 Does this relation hold for your analysis?
 
 \Answer{}
-The true standard deviation of all $M$ data is listed in Table~\ref{tab:std}.
+In Equation~\eqref{eq:truestd}, we are treating all $M$ values as a sample,
+not the population.
+That is why we divide it by $M - 1$, not $M$.
+
+The true standard deviations of all $M$ data for each variable are
+listed in Table~\ref{tab:std}.
+While the true standard deviation of the means
+$\sgbar{a}$ for $a = 1$, $\ldots$, $5$ and $N = 1000$ and $10000$ are
+listed in Table~\ref{tab:truestd}.
 
 \begin{table}[H]
     \centering
-    \caption{The true standard deviation of all $M$ data.}
+    \caption{The true standard deviations of all $M$ data for each variable.}
     \label{tab:std}
     \begin{tabular}{@{}ccccc@{}}
         \toprule
         $\hat{\sigma}_{v_1}$ & $\hat{\sigma}_{v_2}$ & $\hat{\sigma}_{v_3}$ & $\hat{\sigma}_{v_4}$ & $\hat{\sigma}_{v_5}$ \\
         \midrule
         $0.751404$           & $0.461788$           & $0.406673$           & $0.457226$           & $0.742713$           \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+In the following text, we define
+%
+\begin{equation}
+    \hat{s}_{\barhat{v}_a,N} \equiv \sqrt{\frac{ 2 \hat{\tau}_{v_a} }{ N }} \hat{\sigma}_{v_a}
+\end{equation}
+%
+and compare them with $\sgbar{a}$ to see if they match.
+
+All the values of $\sgbar{a}$, $\hat{s}_{\barhat{v}_a,N}$ and their differences
+for each variable for each $N$ are listed in Table~\ref{tab:s}.
+We can see their expected values ($\sgbar{a}$) and our evaluated values
+($\hat{s}_{\barhat{v}_a,N}$) are different by some small amounts.
+It means that relation~\eqref{eq:relation} holds for our analysis.
+
+\begin{table}[H]
+    \centering
+    \caption{Compare $\sgbar{a}$ and $\hat{s}_{\barhat{v}_a,N}$ for
+    $a = 1$, $\ldots$, $5$ and $N = 1000$ and $10000$.}
+    \label{tab:s}
+    \begin{tabular}{@{}ccccc@{}}
+        \toprule
+        $N$     & variable               & $\sgbar{a}$ & $\hat{s}_{\barhat{v}_a,N}$ & $\sgbar{a}-\hat{s}_{\barhat{v}_a,N}$ \\
+        \midrule
+        $1000$  & \multirow{2}{*}{$v_1$} & $0.24312$   & $0.25148$                  & \num{-8.36E-03}                      \\
+        $10000$ &                        & $0.08173$   & $0.07952$                  & \num{2.20E-03}                       \\
+        \cmidrule{1-2}
+        $1000$  & \multirow{2}{*}{$v_2$} & $0.19294$   & $0.1986$                   & \num{-5.66E-03}                      \\
+        $10000$ &                        & $0.06387$   & $0.0628$                   & \num{1.06E-03}                       \\
+        \cmidrule{1-2}
+        $1000$  & \multirow{2}{*}{$v_3$} & $0.17706$   & $0.18037$                  & \num{-3.32E-03}                      \\
+        $10000$ &                        & $0.05607$   & $0.05704$                  & \num{-9.73E-04}                      \\
+        \cmidrule{1-2}
+        $1000$  & \multirow{2}{*}{$v_4$} & $0.19428$   & $0.19738$                  & \num{-3.10E-03}                      \\
+        $10000$ &                        & $0.05901$   & $0.06242$                  & \num{-3.41E-03}                      \\
+        \cmidrule{1-2}
+        $1000$  & \multirow{2}{*}{$v_5$} & $0.24565$   & $0.24919$                  & \num{-3.54E-03}                      \\
+        $10000$ &                        & $0.07425$   & $0.0788$                   & \num{-4.56E-03}                      \\
         \bottomrule
     \end{tabular}
 \end{table}
