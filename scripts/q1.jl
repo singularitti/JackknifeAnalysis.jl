@@ -71,10 +71,10 @@ function autocor_func()
         right_margin=2mm,
     )
     for (i, variable) in enumerate(variables)
-        C₀ = truecor(variable, 0)
+        C₀ = autocor(variable, 0)
         N = 0:300
         r = map(N) do n
-            Cₙ = truecor(variable, n)
+            Cₙ = autocor(variable, n)
             Cₙ / C₀
         end
         plot!(plt, N, r; label=L"$v_{%$i}$")
