@@ -1,3 +1,4 @@
+using CSV
 using DataFrames
 using JackknifeAnalysis
 using Latexify
@@ -104,4 +105,22 @@ let
     end
     df = DataFrame(τᵥ', [:v1, :v2, :v3, :v4, :v5])
     latexify(df; env=:table)
+end
+
+minus(x, y) = x - y
+
+function checkrelation(N=1000, nₘₐₓ=200)
+    result = map(variables) do variable
+        relation(variable, PartitionSampler(N), nₘₐₓ)
+    end
+    df = DataFrame(result)
+    insertcols!(df, 1, :variable => [L"$v_%$i$" for i in 1:5])
+    insertcols!(df, 1, :N => fill(N, 5))
+    return combine(df, :, [:real, :estimated] => minus => :difference)
+end
+
+function checkrelations(N=[1000, 10000], nₘₐₓ=200)
+    df = sort(vcat((checkrelation(n, nₘₐₓ) for n in N)...), :variable)
+    CSV.write("relations.csv", df)
+    return df
 end
