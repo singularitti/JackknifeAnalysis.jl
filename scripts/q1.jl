@@ -21,11 +21,11 @@ map(mean, (v1, v2, v3, v4, v5))
 
 map(var, (v1, v2, v3, v4, v5))
 
-let
+function hist_mean()
     for n in (1000, 10000)
         histograms = []
         for (i, variable) in enumerate(variables)
-            X = sample(variable, ContinuousSampler(n))
+            X = sample(variable, PartitionSampler(n))
             means = mean.(X)
             push!(
                 histograms,
@@ -49,17 +49,20 @@ let
         end
         savefig("tex/plots/sample means N=$n.pdf")
     end
+end
+
+function stdmean()
     stds = hcat(map([1000, 10000]) do n
         map(variables) do variable
-            round(truestd(variable, ContinuousSampler(n)); digits=5)
+            round(truestd(variable, PartitionSampler(n)); digits=5)
         end
     end...)
     df = DataFrame(stds', [:v1, :v2, :v3, :v4, :v5])
     insertcols!(df, 1, :N => [1000, 10000])
-    latexify(df; env=:table)
+    return latexify(df; env=:table)
 end
 
-let
+function autocor_func()
     plt = plot(;
         framestyle=:box,
         labelfontsize=12,
@@ -79,10 +82,10 @@ let
         xlabel!(L"$n$")
         ylabel!(L"$\hat{C}_{v_a}(n) / \hat{C}_{v_a}(0)$")
     end
-    savefig("tex/plots/Cn_C0.pdf")
+    return savefig("tex/plots/Cn_C0.pdf")
 end
 
-let
+function autocor_time()
     plt = plot(;
         framestyle=:box,
         legend=:bottomright,
@@ -104,7 +107,7 @@ let
         round(int_autocor_time(variable, 200); digits=5)
     end
     df = DataFrame(τᵥ', [:v1, :v2, :v3, :v4, :v5])
-    latexify(df; env=:table)
+    return latexify(df; env=:table)
 end
 
 minus(x, y) = x - y
