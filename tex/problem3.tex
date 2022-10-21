@@ -1,0 +1,15 @@
+\section{Argon Molecular Dynamics}
+
+We can now apply these statistical ideas to the results of your argon MD simulation. Run as
+long a simulation as is practical and make measurements of the temperature, potential energy
+and the time average of the virial, which is given by
+%
+\begin{equation}
+    \sum_i \sum_{j > i} r_{ij} \frac{ \partial V_{ij} }{ \partial r_{ij} }
+\end{equation}
+%
+every MD time step. You should be able to run a few thousand steps, after thermalization.
+Measure the autocorrelation times for the temperature, potential energy and virial. Also
+measure the covariance matrix for these \(3\) quantities. Use your estimate of the
+autocorrelation times, along with binning and the jackknife method to give an error on the
+pressure from your simulation.
