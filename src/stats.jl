@@ -1,6 +1,6 @@
 export mean, var, std, cov, cor, autocor, int_autocor_time, relation
 
-mean(arg) = sum(arg) / length(arg)
+mean(population_or_sample) = sum(population_or_sample) / length(population_or_sample)
 
 function var(population::Population)
     μ = mean(population)
@@ -43,10 +43,10 @@ function autocor(population::Population, n)
     end / (length(population) - n)
 end
 
-function int_autocor_time(population::Population, nₘₐₓ)
-    C₀ = autocor(population, 0)
+function int_autocor_time(population_or_sample, nₘₐₓ)
+    C₀ = autocor(population_or_sample, 0)
     ∑ₙ₌₁Cₙ = sum(1:nₘₐₓ) do n
-        autocor(population, n)  # Cₙ
+        autocor(population_or_sample, n)  # Cₙ
     end
     return ∑ₙ₌₁Cₙ / C₀ + 1 / 2
 end
