@@ -1,4 +1,4 @@
-export mean, var, std, autocor
+export mean, var, std, autocor, int_autocor_time
 
 mean(arg) = sum(arg) / length(arg)
 
@@ -21,4 +21,12 @@ function autocor(population::Population, n)
     return sum(firstindex(population):(lastindex(population) - n)) do i
         (population[i] - μ) * (population[i + n] - μ)
     end / (length(population) - n)
+end
+
+function int_autocor_time(variable::Population, nₘₐₓ)
+    C₀ = autocor(variable, 0)
+    ∑ₙ₌₁Cₙ = sum(1:nₘₐₓ) do n
+        autocor(variable, n)  # Cₙ
+    end
+    return ∑ₙ₌₁Cₙ / C₀ + 1 / 2
 end
