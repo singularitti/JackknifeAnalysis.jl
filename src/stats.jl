@@ -1,7 +1,6 @@
 export mean, var, std, autocor
 
-mean(population::Population) = sum(population) / length(population)
-mean(sample::Sample) = sum(sample) / length(sample)
+mean(arg) = sum(arg) / length(arg)
 
 function var(population::Population)
     μ = mean(population)
@@ -15,11 +14,7 @@ end
 var(sample::Sample) = var(sample, mean(sample))
 var(sample::Sample, mean) = sum(abs2, sample .- mean) / (length(sample) - 1)
 
-std(population::Population) = sqrt(var(population))
-std(sample::Sample) = sqrt(var(sample))
-function std(population::Population, sampler::PartitionSampler)
-    return sqrt(var(population, sampler))
-end
+std(args...) = sqrt(var(args...))
 
 function autocor(population::Population, n)
     μ = mean(population)
