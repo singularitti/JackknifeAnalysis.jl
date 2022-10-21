@@ -169,7 +169,9 @@ Plot \(\hat{C}_{v_a}(n) / \hat{C}_{v_a}(0)\) versus \(n\) for \(a = 1\), \(\ldot
 
 \Answer{}
 The code snippet for the true autocorrelation function is shown in Snippet~\ref{lst:truecor}.
-%
+We can see that the true autocorrelation function is different from the sample's
+autocorrelation functions~\eqref{eq:sampleautocor}.
+
 \begin{algorithm}
     \caption{The true autocorrelation function \(\hat{C}_{v_a}(n)\) for variable \(v_a\).}
     \label{lst:truecor}
@@ -182,15 +184,7 @@ The code snippet for the true autocorrelation function is shown in Snippet~\ref{
         end
     \end{juliacode}
 \end{algorithm}
-%
-As we can see, the true autocorrelation function is different from the sample's
-autocorrelation functions
-%
-\begin{equation}
-    C_{v_a}(n) = \frac{ 1 }{ N - n - 1 }
-    \sum_{i=1}^{N-n} (v_{a,i} - \bar{v}_a) (v_{a,i + n} - \bar{v}_a).
-\end{equation}
-%
+
 We plot \(\hat{C}_{v_a}(n) / \hat{C}_{v_a}(0)\) as a function of \(n\) for \(a = 1\), \(\ldots\),
 \(5\) in Figure~\ref{fig:truecor}.
 Here the \(n_\textnormal{cut}\) is \(300\) since it is large enough to see the trend
@@ -384,3 +378,40 @@ And the normalized version of the covariance, i.e., the
 \end{equation}
 %
 We can see the diagonals of the correlation coefficient matrix are indeed \(1\).
+
+\Question{} Now, pick two groups of data from the full universe of data. One should have
+\(N = 1000\) and the other should have \(N = 10000\). These two groups represent results one
+might get from simulations. We want to see how well these groups reproduced the true
+statistical results for these data.
+Estimate the autocorrelation function \(C_{v_a}(n)\) from these two groups and the integrated
+autocorrelation time. Use these to determine the standard deviation of the mean
+\(\sigma_{\bar{v}_a,N}\). Compare this with the results from the universe of data. Also
+compare the normalized covariance matrix \(\hat{\rho}_{v_a, v_b}\) from these small samples
+with the universe of data.
+
+\Answer{}
+The sample's autocorrelation function is
+%
+\begin{equation}\label{eq:sampleautocor}
+    C_{v_a}(n) = \frac{ 1 }{ N - n - 1 }
+    \sum_{i=1}^{N-n} (v_{a,i} - \bar{v}_a) (v_{a,i + n} - \bar{v}_a).
+\end{equation}
+%
+And the sample's integrated autocorrelation time is defined as
+%
+\begin{equation}\label{eq:sampletau}
+    \tau_{v_a} = \frac{ 1 }{ 2 C_{v_a}(0) }
+    \sum_{n=-n_\textnormal{cut}}^{n=n_\textnormal{cut}} C_{v_a}(n).
+\end{equation}
+%
+In addition, the standard deviation of the mean satisfy the relation
+%
+\begin{equation}
+    \sigma_{\bar{v}_a,N} = \sqrt{\frac{ 2\tau_{v_a} }{ N }} \sigma_{v_a},
+\end{equation}
+%
+just as what we saw in~\eqref{eq:relation}, where the standard deviation of the sample is
+%
+\begin{equation}
+    \sigma_{v_a} = \sqrt{\frac{ 1 }{ N - 1 } \sum_{i=1}^N (v_{a,i} - \bar{v}_a)^2}.
+\end{equation}
