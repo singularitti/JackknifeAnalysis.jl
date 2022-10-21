@@ -1,0 +1,50 @@
+\section{Jackknife Analysis}
+
+In this problem, we will see how the jackknife method can be used to find errors on functions
+on the mean values of data, i.e., on \(f(\bar{v}_a)\).
+We can use the universe of data to calculate
+the errors and then calculate the same error from a sample of size \(N = 5000\).
+
+We will consider two functions in what follows
+%
+\begin{align}
+    f_1(\bar{v}_1, \bar{v}_2) & = \frac{ \bar{v}_1 }{ \bar{v}_2 }, \\
+    f_2(\bar{v}_3, \bar{v}_4) & = \exp( \bar{v}_3 - \bar{v}_4 ).
+\end{align}
+
+\Question{} Break the \(M\) measurements up into groups of size \(N\), calculate
+\(\bar{v}_a\) for each group and then calculate \(f_i(\bar{v}_a)\) for each group.
+Calculate these functions of the data means for all \(M/N\) groups and find the
+standard deviation for \(f_i(\bar{v}_a)\), \(\sigma_{f_i,N}\).
+
+\Answer{}
+
+
+
+
+
+\Question{} Calculate \(\sigma_{f_i,N}\) from naive propagation of errors, i.e., using
+\(\hat{\sigma}_{\bar{v}_a,N}\) and neglecting correlations between the \(v_i\). Compare with
+your results from Problem~\ref{sec:mock}.
+
+\Answer{}
+
+
+
+\Question{} We now want to estimate \(\sigma_{\bar{v}_a,N}\) and \(\sigma_{f_i,N}\) using
+the jackknife method from a single sample of size \(N\).
+First we must deal with the autocorrelations in the data, and you have an idea of the
+integrated autocorrelation time from the first problem. We proceed as follows here. Average
+your \(N\) data values into bins of size \(b\). This will produce \(N/b\) data values.
+Then use the jacknife method to estimate \(\bar{v}_a\) and \(\sigma_{\bar{v}_a,N}\) from
+these \(N/b\) data values. The jacknife method resums these \(N/b\) values as done in class,
+i.e.,
+%
+\begin{equation}
+    v'_{a,k} = \frac{ 1 }{ N / b - 1 } \sum_{i=1, i \neq k}^{N/b} v_{a,i}.
+\end{equation}
+
+From these jacknife values, you can determine \(\bar{v}_a\) and \(\sigma_{\bar{v}_a,N}\).
+Do this for a few different values of \(b\) comparable to the integrated autocorrelation
+time to check that your results do not depend strongly on \(b\).
+
