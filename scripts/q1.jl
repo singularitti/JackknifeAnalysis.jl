@@ -9,17 +9,18 @@ if !isdir("tex/plots")
     mkpath("tex/plots")
 end
 
-v1 = read("data/v1", Population)
-v2 = read("data/v2", Population)
-v3 = read("data/v3", Population)
-v4 = read("data/v4", Population)
-v5 = read("data/v5", Population)
+const v1 = read("data/v1", Population)
+const v2 = read("data/v2", Population)
+const v3 = read("data/v3", Population)
+const v4 = read("data/v4", Population)
+const v5 = read("data/v5", Population)
+const variables = [v1, v2, v3, v4, v5]
 
 map(mean, (v1, v2, v3, v4, v5))
 
 map(var, (v1, v2, v3, v4, v5))
 
-let variables = [v1, v2, v3, v4, v5]
+let
     for n in (1000, 10000)
         histograms = []
         for (i, variable) in enumerate(variables)
@@ -57,7 +58,7 @@ let variables = [v1, v2, v3, v4, v5]
     latexify(df; env=:table)
 end
 
-let variables = [v1, v2, v3, v4, v5]
+let
     plt = plot(;
         framestyle=:box,
         labelfontsize=12,
@@ -80,7 +81,7 @@ let variables = [v1, v2, v3, v4, v5]
     savefig("tex/plots/Cn_C0.pdf")
 end
 
-let variables = [v1, v2, v3, v4, v5]
+let
     plt = plot(;
         framestyle=:box,
         legend=:bottomright,
