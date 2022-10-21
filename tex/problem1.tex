@@ -22,20 +22,42 @@ corresponds to the amount of data you might actually collect in a simulation.
 \(v_5\) from all \(M\) values.
 
 \Answer{}
-First, we need to read the data from each file. This is pretty simple since all \(5\) files
-are plain text files. The method is shown in function \code{readdata} in
+First, we need to define two types: the population (universe of the data) and the samples,
+as shown in Snippet~\ref{lst:types}.
+
+\begin{algorithm}
+    \caption{The \code{Population} type and the \code{Sample} type.}
+    \label{lst:types}
+    \begin{juliacode}
+        struct Population{T} <: AbstractVector{T}
+            data::Vector{T}
+        end
+
+        struct Sample{T} <: AbstractVector{T}
+            data::Vector{T}
+        end
+    \end{juliacode}
+\end{algorithm}
+
+Now, we need to read the data from each file. This is pretty simple since all \(5\) files
+are plain text files. The method is shown in function \code{read} in
 Snippet~\ref{lst:readdata}.
 
-\begin{algorithm}[H]
-    \caption{Function \code{readdata} reads the data from each file.}
+\begin{algorithm}
+    \caption{Function \code{read} is used to read data from each file.}
     \label{lst:readdata}
     \begin{juliacode}
-        function readdata(filename)
+        function Base.read(filename::AbstractString, ::Type{Population})
             open(filename, "r") do io
-                return map(eachline(io)) do line
-                    parse(Float64, strip(line))
-                end
+                read(io, Population)
             end
+        end
+        function Base.read(io::IO, ::Type{Population})
+            return Population(
+                map(eachline(io)) do line
+                    parse(Float64, strip(line))
+                end,
+            )
         end
     \end{juliacode}
 \end{algorithm}
@@ -48,7 +70,7 @@ The definition of the true mean is
 Therefore, the true means, \(\barhat{v}_a\) for \(v_1\), \(v_2\), \(\ldots\), \(v_5\) from
 all \(M\) values are shown in Table~\ref{tab:truemean}.
 
-\begin{table}[H]
+\begin{table}[hb]
     \centering
     \caption{The true means \(\barhat{v}_a\) from all \(M\) values.}
     \label{tab:truemean}
@@ -76,7 +98,7 @@ Figures~\ref{fig:hist_mean:a} and~\ref{fig:hist_mean:b}.
 We can see that the distribution of the mean values changes in Figure~\ref{fig:hist_mean:b}
 since more values are averaged.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \begin{minipage}[t]{0.8\linewidth}
         \centering
