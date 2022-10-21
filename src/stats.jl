@@ -42,6 +42,12 @@ function autocor(population::Population, n)
         (population[i] - μ) * (population[i + n] - μ)
     end / (length(population) - n)
 end
+function autocor(sample::Sample, n)
+    μ = mean(sample)
+    return sum(firstindex(sample):(lastindex(sample) - n)) do i
+        (sample[i] - μ) * (sample[i + n] - μ)
+    end / (length(sample) - n - 1)
+end
 
 function int_autocor_time(population_or_sample, nₘₐₓ)
     C₀ = autocor(population_or_sample, 0)
@@ -56,4 +62,10 @@ function relation(population::Population, sampler::PartitionSampler, nₘₐₓ)
     τ = int_autocor_time(population, nₘₐₓ)
     s = sqrt(2τ / sampler.n) * std(Sample(population))
     return (real=σ̂ₙ, estimated=s)
+end
+function relation(sample::Sample, nₘₐₓ)
+    N = length(sample)
+    σ = std(sample)
+    τ = int_autocor_time(sample, nₘₐₓ)
+    return sqrt(2τ / N) * σ
 end
