@@ -76,7 +76,7 @@ uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 version = "0.21.3"
 
 [[deps.JackknifeAnalysis]]
-git-tree-sha1 = "1605f51c88c2379db1aa04c52595d9018ed90f40"
+git-tree-sha1 = "f75a3b59057fc76e8978c2cf724de3492b8e8318"
 repo-rev = "main"
 repo-url = "https://github.com/singularitti/JackknifeAnalysis.jl"
 uuid = "078b01e5-d5a2-45e2-8b83-70cffd3fbbf9"
