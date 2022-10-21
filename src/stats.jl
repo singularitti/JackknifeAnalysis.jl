@@ -23,10 +23,10 @@ function autocor(population::Population, n)
     end / (length(population) - n)
 end
 
-function int_autocor_time(variable::Population, nₘₐₓ)
-    C₀ = autocor(variable, 0)
+function int_autocor_time(population::Population, nₘₐₓ)
+    C₀ = autocor(population, 0)
     ∑ₙ₌₁Cₙ = sum(1:nₘₐₓ) do n
-        autocor(variable, n)  # Cₙ
+        autocor(population, n)  # Cₙ
     end
     return ∑ₙ₌₁Cₙ / C₀ + 1 / 2
 end
