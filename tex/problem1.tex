@@ -319,7 +319,8 @@ It means that relation~\eqref{eq:relation} holds for our analysis.
 \Question{} Calculate the true covariance matrix for the data, defined by
 %
 \begin{equation}
-    \hat{c}_{v_a, v_b} = \frac{ 1 }{ M } \sum_{i=1}^M (v_a - \barhat{v}_a) (v_b - \barhat{v}_b).
+    \hat{c}_{v_a, v_b} = \frac{ 1 }{ M }
+    \sum_{i=1}^M (v_{a,i} - \barhat{v}_a) (v_{b,i} - \barhat{v}_b).
 \end{equation}
 %
 It is customary to define a normalized version of \(\hat{c}_{v_a, v_b}\) by
@@ -333,4 +334,31 @@ Since \(\hat{c}_{v_a, v_b} = \hat{\sigma}_{v_a}^2\),
 ready measure of the covariance between variables.
 
 \Answer{}
-
+The covariance matrix is
+%
+\begin{equation}
+    \hat{c}_{v_a, v_b} =
+    \begin{bmatrix}
+        0.7514  & 0.54797 & 0.34454 & 0.17229 & 0.00005 \\
+        0.54797 & 0.46179 & 0.3756  & 0.27276 & 0.16991 \\
+        0.34454 & 0.3756  & 0.40667 & 0.37322 & 0.33976 \\
+        0.17229 & 0.27276 & 0.37322 & 0.45723 & 0.54124 \\
+        0.00005 & 0.16991 & 0.33976 & 0.54124 & 0.74271
+    \end{bmatrix}.
+\end{equation}
+%
+And the normalized version of the covariance, i.e., the
+\emph{(Pearson) correlation coefficient}, is
+%
+\begin{equation}
+    \hat{\rho}_{v_a, v_b} =
+    \begin{bmatrix}
+        1       & 0.93025 & 0.62327 & 0.29395 & 0.00007 \\
+        0.93025 & 1       & 0.86674 & 0.59359 & 0.29012 \\
+        0.62327 & 0.86674 & 1       & 0.86551 & 0.61821 \\
+        0.29395 & 0.59359 & 0.86551 & 1       & 0.92878 \\
+        0.00007 & 0.29012 & 0.61821 & 0.92878 & 1
+    \end{bmatrix}.
+\end{equation}
+%
+We can see the diagonals of the correlation coefficient matrix are indeed \(1\).
