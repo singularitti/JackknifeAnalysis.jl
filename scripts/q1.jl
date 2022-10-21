@@ -137,3 +137,36 @@ function correlation_matrix(variables)
     ρ = [cor(variable₁, variable₂) for variable₁ in variables, variable₂ in variables]
     return map(x -> round(x; digits=5), ρ)
 end
+
+function sample_autocor_plot()
+    plt = plot(;
+        framestyle=:box,
+        labelfontsize=12,
+        tickfontsize=10,
+        legendfontsize=12,
+        right_margin=2mm,
+    )
+    for (i, variable) in enumerate(variables)
+        s = sample(variable, PartitionSampler(10000))[1]
+        C₀ = autocor(s, 0)
+        N = 0:2000
+        r = map(N) do n
+            Cₙ = autocor(s, n)
+            Cₙ / C₀
+        end
+        plot!(plt, N, r; label=L"$v_{%$i}$")
+        xlims!(extrema(N))
+        xlabel!(L"$n$")
+        ylabel!(L"$C_{v_a}(n) / C_{v_a}(0)$")
+    end
+    return savefig("tex/plots/Cn_C0_sample.pdf")
+end
+
+function sample_autocor(N=[1000, 10000], nₘₐₓ=200)
+    return map(N) do n
+        map(variables) do variable
+            s = sample(variable, PartitionSampler(n))[2]
+            relation(s, nₘₐₓ)
+        end
+    end
+end
