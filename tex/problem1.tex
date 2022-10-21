@@ -315,3 +315,21 @@ It means that relation~\eqref{eq:relation} holds for our analysis.
     \end{tabular}
 \end{table}
 
+\Question{} Calculate the true covariance matrix for the data, defined by
+%
+\begin{equation}
+    \hat{c}_{v_a, v_b} = \frac{ 1 }{ M } \sum_{i=1}^M (v_a - \barhat{v}_a) (v_b - \barhat{v}_b).
+\end{equation}
+%
+It is customary to define a normalized version of \(\hat{c}_{v_a, v_b}\) by
+%
+\begin{equation}
+    \hat{\rho}_{v_a, v_b} \equiv \frac{ \hat{c}_{v_a, v_b} }{ \hat{\sigma}_{v_a} \hat{\sigma}_{v_b} }.
+\end{equation}
+%
+Since \(\hat{c}_{v_a, v_b} = \hat{\sigma}_{v_a}^2\),
+\(\hat{\rho}_{v_a, v_b}\) has ones on the diagonals and the off diagonals give a
+ready measure of the covariance between variables.
+
+\Answer{}
+
