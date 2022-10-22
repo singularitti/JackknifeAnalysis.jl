@@ -13,14 +13,88 @@ We will consider two functions in what follows
 \end{align}
 
 \Question{} Break the \(M\) measurements up into groups of size \(N\), calculate
-\(\bar{v}_a\) for each group and then calculate \(f_i(\bar{v}_a)\) for each group.
+\(\bar{v}_a\) for each group and then calculate \(f_i\) for each group.
 Calculate these functions of the data means for all \(M/N\) groups and find the
-standard deviation for \(f_i(\bar{v}_a)\), \(\sigma_{f_i,N}\).
+standard deviation for \(f_i\), i.e., \(\hat{\sigma}_{f_i,N}\).
 
 \Answer{}
+For \(N = 5000\), there are \(320\) samples for each variable.
+The sample means for each variable are shown in Figure~\ref{fig:JA_sample_means}.
+We can see that these data, at least over the range of \(5000\) numbers,
+are showing similar trends.
+It could suggest that these \(5\) variables are generated using the same random
+number generator.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{JA_sample_means}
+    \caption{The sample means \(\bar{v}_a\) for variables \(v_a\), where
+        \(a = 1\), \(\ldots\), \(5\) when \(N = 5000\).}
+    \label{fig:JA_sample_means}
+\end{figure}
 
+We plot \(f_1(\bar{v}_1, \bar{v}_2)\) and \(f_2(\bar{v}_3, \bar{v}_4)\) in
+Figure~\ref{fig:fi:a} and Figure~\ref{fig:fi:b}.
 
+Since \(f_1\) and \(f_2\) can only be applied onto the average values such as
+\(\bar{v}_{1,\eta}, \bar{v}_{2,\eta})\) and \(\bar{v}_{3,\eta}, \bar{v}_{4,\eta})\)
+for \(\eta = 1\), \(\ldots\), \(320\), we need to adapt Equation~\eqref{eq:varva}
+to the following form:
+%
+\begin{equation}
+    \hat{\mathbb{V}}(f_1) = \frac{ 1 }{ M / N - 1 }
+    \sum_{\eta=1}^{M/N} \bigl( \bar{f}_{1,\eta} - \barhat{f}_1 \bigr)
+\end{equation}
+%
+where we denote \(\bar{f}_{1,\eta} = f_1(\bar{v}_{1,\eta}, \bar{v}_{2,\eta})\),
+and
+%
+\begin{equation}
+    \barhat{f}_1 = \frac{ N }{ M } \sum_{\eta=1}^{M/N} \bar{f}_{1,\eta}
+\end{equation}
+as the true mean of \(f_1\)
+since \(f_1(\bar{v}_{1,\eta}, \bar{v}_{2,\eta})\) is already a function of the means.
+Therefore, the standard deviation \(\sigma_{f_i,N}\) itself can be regarded
+as the true standard deviation \(\hat{\sigma}_{f_i,N}\):
+
+\begin{equation}
+    \sigma_{f_i,N} = \hat{\sigma}_{f_i,N} = \sqrt{\hat{\mathbb{V}}(f_1)}.
+\end{equation}
+
+\begin{figure}
+    \centering
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{f1}
+        \subcaption{\(f_1(\bar{v}_1, \bar{v}_2)\) for each group.}
+        \label{fig:fi:a}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{f2}
+        \subcaption{\(f_2(\bar{v}_3, \bar{v}_4)\) for each group.}
+        \label{fig:fi:b}
+    \end{minipage}
+    \caption{Plot \(f_i\) for each group of variable pairs.}
+    \label{fig:fi}
+\end{figure}
+
+Therefore, the mean and standard deviation of \(f_1\) and
+\(f_2\) are listed in Table~\ref{tab:stdf1f2}.
+
+\begin{table}
+    \centering
+    \caption{The mean and standard deviation of \(f_1\) and \(f_2\) from all \(M\) values.}
+    \label{tab:stdf1f2}
+    \begin{tabular}{@{}cccc@{}}
+        \toprule
+        \(\barhat{f}_1\) & \(\barhat{f}_2\) & \(\hat{\sigma}_{f_1,N}\) & \(\hat{\sigma}_{f_2,N}\) \\
+        \midrule
+        \(0.60956\)      & \(0.32481\)      & \(0.0214303\)            & \(0.0126915\)            \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 
 \Question{} Calculate \(\sigma_{f_i,N}\) from naive propagation of errors, i.e., using
