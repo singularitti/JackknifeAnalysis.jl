@@ -121,9 +121,9 @@ since more values are averaged.
 
 The true variance of the means is defined as
 %
-\begin{equation}
+\begin{equation}\label{eq:varva}
     \hat{\mathbb{V}}(v_a) = \frac{ 1 }{ M/N - 1 }
-    \sum_{\eta=1}^{M/N} (\bar{v}_{\eta,a} - \barhat{v}_a)^2.
+    \sum_{\eta=1}^{M/N} (\bar{v}_{a,\eta} - \barhat{v}_a)^2.
 \end{equation}
 %
 And the true standard deviation of the means is defined as
@@ -191,8 +191,7 @@ Here the \(n_\textnormal{cut}\) is \(300\) since it is large enough to see the t
 that
 %
 \begin{equation}
-    \lim_{n \rightarrow \infty} \frac{ \hat{C}_{v_a}(n) }{ \hat{C}_{v_a}(0) } = 0
-    \textnormal{  for } a = 1, \ldots, 5.
+    \lim_{n \rightarrow \infty} \frac{ \hat{C}_{v_a}(n) }{ \hat{C}_{v_a}(0) } = 0.
 \end{equation}
 
 \begin{figure}[h]
