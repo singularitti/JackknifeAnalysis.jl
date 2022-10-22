@@ -1,6 +1,7 @@
 export mean, var, std, cov, cor, autocor, int_autocor_time, relation
 
 mean(population_or_sample) = sum(population_or_sample) / length(population_or_sample)
+mean(f, population_or_sample) = sum(f, population_or_sample) / length(population_or_sample)
 
 function var(population::Population)
     μ = mean(population)
