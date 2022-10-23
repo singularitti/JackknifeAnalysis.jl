@@ -98,3 +98,10 @@ truestd_f₁(samplesize=5000) = std(Sample(f₁(v1, v2, samplesize)))
 truemean_f₂(samplesize=5000) = mean(f₂(v3, v4, samplesize))
 
 truestd_f₂(samplesize=5000) = std(Sample(f₂(v3, v4, samplesize)))
+
+function getbins(variable, index, samplesize=5000, binsize=200)
+    sample = sampleby(variable, PartitionSampler(samplesize))[index]
+    return Sample(mean(sampleby(Population(sample), PartitionSampler(binsize))))
+end
+
+jackknife(sample) = sampleby(sample, JackknifeSampler())
