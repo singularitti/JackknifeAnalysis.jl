@@ -51,9 +51,10 @@
 
 % See https://tex.stackexchange.com/a/128349/61591
 \newcounter{question}[section]
-\newcommand\Question{
+\newcommand{\Question}[1]{
   \medskip
-  \stepcounter{question}
+  \refstepcounter{question} % See https://tex.stackexchange.com/a/388676/61591
+  \label{#1}
   \noindent\textbf{Question \thequestion:}
 }
 \newcommand\Answer{
