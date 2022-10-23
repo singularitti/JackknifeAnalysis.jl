@@ -21,9 +21,8 @@ function sampleby(population::Population, sampler::PartitionSampler)
 end
 function sampleby(sample::Sample, ::JackknifeSampler)
     f = inv(length(sample) - 1)
-    return Sample(f * map(eachindex(sample)) do j
-        sum(sample[filter(≠(j), eachindex(sample))])
-    end)
+    ∑ = sum(sample)
+    return Sample([(∑ - value) for value in sample]) * f
 end
 
 Base.parent(population::Population) = population.data
