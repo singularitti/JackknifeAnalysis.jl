@@ -33,7 +33,7 @@ function f₂(v3::Population, v4::Population, samplesize=5000)
 end
 
 function sample_means(variable::Population, samplesize=5000)
-    X = sample(variable, PartitionSampler(samplesize))
+    X = sampleby(variable, PartitionSampler(samplesize))
     return mean.(X)
 end
 

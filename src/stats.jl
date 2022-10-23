@@ -9,7 +9,7 @@ function var(population::Population)
 end
 function var(population::Population, sampler::PartitionSampler)
     μ = mean(population)
-    samples = sample(population, sampler)
+    samples = sampleby(population, sampler)
     return sum(abs2, mean(s) - μ for s in samples) / (length(samples) - 1)
 end
 var(sample::Sample) = var(sample, mean(sample))
