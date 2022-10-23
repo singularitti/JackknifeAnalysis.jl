@@ -1,4 +1,4 @@
-export Population, Sample, PartitionSampler, sample
+export Population, Sample, PartitionSampler, JackknifeSampler, sampleby
 
 struct Population{T} <: AbstractVector{T}
     data::Vector{T}
@@ -14,9 +14,16 @@ abstract type Sampler end
 struct PartitionSampler <: Sampler
     n::Int
 end
+struct JackknifeSampler <: Sampler end
 
-function sample(population::Population, sampler::PartitionSampler)
+function sampleby(population::Population, sampler::PartitionSampler)
     return Sample.(Iterators.partition(population.data, sampler.n))
+end
+function sampleby(sample::Sample, ::JackknifeSampler)
+    f = inv(length(sample) - 1)
+    return Sample(f * map(eachindex(sample)) do j
+        sum(sample[filter(≠(j), eachindex(sample))])
+    end)
 end
 
 Base.parent(population::Population) = population.data
