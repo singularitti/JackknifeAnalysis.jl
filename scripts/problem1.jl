@@ -10,6 +10,16 @@ if !isdir("tex/plots")
     mkpath("tex/plots")
 end
 
+Plots.default(;
+    framestyle=:box,
+    labelfontsize=12,
+    tickfontsize=10,
+    legendfontsize=12,
+    palette=:tab20,
+    grid=nothing,
+    legend_foreground_color=nothing,
+)
+
 const v1 = read("data/v1", Population)
 const v2 = read("data/v2", Population)
 const v3 = read("data/v3", Population)
@@ -32,7 +42,6 @@ function hist_mean()
                 histogram(
                     means;
                     legend=:none,
-                    framestyle=:box,
                     xlims=extrema(means),
                     ylims=(0, Inf),
                     xlabel=L"$\bar{v}_%$i$",
@@ -63,13 +72,7 @@ function stdmean()
 end
 
 function autocor_func()
-    plt = plot(;
-        framestyle=:box,
-        labelfontsize=12,
-        tickfontsize=10,
-        legendfontsize=12,
-        right_margin=2mm,
-    )
+    plt = plot(; right_margin=2mm)
     for (i, variable) in enumerate(variables)
         C₀ = autocor(variable, 0)
         N = 0:300
@@ -86,14 +89,7 @@ function autocor_func()
 end
 
 function autocor_time()
-    plt = plot(;
-        framestyle=:box,
-        legend=:bottomright,
-        labelfontsize=12,
-        tickfontsize=10,
-        legendfontsize=12,
-        right_margin=2mm,
-    )
+    plt = plot(; legend=:bottomright, right_margin=2mm)
     for (i, variable) in enumerate(variables)
         N = 1:200
         τₙ = map(Base.Fix1(int_autocor_time, variable), N)
@@ -139,13 +135,7 @@ function correlation_matrix(variables)
 end
 
 function sample_autocor_plot()
-    plt = plot(;
-        framestyle=:box,
-        labelfontsize=12,
-        tickfontsize=10,
-        legendfontsize=12,
-        right_margin=2mm,
-    )
+    plt = plot(; right_margin=2mm)
     for (i, variable) in enumerate(variables)
         s = sample(variable, PartitionSampler(10000))[1]
         C₀ = autocor(s, 0)
