@@ -99,3 +99,50 @@ function getbins(variable, index, samplesize=5000, binsize=200)
 end
 
 jackknife(sample) = sampleby(sample, JackknifeSampler())
+
+function plot_jackknife_means(index=1)
+    binsizes = [
+        2, 4, 5, 8, 10, 20, 25, 40, 50, 100, 125, 200, 250, 500, 625, 1000, 1250, 2500
+    ]
+    plot(;
+        xlims=extrema(binsizes),
+        xlabel=L"size of bin ($b$)",
+        ylabel=L"$\bar{v}_a$",
+        legend_column=2,
+    )
+    for (i, variable) in enumerate(variables)
+        means = map(binsizes) do binsize
+            mean(jackknife(getbins(variable, index, 5000, binsize)))
+        end
+        scatter!(
+            binsizes, means; label=L"$\bar{v}_{%$i}$", markersizes=2, markerstrokewidth=0
+        )
+        plot!(binsizes, means; label="")
+    end
+    savefig("tex/plots/JA_sample_means.pdf")
+    plot(;
+        xlims=extrema(binsizes),
+        yformatter=x -> "$(round(x/1e-15; digits=3))",
+        xlabel=L"size of bin ($b$)",
+        ylabel=L"$(\bar{v}_a - \hat{\bar{v}}_a) / 10^{-15}$",
+    )
+    for (i, variable) in enumerate(variables)
+        means = map(binsizes) do binsize
+            mean(jackknife(getbins(variable, index, 5000, binsize)))
+        end
+        μ = mean(means)
+        deviations = map(means) do mean
+            mean - μ
+        end
+        scatter!(
+            binsizes,
+            deviations;
+            label=L"$\bar{v}_{%$i} - \hat{\bar{v}}_{%$i}$",
+            markersizes=2,
+            markerstrokewidth=0,
+        )
+        plot!(binsizes, deviations; label="")
+    end
+    savefig("tex/plots/JA_sample_deviations.pdf")
+    return nothing
+end
