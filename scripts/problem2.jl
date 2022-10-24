@@ -51,38 +51,26 @@ function sample_means(variable::Population, samplesize=5000)
 end
 
 function plot_sample_means(samplesize=5000)
-    plot(;
-        framestyle=:box,
-        xlabel="samples",
-        ylabel=L"$\bar{v}_a$",
-        legend=:bottom,
-        labelfontsize=12,
-        tickfontsize=10,
-        legendfontsize=12,
-        palette=:tab20,
-    )
+    plot(; xlabel="samples", ylabel=L"$\bar{v}_a$")
     for (i, variable) in enumerate(variables)
         means = sample_means(variable, samplesize)
-        scatter!(eachindex(means), means; label="", markersizes=2, markerstrokewidth=0)
-        plot!(
+        scatter!(
             eachindex(means),
             means;
             label=L"$\bar{v}_{%$i, N}$",
-            xlims=(firstindex(means), lastindex(means)),
+            markersizes=2,
+            markerstrokewidth=0,
+            legend_columns=5,
+        )
+        plot!(
+            eachindex(means), means; label="", xlims=(firstindex(means), lastindex(means))
         )
     end
-    return savefig("tex/plots/JA_sample_means.pdf")
+    return savefig("tex/plots/sample_means.pdf")
 end
 
 function plot_f₁(samplesize=5000)
-    plot(;
-        framestyle=:box,
-        legend=:none,
-        xlabel="samples",
-        ylabel=L"$f_1(\bar{v}_1, \bar{v}_2)$",
-        tickfontsize=10,
-        palette=:tab20,
-    )
+    plot(; legend=:none, xlabel="samples", ylabel=L"$f_1(\bar{v}_1, \bar{v}_2)$")
     results = f₁(v1, v2, samplesize)
     scatter!(eachindex(results), results; markersizes=2, markerstrokewidth=0)
     plot!(eachindex(results), results; xlims=(firstindex(results), lastindex(results)))
@@ -90,14 +78,7 @@ function plot_f₁(samplesize=5000)
 end
 
 function plot_f₂(samplesize=5000)
-    plot(;
-        framestyle=:box,
-        legend=:none,
-        xlabel="samples",
-        ylabel=L"$f_2(\bar{v}_3, \bar{v}_4)$",
-        tickfontsize=10,
-        palette=:tab20,
-    )
+    plot(; legend=:none, xlabel="samples", ylabel=L"$f_2(\bar{v}_3, \bar{v}_4)$")
     results = f₂(v3, v4, samplesize)
     scatter!(eachindex(results), results; markersizes=2, markerstrokewidth=0)
     plot!(eachindex(results), results; xlims=(firstindex(results), lastindex(results)))
