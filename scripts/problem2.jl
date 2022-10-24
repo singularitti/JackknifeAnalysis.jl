@@ -199,7 +199,7 @@ function plot_jackknife_f_std(::typeof(f₁), index=1)
         legend=:none,
     )
     stds = get_f_std(f₁, index)
-    scatter!(binsizes, stds; ylims=(0, Inf), markersizes=2, markerstrokewidth=0)
+    scatter!(binsizes, stds; ylims=extrema(stds), markersizes=2, markerstrokewidth=0)
     plot!(binsizes, stds; label="")
     savefig("tex/plots/JA_f1_std.pdf")
     return nothing
@@ -212,7 +212,7 @@ function plot_jackknife_f_std(::typeof(f₂), index=1)
         legend=:none,
     )
     stds = get_f_std(f₂, index)
-    scatter!(binsizes, stds; ylims=(0, Inf), markersizes=2, markerstrokewidth=0)
+    scatter!(binsizes, stds; ylims=extrema(stds), markersizes=2, markerstrokewidth=0)
     plot!(binsizes, stds; label="")
     savefig("tex/plots/JA_f2_std.pdf")
     return nothing
