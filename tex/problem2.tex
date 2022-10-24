@@ -122,3 +122,95 @@ From these jacknife values, you can determine \(\bar{v}_a\) and \(\sigma_{\bar{v
 Do this for a few different values of \(b\) comparable to the integrated autocorrelation
 time to check that your results do not depend strongly on \(b\).
 
+\Answer{}
+In the following text, we select the first \(5000\) values of each variable as our original
+samples of data.
+
+To estimate the population mean of variable \(x\),
+the natural estimator is the sample mean
+%
+\begin{equation}
+    \bar{x} = \frac{ 1 }{ N } \sum_{i=1}^N x_i.
+\end{equation}
+%
+The definition of jackknife resampling is
+%
+\begin{equation}
+    x_k' = \frac{1}{N - 1}
+    \sum_{i \neq k} x_i = \frac{ 1 }{ N - 1 } \Bigl(\sum_i x_i - x_k \Bigr),
+\end{equation}
+%
+where \(k = 1\), \(\ldots\), \(N\), and \(x'_k\) is called the \(k\)-th jackknife replicate.
+The algorithm is shown in Snippet~\ref{lst:jackknife}.
+%
+\begin{algorithm}
+    \caption{The jackknife resampling algorithm written in Julia.}
+    \label{lst:jackknife}
+    \begin{juliacode}
+        struct JackknifeSampler <: Sampler end
+
+        function sampleby(sample::Sample, ::JackknifeSampler)
+            f = inv(length(sample) - 1)
+            return Sample(f * map(eachindex(sample)) do j
+                sum(sample[filter(≠(j), eachindex(sample))])
+            end)
+        end
+    \end{juliacode}
+\end{algorithm}
+
+After dividing the data of size \(N\) into \(N/b\) groups, we then do a jackknife resampling.
+For \(\bar{x}\), the mean of the jackknife data and the original data should be the
+same, i.e.,
+%
+\begin{equation}
+    \frac{ 1 }{ N } \sum_k x_k' = \bar{x} = \frac{ 1 }{ N } \sum_k x_k.
+\end{equation}
+%
+The means of these \(N/b\) groups of data with each group as an average of \(b\) original
+values, are plotted in Figure~\ref{fig:JA_sample_means:a}.
+As we can see, these \(\bar{v}_a\) are almost constants for different sizes of bins \(b\),
+with very little variations.
+That is, the estimated \(\bar{v}_a\) do not strongly depend on \(b\).
+To have a clearer view of how these data changes, we plot \(\bar{v}_a - \barhat{v}_a\)
+as a function of \(b\), where the ``true mean'' \(\barhat{v}_a\) is the mean of
+the means, as shown in Figure~\ref{fig:JA_sample_means:b}.
+Here, to minimize the grouping bias, we select all \(b\) to be factors of \(5000\),
+so that there are only integral number of groups.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{JA_sample_means}
+        \subcaption{The avarge values of these \(N/b\) groups as a function of
+            sizes of bins \(b\).}
+        \label{fig:JA_sample_means:a}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{JA_sample_deviations}
+        \subcaption{The avarge values subtracted by the true mean of these \(N/b\) groups as
+            a function of sizes of bins \(b\), with \(y\)-axis scaled by a factor of
+            \(10^{15}\).}
+        \label{fig:JA_sample_means:b}
+    \end{minipage}
+    \caption{The avarge values \(\bar{v}_a\) of the jackknife data as a function of \(b\).}
+    \label{fig:JA_sample_means}
+\end{figure}
+
+
+\Question{} Now calculate \(f_i(v'_{a,k})\) for each of the \(N/b\) jackknife blocks.
+You can then determine \(\sigma_{f_i,N}\) from
+%
+\begin{equation}
+    \sigma^2_{f_i,N} = \frac{ N/b - 1 }{ N/b }
+    \sum_{k=1}^{N/b} \bigl( f_i(v'_{a,k}) - f_i(\bar{v}_a) \bigr)^2.
+\end{equation}
+%
+Again, do this for a few values of \(b\) that are comparable to the integrated
+autocorrelation time. How does \(\sigma_{f_i,N}\) compare with \(\hat{\sigma}_{f_i,N}\) from
+Question~\ref{p2q1}?
+
+\Answer{}
+
