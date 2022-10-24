@@ -146,3 +146,31 @@ function plot_jackknife_means(index=1)
     savefig("tex/plots/JA_sample_deviations.pdf")
     return nothing
 end
+
+function plot_jackknife_std(index=1)
+    binsizes = [
+        2, 4, 5, 8, 10, 20, 25, 40, 50, 100, 125, 200, 250, 500, 625, 1000, 1250, 2500
+    ]
+    plot(;
+        xlims=extrema(binsizes),
+        xlabel=L"size of bin ($b$)",
+        ylabel=L"$\sigma_{\bar{v}_a}$",
+        legend=:topleft,
+    )
+    for (i, variable) in enumerate(variables)
+        stds = map(binsizes) do binsize
+            std(jackknife(getbins(variable, index, 5000, binsize)))
+        end
+        scatter!(
+            binsizes,
+            stds;
+            ylims=(0, Inf),
+            label=L"$\sigma_{\bar{v}_{%$i}}$",
+            markersizes=2,
+            markerstrokewidth=0,
+        )
+        plot!(binsizes, stds; label="")
+    end
+    savefig("tex/plots/JA_sample_std.pdf")
+    return nothing
+end
