@@ -284,7 +284,7 @@ variation. But it is understandable since \(N/b = 2\) now, and \((N - 1) / N = 1
 \Question{} Now calculate \(f_i(v'_{a,k})\) for each of the \(N/b\) jackknife blocks.
 You can then determine \(\sigma_{f_i,N}\) from
 %
-\begin{equation}
+\begin{equation}\label{eq:sigmaf}
     \sigma^2_{f_i,N} = \frac{ N/b - 1 }{ N/b }
     \sum_{k=1}^{N/b} \bigl( f_i(v'_{a,k}) - f_i(\bar{v}_a) \bigr)^2.
 \end{equation}
@@ -294,4 +294,35 @@ autocorrelation time. How does \(\sigma_{f_i,N}\) compare with \(\hat{\sigma}_{f
 Question~\ref{p2q1}?
 
 \Answer{}
-
+Expand Equation~\eqref{eq:sigmaf} as
+%
+\begin{align}
+    \sigma^2_{f_1,N} & = \frac{ N/b - 1 }{ N/b }
+    \sum_{k=1}^{N/b} \bigl( f_1(v'_{1,k}, v'_{2,k}) - f_1(\bar{v}_1, \bar{v}_2) \bigr)^2, \\
+    \sigma^2_{f_2,N} & = \frac{ N/b - 1 }{ N/b }
+    \sum_{k=1}^{N/b} \bigl( f_2(v'_{3,k}, v'_{4,k}) - f_2(\bar{v}_3, \bar{v}_4) \bigr)^2.
+\end{align}
+%
+We plot \(\sigma^2_{f_1,N}\) and \(\sigma^2_{f_2,N}\) in Figure~\ref{fig:JA_f_std:a}
+and Figure~\ref{fig:JA_f_std:b}.
+%
+\begin{figure}
+    \centering
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{JA_f1_std}
+        \subcaption{The standard deviation \(\sigma^2_{f_1,N}\) of these \(N/b\) groups as a
+        function of sizes of bins \(b\).}
+        \label{fig:JA_f_std:a}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{JA_f2_std}
+        \subcaption{The standard deviation \(\sigma^2_{f_2,N}\) of these \(N/b\) groups as a
+        function of sizes of bins \(b\).}
+        \label{fig:JA_f_std:b}
+    \end{minipage}
+    \caption{Plot the standard deviations of \(f_1\) and \(f_2\) after jackknife resampling.}
+    \label{fig:JA_f_std}
+\end{figure}
