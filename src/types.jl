@@ -42,3 +42,21 @@ Base.IndexStyle(::Type{<:Data}) = IndexLinear()
 
 Base.similar(::Population, ::Type{S}, dims::Dims) where {S} = Population{S}(undef, dims)
 Base.similar(::Sample, ::Type{S}, dims::Dims) where {S} = Sample{S}(undef, dims)
+
+Base.BroadcastStyle(::Type{<:Data}) = Broadcast.ArrayStyle{Data}()
+function Base.similar(
+    bc::Broadcast.Broadcasted{Broadcast.ArrayStyle{Data}}, ::Type{T}
+) where {T}
+    A = find_type(Data, bc.args)
+    return similar(A, T)
+end
+
+# See https://github.com/ITensor/ITensors.jl/blob/3ac6859/src/broadcast.jl#L123-L130
+function find_type(::Type{T}, args::Tuple) where {T}
+    return find_type(T, find_type(T, args[1]), Base.tail(args))
+end
+find_type(::Type{T}, x) where {T} = x
+find_type(::Type{T}, a::T, rest) where {T} = a
+find_type(::Type{T}, ::Any, rest) where {T} = find_type(T, rest)
+# If not found, return nothing
+find_type(::Type{T}, ::Tuple{}) where {T} = nothing
