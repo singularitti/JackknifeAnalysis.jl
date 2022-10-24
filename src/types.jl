@@ -38,5 +38,11 @@ Base.size(sample::Sample) = size(parent(sample))
 Base.getindex(population::Population, I...) = getindex(parent(population), I...)
 Base.getindex(sample::Sample, I...) = getindex(parent(sample), I...)
 
+Base.setindex!(population::Population, v, I...) = setindex!(parent(population), v, I...)
+Base.setindex!(sample::Sample, v, I...) = setindex!(parent(sample), v, I...)
+
 Base.IndexStyle(::Type{Population{T}}) where {T} = IndexLinear()
 Base.IndexStyle(::Type{Sample{T}}) where {T} = IndexLinear()
+
+Base.similar(::Population, ::Type{S}, dims::Dims) where {S} = Population{S}(undef, dims)
+Base.similar(::Sample, ::Type{S}, dims::Dims) where {S} = Sample{S}(undef, dims)
