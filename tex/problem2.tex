@@ -199,6 +199,87 @@ so that there are only integral number of groups.
     \label{fig:JA_sample_means}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{JA_sample_std_wrong}
+    \caption{Wrong standard deviation of the jackknife data (\(\sigma_{\bar{v}_a,N}\)) as a
+        function of \(b\) since we did not put the correct factors in
+        Equation~\eqref{eq:JAstd}.}
+    \label{fig:JA_sample_std_wrong}
+\end{figure}
+
+A jackknife estimate of the variance of \(\bar{x}\) can be calculated from the variance of
+the jackknife replicates:
+%
+\begin{equation}\label{eq:JAstd}
+    \mathbb{ V }(x') = \frac{ N - 1 }{ N } \sum_k (x_k' - \bar{x})^2
+    = \frac{ 1 }{ N (N - 1) } \sum_k (x_k - \bar{x})^2,
+\end{equation}
+%
+where \(x'_k\) denotes the \(k\)-th jackknife replicate and \(x_k\) denotes the \(k\)-th
+original value.
+Note the correction factors \(\frac{ N - 1 }{ N }\) and \(\frac{ 1 }{ N (N - 1) }\),
+you cannot omit them when doing such calculations. For example, if we treat
+jackknife data as normal \code{Sample} types, which uses the normal variance relation:
+%
+\begin{equation}
+    \mathbb{ V }(x) = \frac{ 1 }{ N - 1 } \sum_k (x_k - \bar{x})^2,
+\end{equation}
+%
+then wrong results will be given, as shown in Figure~\ref{fig:JA_sample_std_wrong}.
+This is because for bins of size \(b=2500\), for instance, there are only \(2\)
+bins, and \(\frac{ 1 }{ N - 1 }\) will be larger than those when \(b\) are smaller.
+
+Therefore, we need to define type \code{JackknifeSample} and fix the corresponding
+\code{sampleby} method which we defined in Snippet~\ref{lst:jackknife} to let it return
+a collection of \code{JackknifeSample}s,
+as shown in Snippet~\ref{lst:newjackknife}.
+%
+\begin{algorithm}
+    \caption{Define type \code{JackknifeSample} and fix the corresponding
+        \code{sampleby} method.}
+    \label{lst:newjackknife}
+    \begin{juliacode}
+        struct JackknifeSample{T} <: Data{T}
+            data::Vector{T}
+        end
+
+        function sampleby(sample::Sample, ::JackknifeSampler)
+            f = inv(length(sample) - 1)
+            ∑ = sum(sample)
+            return JackknifeSample([(∑ - value) for value in sample]) * f
+        end
+    \end{juliacode}
+\end{algorithm}
+%
+We also need to redefine a new \code{var} method for \code{JackknifeSample}s,
+as shown in Snippet~\ref{lst:varjackknife}.
+%
+\begin{algorithm}
+    \caption{Calculate the variance of jackknife data using the correct formula.}
+    \label{lst:varjackknife}
+    \begin{juliacode}
+        function var(sample::JackknifeSample)
+            N, μ = length(sample), mean(sample)
+            return (N - 1) / N * sum(abs2, sample .- μ)
+        end
+    \end{juliacode}
+\end{algorithm}
+
+After putting the correct factors before the squared terms, we will get
+Figure~\ref{fig:JA_sample_std}.
+As we can see, the standard deviation versus \(b\) varies much less than
+Figure~\ref{fig:JA_sample_std_wrong}, except for \(b = 2500\), we still get very large
+variation. But it is understandable since \(N/b = 2\) now, and \((N - 1) / N = 1/2\).
+%
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{JA_sample_std}
+    \caption{The correct standard deviation of the jackknife data (\(\sigma_{\bar{v}_a,N}\)) as a
+        function of \(b\).}
+    \label{fig:JA_sample_std}
+\end{figure}
+
 
 \Question{} Now calculate \(f_i(v'_{a,k})\) for each of the \(N/b\) jackknife blocks.
 You can then determine \(\sigma_{f_i,N}\) from
