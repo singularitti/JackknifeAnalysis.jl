@@ -35,7 +35,7 @@ function hist_mean()
     for n in (1000, 10000)
         histograms = []
         for (i, variable) in enumerate(variables)
-            X = sample(variable, PartitionSampler(n))
+            X = sampleby(variable, PartitionSampler(n))
             means = mean.(X)
             push!(
                 histograms,
@@ -137,7 +137,7 @@ end
 function sample_autocor_plot()
     plt = plot(; right_margin=2mm)
     for (i, variable) in enumerate(variables)
-        s = sample(variable, PartitionSampler(10000))[1]
+        s = sampleby(variable, PartitionSampler(10000))[1]
         C₀ = autocor(s, 0)
         N = 0:2000
         r = map(N) do n
@@ -155,7 +155,7 @@ end
 function sample_autocor(N=[1000, 10000], nₘₐₓ=200)
     return map(N) do n
         map(variables) do variable
-            s = sample(variable, PartitionSampler(n))[2]
+            s = sampleby(variable, PartitionSampler(n))[2]
             relation(s, nₘₐₓ)
         end
     end
