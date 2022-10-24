@@ -1,6 +1,6 @@
-export Population, Sample, PartitionSampler, JackknifeSampler, sampleby
+export Population, Sample, JackknifeSample, PartitionSampler, JackknifeSampler, sampleby
 
-abstract type Data{T} <: AbstractVector{T} end
+abstract type Data{T} <: AbstractVector{T<:Number} end
 struct Population{T} <: Data{T}
     data::Vector{T}
 end
