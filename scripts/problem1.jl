@@ -1,24 +1,28 @@
-using CSV
-using DataFrames
+# using CSV: write
+using DataFrames: DataFrame
 using JackknifeAnalysis
-using Latexify
-using LaTeXStrings
+using Latexify: latexify
+using LaTeXStrings: @L_str
 using Plots
 using Plots.Measures
 
-if !isdir("tex/plots")
-    mkpath("tex/plots")
+function initplot()
+    if !isdir("tex/plots")
+        mkpath("tex/plots")
+    end
+    Plots.default(;
+        framestyle=:box,
+        labelfontsize=12,
+        tickfontsize=10,
+        legendfontsize=12,
+        palette=:tab10,
+        grid=nothing,
+        legend_foreground_color=nothing,
+    )
+    return nothing
 end
 
-Plots.default(;
-    framestyle=:box,
-    labelfontsize=12,
-    tickfontsize=10,
-    legendfontsize=12,
-    palette=:tab10,
-    grid=nothing,
-    legend_foreground_color=nothing,
-)
+initplot()
 
 const v1 = read("data/v1", Population)
 const v2 = read("data/v2", Population)
@@ -31,7 +35,7 @@ map(mean, (v1, v2, v3, v4, v5))
 
 map(var, (v1, v2, v3, v4, v5))
 
-function hist_mean()
+function histogram_means()
     for n in (1000, 10000)
         histograms = []
         for (i, variable) in enumerate(variables)
@@ -71,7 +75,7 @@ function stdmean()
     return latexify(df; env=:table)
 end
 
-function autocor_func()
+function plot_autocor(path="tex/plots/Cn_C0.pdf")
     plt = plot(; right_margin=2mm)
     for (i, variable) in enumerate(variables)
         C₀ = autocor(variable, 0)
@@ -85,10 +89,10 @@ function autocor_func()
         xlabel!(L"$n$")
         ylabel!(L"$\hat{C}_{v_a}(n) / \hat{C}_{v_a}(0)$")
     end
-    return savefig("tex/plots/Cn_C0.pdf")
+    return savefig(path)
 end
 
-function autocor_time()
+function plot_autocor_time(path="tex/plots/tau.pdf")
     plt = plot(; legend=:bottomright, right_margin=2mm)
     for (i, variable) in enumerate(variables)
         N = 1:200
@@ -98,7 +102,7 @@ function autocor_time()
         xlabel!(L"$n_\textnormal{cut}$")
         ylabel!(L"$\hat{\tau}_{v_a}$")
     end
-    savefig("tex/plots/tau.pdf")
+    savefig(path)
     τᵥ = map(variables) do variable
         round(int_autocor_time(variable, 200); digits=5)
     end
@@ -120,7 +124,7 @@ end
 
 function checkrelations(N=[1000, 10000], nₘₐₓ=200)
     df = sort(vcat((checkrelation(n, nₘₐₓ) for n in N)...), :variable)
-    CSV.write("relations.csv", df)
+    write("relations.csv", df)
     return df
 end
 
@@ -134,7 +138,7 @@ function correlation_matrix(variables)
     return map(x -> round(x; digits=5), ρ)
 end
 
-function sample_autocor_plot()
+function plot_sample_autocor(path="tex/plots/Cn_C0_sample.pdf")
     plt = plot(; right_margin=2mm)
     for (i, variable) in enumerate(variables)
         s = sampleby(variable, PartitionSampler(10000))[1]
@@ -149,7 +153,7 @@ function sample_autocor_plot()
         xlabel!(L"$n$")
         ylabel!(L"$C_{v_a}(n) / C_{v_a}(0)$")
     end
-    return savefig("tex/plots/Cn_C0_sample.pdf")
+    return savefig(path)
 end
 
 function sample_autocor(N=[1000, 10000], nₘₐₓ=200)
