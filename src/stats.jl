@@ -14,6 +14,11 @@ function var(population::Population, sampler::PartitionSampler)
 end
 var(sample::Sample) = var(sample, mean(sample))
 var(sample::Sample, mean) = sum(abs2, sample .- mean) / (length(sample) - 1)
+var(sample::JackknifeSample) = var(sample, mean(sample))
+function var(sample::JackknifeSample, mean)
+    N = length(sample)
+    return (N - 1) / N * sum(abs2, sample .- mean)
+end
 
 std(args...) = sqrt(var(args...))
 
