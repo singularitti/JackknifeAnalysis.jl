@@ -3,16 +3,29 @@ using LaTeXStrings
 using Plots
 using Plots.Measures
 
-if !isdir("tex/plots")
-    mkpath("tex/plots")
+function initplot()
+    if !isdir("tex/plots")
+        mkpath("tex/plots")
+    end
+    return Plots.default(;
+        framestyle=:box,
+        labelfontsize=12,
+        tickfontsize=10,
+        legendfontsize=12,
+        palette=:tab20,
+        grid=nothing,
+        legend_foreground_color=nothing,
+    )
 end
 
-v1 = read("data/v1", Population)
-v2 = read("data/v2", Population)
-v3 = read("data/v3", Population)
-v4 = read("data/v4", Population)
-v5 = read("data/v5", Population)
-variables = [v1, v2, v3, v4, v5]
+initplot()
+
+const v1 = read("data/v1", Population)
+const v2 = read("data/v2", Population)
+const v3 = read("data/v3", Population)
+const v4 = read("data/v4", Population)
+const v5 = read("data/v5", Population)
+const variables = [v1, v2, v3, v4, v5]
 
 f₁(v̄₁, v̄₂) = v̄₁ / v̄₂
 f₁(sample₁::Sample, sample₂::Sample) = f₁(mean(sample₁), mean(sample₂))
