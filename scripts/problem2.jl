@@ -18,7 +18,7 @@ f₁(v̄₁, v̄₂) = v̄₁ / v̄₂
 f₁(sample₁::Sample, sample₂::Sample) = f₁(mean(sample₁), mean(sample₂))
 function f₁(v1::Population, v2::Population, samplesize=5000)
     sampler = PartitionSampler(samplesize)
-    return map(sample(v1, sampler), sample(v2, sampler)) do sample₁, sample₂
+    return map(sampleby(v1, sampler), sampleby(v2, sampler)) do sample₁, sample₂
         f₁(sample₁, sample₂)
     end
 end
@@ -27,7 +27,7 @@ f₂(v̄₃, v̄₄) = exp(v̄₃ - v̄₄)
 f₂(sample₃::Sample, sample₄::Sample) = f₂(mean(sample₃), mean(sample₄))
 function f₂(v3::Population, v4::Population, samplesize=5000)
     sampler = PartitionSampler(samplesize)
-    return map(sample(v3, sampler), sample(v4, sampler)) do sample₃, sample₄
+    return map(sampleby(v3, sampler), sampleby(v4, sampler)) do sample₃, sample₄
         f₂(sample₃, sample₄)
     end
 end
