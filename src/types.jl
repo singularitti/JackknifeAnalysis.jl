@@ -1,6 +1,7 @@
 export Population, Sample, PartitionSampler, JackknifeSampler, sampleby
 
-struct Population{T} <: AbstractVector{T}
+abstract type Data{T} <: AbstractVector{T} end
+struct Population{T} <: Data{T}
     data::Vector{T}
 end
 Population(A::AbstractVector) = Population(collect(A))
@@ -8,7 +9,7 @@ function Population{S}(::UndefInitializer, n::Tuple{Int64}) where {S}
     return Population(Vector{S}(undef, n))
 end
 
-struct Sample{T} <: AbstractVector{T}
+struct Sample{T} <: Data{T}
     data::Vector{T}
 end
 Sample(A::AbstractVector) = Sample(collect(A))
@@ -29,20 +30,15 @@ function sampleby(sample::Sample, ::JackknifeSampler)
     return Sample([(∑ - value) for value in sample]) * f
 end
 
-Base.parent(population::Population) = population.data
-Base.parent(sample::Sample) = sample.data
+Base.parent(data::Data) = data.data
 
-Base.size(population::Population) = size(parent(population))
-Base.size(sample::Sample) = size(parent(sample))
+Base.size(data::Data) = size(parent(data))
 
-Base.getindex(population::Population, I...) = getindex(parent(population), I...)
-Base.getindex(sample::Sample, I...) = getindex(parent(sample), I...)
+Base.getindex(data::Data, I...) = getindex(parent(data), I...)
 
-Base.setindex!(population::Population, v, I...) = setindex!(parent(population), v, I...)
-Base.setindex!(sample::Sample, v, I...) = setindex!(parent(sample), v, I...)
+Base.setindex!(data::Data, v, I...) = setindex!(parent(data), v, I...)
 
-Base.IndexStyle(::Type{Population{T}}) where {T} = IndexLinear()
-Base.IndexStyle(::Type{Sample{T}}) where {T} = IndexLinear()
+Base.IndexStyle(::Type{<:Data}) = IndexLinear()
 
 Base.similar(::Population, ::Type{S}, dims::Dims) where {S} = Population{S}(undef, dims)
 Base.similar(::Sample, ::Type{S}, dims::Dims) where {S} = Sample{S}(undef, dims)
