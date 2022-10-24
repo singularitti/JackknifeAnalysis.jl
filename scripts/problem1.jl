@@ -15,7 +15,7 @@ Plots.default(;
     labelfontsize=12,
     tickfontsize=10,
     legendfontsize=12,
-    palette=:tab20,
+    palette=:tab10,
     grid=nothing,
     legend_foreground_color=nothing,
 )
