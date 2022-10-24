@@ -155,7 +155,7 @@ function plot_jackknife_std(index=1)
         xlims=extrema(binsizes),
         xlabel=L"size of bin ($b$)",
         ylabel=L"$\sigma_{\bar{v}_a}$",
-        legend=:topleft,
+        legend=:bottomleft,
     )
     for (i, variable) in enumerate(variables)
         stds = map(binsizes) do binsize
