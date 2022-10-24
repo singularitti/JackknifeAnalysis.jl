@@ -15,6 +15,14 @@ end
 Sample(A::AbstractVector) = Sample(collect(A))
 Sample{S}(::UndefInitializer, n::Tuple{Int64}) where {S} = Sample(Vector{S}(undef, n))
 
+struct JackknifeSample{T} <: Data{T}
+    data::Vector{T}
+end
+JackknifeSample(A::AbstractVector) = JackknifeSample(collect(A))
+function JackknifeSample{S}(::UndefInitializer, n::Tuple{Int64}) where {S}
+    return JackknifeSample(Vector{S}(undef, n))
+end
+
 abstract type Sampler end
 struct PartitionSampler <: Sampler
     n::Int
@@ -27,7 +35,7 @@ end
 function sampleby(sample::Sample, ::JackknifeSampler)
     f = inv(length(sample) - 1)
     ∑ = sum(sample)
-    return Sample([(∑ - value) for value in sample]) * f
+    return JackknifeSample([(∑ - value) for value in sample]) * f
 end
 
 Base.parent(data::Data) = data.data
@@ -42,6 +50,9 @@ Base.IndexStyle(::Type{<:Data}) = IndexLinear()
 
 Base.similar(::Population, ::Type{S}, dims::Dims) where {S} = Population{S}(undef, dims)
 Base.similar(::Sample, ::Type{S}, dims::Dims) where {S} = Sample{S}(undef, dims)
+function Base.similar(::JackknifeSample, ::Type{S}, dims::Dims) where {S}
+    return JackknifeSample{S}(undef, dims)
+end
 
 Base.BroadcastStyle(::Type{<:Data}) = Broadcast.ArrayStyle{Data}()
 function Base.similar(
