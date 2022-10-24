@@ -4,11 +4,15 @@ struct Population{T} <: AbstractVector{T}
     data::Vector{T}
 end
 Population(A::AbstractVector) = Population(collect(A))
+function Population{S}(::UndefInitializer, n::Tuple{Int64}) where {S}
+    return Population(Vector{S}(undef, n))
+end
 
 struct Sample{T} <: AbstractVector{T}
     data::Vector{T}
 end
 Sample(A::AbstractVector) = Sample(collect(A))
+Sample{S}(::UndefInitializer, n::Tuple{Int64}) where {S} = Sample(Vector{S}(undef, n))
 
 abstract type Sampler end
 struct PartitionSampler <: Sampler
