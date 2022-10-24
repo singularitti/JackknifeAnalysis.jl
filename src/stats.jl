@@ -19,6 +19,22 @@ function var(sample::JackknifeSample, mean)
     N = length(sample)
     return (N - 1) / N * sum(abs2, sample .- mean)
 end
+var(f, sample::JackknifeSample) = var(f, sample, mean(sample))
+function var(f, sample::JackknifeSample, mean::Number)
+    N = length(sample)
+    f′ = map(f, sample)
+    fₘ = f(mean)
+    return (N - 1) / N * sum(abs2, f′ .- fₘ)
+end
+function var(f, sample::JackknifeSample, samples::JackknifeSample...)
+    N = length(sample)
+    if !all(length(sample′) == N for sample′ in samples)
+        throw(DimensionMismatch("not all samples have the same length!"))
+    end
+    f′ = map(f, sample, samples...)
+    fₘ = f(map(mean, (sample, samples...))...)
+    return (N - 1) / N * sum(abs2, f′ .- fₘ)
+end
 
 std(args...) = sqrt(var(args...))
 
