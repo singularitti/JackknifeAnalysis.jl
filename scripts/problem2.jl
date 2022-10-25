@@ -72,20 +72,37 @@ function plot_sample_means(samplesize=5000)
     return savefig("tex/plots/sample_means.pdf")
 end
 
-function plot_f₁(samplesize=5000)
-    plot(; legend=:none, xlabel="samples", ylabel=L"$f_1(\bar{v}_1, \bar{v}_2)$")
+function plot_f₁_f₂(samplesize=5000)
+    plot(; xlabel="samples", ylabel=L"$f_i(\bar{v}_a)$", legend=:right)
     results = f₁(v1, v2, samplesize)
-    scatter!(eachindex(results), results; markersizes=2, markerstrokewidth=0)
-    plot!(eachindex(results), results; xlims=(firstindex(results), lastindex(results)))
-    return savefig("tex/plots/f1.pdf")
-end
-
-function plot_f₂(samplesize=5000)
-    plot(; legend=:none, xlabel="samples", ylabel=L"$f_2(\bar{v}_3, \bar{v}_4)$")
+    scatter!(
+        eachindex(results),
+        results;
+        label=L"$f_1(\bar{v}_1, \bar{v}_2)$",
+        markersizes=2,
+        markerstrokewidth=0,
+    )
+    plot!(
+        eachindex(results),
+        results;
+        label="",
+        xlims=(firstindex(results), lastindex(results)),
+    )
     results = f₂(v3, v4, samplesize)
-    scatter!(eachindex(results), results; markersizes=2, markerstrokewidth=0)
-    plot!(eachindex(results), results; xlims=(firstindex(results), lastindex(results)))
-    return savefig("tex/plots/f2.pdf")
+    scatter!(
+        eachindex(results),
+        results;
+        label=L"$f_2(\bar{v}_3, \bar{v}_4)$",
+        markersizes=2,
+        markerstrokewidth=0,
+    )
+    plot!(
+        eachindex(results),
+        results;
+        label="",
+        xlims=(firstindex(results), lastindex(results)),
+    )
+    return savefig("tex/plots/f1_f2.pdf")
 end
 
 truemean_f₁(samplesize=5000) = mean(f₁(v1, v2, samplesize))
