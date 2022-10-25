@@ -192,6 +192,63 @@ function plot_jackknife_std(index=1)
     return nothing
 end
 
+function getsample(variable₁, variable₂, index, binsize)
+    return map(
+        variable -> jackknife(getbins(variable, index, 5000, binsize)),
+        (variable₁, variable₂),
+    )
+end
+
+function get_f_mean(f, variable₁, variable₂, index=1)
+    return map(binsizes) do binsize
+        sample₁, sample₂ = getsample(variable₁, variable₂, index, binsize)
+        f(mean(sample₁), mean(sample₂))
+    end
+end
+
+function get_jackknife_f_mean(f, variable₁, variable₂, index, binsize)
+    sample₁, sample₂ = getsample(variable₁, variable₂, index, binsize)
+    return mean([f(x′, y′) for (x′, y′) in zip(sample₁, sample₂)])
+end
+function get_jackknife_f_mean(::typeof(f₁), index=1)
+    return map(binsizes) do binsize
+        get_jackknife_f_mean(f₁, v1, v2, index, binsize)
+    end
+end
+function get_jackknife_f_mean(::typeof(f₂), index=1)
+    return map(binsizes) do binsize
+        get_jackknife_f_mean(f₂, v3, v4, index, binsize)
+    end
+end
+
+function plot_jackknife_f_mean(index=1)
+    plot(;
+        yscale=:log,
+        xlims=extrema(binsizes),
+        xlabel=L"size of bin ($b$)",
+        ylabel=L"$\frac{1}{N} \sum_k f_1(v'_{1,k}, v'_{2,k}) - f(\bar{v}_1, \bar{v}_2)$",
+        # legend=:bottomleft,
+    )
+    let f = f₁, x = v1, y = v2
+        means = get_jackknife_f_mean(f, index)
+        f̄ = get_f_mean(f, x, y, index)
+        data = means .- f̄
+        scatter!(binsizes, data; label=L"$f_1$", markersizes=2, markerstrokewidth=0)
+        plot!(binsizes, data; label="")
+    end
+    let f = f₂, x = v3, y = v4
+        means = get_jackknife_f_mean(f, index)
+        f̄ = get_f_mean(f, x, y, index)
+        data = means .- f̄
+        scatter!(
+            twinx(), binsizes, data; label=L"$f_2$", markersizes=2, markerstrokewidth=0
+        )
+        plot!(twinx(), binsizes, data; label="")
+    end
+    savefig("tex/plots/JA_f1_f2_mean.pdf")
+    return nothing
+end
+
 function get_f_std(f, variable₁, variable₂, index, binsize)
     sample₁, sample₂ = map(
         variable -> jackknife(getbins(variable, index, 5000, binsize)),
