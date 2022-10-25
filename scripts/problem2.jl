@@ -222,38 +222,19 @@ function plot_jackknife_f_mean(index=1)
     plt = plot(;
         xlims=extrema(binsizes),
         xlabel=L"size of bin ($b$)",
-        ylabel=L"$\Delta \bar{f} / 10^{-5}$",
-        legend=:left,
-        right_margin=15mm,
+        ylabel=L"$\Delta \bar{f}_i / 10^{-5}$",
+        legend=:right,
     )
     means = get_jackknife_f_mean(f₁, index)
     f̄ = get_f_mean(f₁, v1, v2, index)
     data = (means .- f̄) / 1e-5
     scatter!(plt, binsizes, data; label=L"$f_1$", markersizes=2, markerstrokewidth=0)
-    plot!(plt, binsizes, data; label="", ylims=extrema(data))
-    plt = twinx()
+    plot!(plt, binsizes, data; label="")
     means = get_jackknife_f_mean(f₂, index)
     f̄ = get_f_mean(f₂, v3, v4, index)
     data = (means .- f̄) / 1e-5
-    scatter!(
-        plt,
-        binsizes,
-        data;
-        label=L"$f_2$",
-        markersizes=2,
-        markerstrokewidth=0,
-        xticks=:none,
-        legend=:right,
-    )
-    plot!(
-        plt,
-        binsizes,
-        data;
-        label="",
-        xlims=extrema(binsizes),
-        ylims=extrema(data),
-        framestyle=:box,
-    )
+    scatter!(plt, binsizes, data; label=L"$f_2$", markersizes=2, markerstrokewidth=0)
+    plot!(plt, binsizes, data; label="")
     savefig("tex/plots/JA_f1_f2_mean.pdf")
     return nothing
 end
