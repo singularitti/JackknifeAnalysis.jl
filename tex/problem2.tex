@@ -165,7 +165,7 @@ the means, as shown in Figure~\ref{fig:JA_sample_means:b}.
 Here, to minimize the grouping bias, we select all \(b\) to be factors of \(5000\),
 so that there are only integral number of groups.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \begin{minipage}[t]{0.8\linewidth}
         \centering
@@ -318,4 +318,33 @@ from all \(M\) values listed in Table~\ref{tab:stdf1f2}.
     \end{minipage}
     \caption{Plot the standard deviations of \(f_1\) and \(f_2\) after jackknife resampling.}
     \label{fig:JA_f_std}
+\end{figure}
+
+Since we have the relation
+%
+\begin{equation}\label{eq:Deltaf}
+    \frac{1}{N} \sum_{k=1}^N f(x'_k, y'_k) = f(\bar{x}, \bar{y}) +
+    \mathcal{O}\Bigl(\frac{1}{N}\Bigr),
+\end{equation}
+%
+where \(x'_k\) and \(y'_k\) are jackknife data.
+We can verify this relation by plotting
+%
+\begin{equation}
+    \Delta \bar{f} = \frac{1}{N} \sum_{k=1}^N f(x'_k, y'_k) - f(\bar{x}, \bar{y})
+\end{equation}
+%
+for \(f_1\) and \(f_2\) respectively, as shown in Figure~\ref{fig:JA_f1_f2_mean}.
+We can see from the figure that as the bin size \(b\) decreases, i.e., the number
+of groups \(N / b\) increases, both \(\Delta \bar{f}_1\) and \(\Delta \bar{f}_2\)
+converges to very small values, as they should be.
+That is, relation~\eqref{eq:Deltaf} holds.
+%
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{JA_f1_f2_mean}
+    \caption{The differences between \(\frac{1}{N} \sum_{k} f_i(v'_{a,k})\)
+    and \(f_i(\bar{v}_a)\) for both \(f_1\) and \(f_2\) as a function of bin size
+    \(b\).}
+    \label{fig:JA_f1_f2_mean}
 \end{figure}
