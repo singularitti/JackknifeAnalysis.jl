@@ -193,8 +193,10 @@ function plot_jackknife_std(index=1)
 end
 
 function get_f_std(f, variable₁, variable₂, index, binsize)
-    sample₁, sample₂ = jackknife(getbins(variable₁, index, 5000, binsize)),
-    jackknife(getbins(variable₂, index, 5000, binsize))
+    sample₁, sample₂ = map(
+        variable -> jackknife(getbins(variable, index, 5000, binsize)),
+        (variable₁, variable₂),
+    )
     return std(f, sample₁, sample₂)
 end
 function get_f_std(::typeof(f₁), index=1)
