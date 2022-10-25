@@ -90,7 +90,41 @@ Therefore, the mean and standard deviation of \(f_1\) and
 your results from Question~\ref{p2q1}.
 
 \Answer{}
-
+If we Taylor expand \(\hat{\Var}(f(\bar{x}, \bar{y}))\) up to the first order, we will
+get
+%
+\begin{equation}\label{eq:varf}
+    \hat{\Var}(f(\bar{x}, \bar{y})) =
+    \biggl(\frac{ \partial f }{ \partial x } \at{x = \bar{x}}\biggr)^2 \hat{\Var}(\bar{x}) +
+    \biggl(\frac{ \partial f }{ \partial y } \at{y = \bar{y}}\biggr)^2 \hat{\Var}(\bar{y}) +
+    2\biggl(\frac{ \partial f }{ \partial x } \at{x = \bar{x}}\biggr)
+    \biggl(\frac{ \partial f }{ \partial y } \at{y = \bar{y}}\biggr)
+    \hat{\sigma}(\bar{x}, \bar{y}).
+\end{equation}
+%
+But since we are considering naïve propagation of errors, i.e.,
+%
+\begin{equation}
+    \hat{\sigma}(\bar{x}, \bar{y}) \approx 0,
+\end{equation}
+%
+then~\eqref{eq:varf} will be reduced to
+%
+\begin{equation}
+    \hat{\Var}(f(\bar{x}, \bar{y})) =
+    \biggl(\frac{ \partial f }{ \partial x } \at{x = \bar{x}}\biggr)^2 \hat{\Var}(\bar{x}) +
+    \biggl(\frac{ \partial f }{ \partial y } \at{y = \bar{y}}\biggr)^2 \hat{\Var}(\bar{y}).
+\end{equation}
+%
+Therefore, the variance of \(f_1\) and \(f_2\) will be:
+%
+\begin{align}
+    \hat{\Var}(f_1(\bar{v}_1, \bar{v}_2)) & =
+    \frac{ 1 }{ \bar{v}^2_2 } \hat{\Var}(\bar{v}_1) +
+    +\frac{ \bar{v}^2_1 }{ \bar{v}^4_2 } \hat{\Var}(\bar{v}_2), \\
+    \hat{\Var}(f_2(\bar{v}_3, \bar{v}_4)) & =
+    \exp( \bar{v}_3 - \bar{v}_4 )^2 \bigl(\hat{\Var}(\bar{v}_3) + \hat{\Var}(\bar{v}_4)\bigr).
+\end{align}
 
 
 \Question{} We now want to estimate \(\sigma_{\bar{v}_a,N}\) and \(\sigma_{f_i,N}\) using
@@ -200,7 +234,7 @@ A jackknife estimate of the variance of \(\bar{x}\) can be calculated from the v
 the jackknife replicates:
 %
 \begin{equation}\label{eq:JAstd}
-    \mathbb{ V }(x') = \frac{ N - 1 }{ N } \sum_k (x_k' - \bar{x})^2
+    \Var(x') = \frac{ N - 1 }{ N } \sum_k (x_k' - \bar{x})^2
     = \frac{ 1 }{ N (N - 1) } \sum_k (x_k - \bar{x})^2,
 \end{equation}
 %
@@ -211,7 +245,7 @@ you cannot omit them when doing such calculations. For example, if we treat
 jackknife data as normal \code{Sample} types, which uses the normal variance relation:
 %
 \begin{equation}
-    \mathbb{ V }(x) = \frac{ 1 }{ N - 1 } \sum_k (x_k - \bar{x})^2,
+    \Var(x) = \frac{ 1 }{ N - 1 } \sum_k (x_k - \bar{x})^2,
 \end{equation}
 %
 then wrong results will be given, as shown in Figure~\ref{fig:JA_sample_std_wrong}.
