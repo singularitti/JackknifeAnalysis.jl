@@ -138,18 +138,19 @@ function correlation_matrix(variables)
     return map(x -> round(x; digits=5), ρ)
 end
 
-function plot_sample_autocor(path="tex/plots/Cn_C0_sample.pdf")
-    plt = plot(; right_margin=2mm)
+function plot_sample_autocor(N, nₘₐₓ=20, index=1, path="tex/plots/Cn_C0_sample_$N.pdf")
+    plot(; right_margin=2mm)
+    hline!([0]; color="black", label="")
     for (i, variable) in enumerate(variables)
-        s = sampleby(variable, PartitionSampler(10000))[1]
+        s = sampleby(variable, PartitionSampler(N))[index]
         C₀ = autocor(s, 0)
-        N = 0:2000
-        r = map(N) do n
+        terms = 0:nₘₐₓ
+        r = map(terms) do n
             Cₙ = autocor(s, n)
             Cₙ / C₀
         end
-        plot!(plt, N, r; label=L"$v_{%$i}$")
-        xlims!(extrema(N))
+        plot!(terms, r; label=L"$v_{%$i}$")
+        xlims!(extrema(terms))
         xlabel!(L"$n$")
         ylabel!(L"$C_{v_a}(n) / C_{v_a}(0)$")
     end
