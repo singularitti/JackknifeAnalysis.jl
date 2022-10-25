@@ -34,10 +34,10 @@ number generator.
 \end{figure}
 
 We plot \(f_1(\bar{v}_1, \bar{v}_2)\) and \(f_2(\bar{v}_3, \bar{v}_4)\) in
-Figure~\ref{fig:fi:a} and Figure~\ref{fig:fi:b}.
+Figure~\ref{fig:fi}.
 
 Since \(f_1\) and \(f_2\) can only be applied onto the average values such as
-\(\bar{v}_{1,\eta}, \bar{v}_{2,\eta})\) and \(\bar{v}_{3,\eta}, \bar{v}_{4,\eta})\)
+\((\bar{v}_{1,\eta}, \bar{v}_{2,\eta})\) and \((\bar{v}_{3,\eta}, \bar{v}_{4,\eta})\)
 for \(\eta = 1\), \(\ldots\), \(320\), we need to adapt Equation~\eqref{eq:varva}
 to the following form:
 %
@@ -63,20 +63,8 @@ as the true standard deviation \(\hat{\sigma}_{f_i,N}\):
 
 \begin{figure}
     \centering
-    \begin{minipage}[t]{0.8\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{f1}
-        \subcaption{\(f_1(\bar{v}_1, \bar{v}_2)\) for each group.}
-        \label{fig:fi:a}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.8\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{f2}
-        \subcaption{\(f_2(\bar{v}_3, \bar{v}_4)\) for each group.}
-        \label{fig:fi:b}
-    \end{minipage}
-    \caption{Plot \(f_i\) for each group of variable pairs.}
+    \includegraphics[width=0.8\textwidth]{f1_f2}
+    \caption{Plot \(f_1(\bar{v}_1, \bar{v}_2)\) and \(f_2(\bar{v}_3, \bar{v}_4)\) for each group of variable pairs.}
     \label{fig:fi}
 \end{figure}
 
