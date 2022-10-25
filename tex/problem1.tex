@@ -434,3 +434,37 @@ just as what we saw in~\eqref{eq:relation}, where the standard deviation of the 
 \begin{equation}
     \sigma_{v_a} = \sqrt{\frac{ 1 }{ N - 1 } \sum_{i=1}^N (v_{a,i} - \bar{v}_a)^2}.
 \end{equation}
+
+\begin{figure}
+    \centering
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Cn_C0_sample_1000}
+        \subcaption{The sample's normalized autocorrelation function
+            \(C_{v_a}(n) / C_{v_a}(0)\) for the \(N = 1000\) case.}
+        \label{fig:Cn_C0_sample:a}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Cn_C0_sample_10000}
+        \subcaption{The sample's normalized autocorrelation function
+            \(C_{v_a}(n) / C_{v_a}(0)\) for the \(N = 10000\) case.}
+        \label{fig:Cn_C0_sample:b}
+    \end{minipage}
+    \caption{The sample's normalized autocorrelation functions
+        for both the \(N = 1000\) and \(N = 10000\) cases.}
+    \label{fig:Cn_C0_sample}
+\end{figure}
+
+Now, we plot the sample's normalized autocorrelation functions \(C_{v_a}(n) / C_{v_a}(0)\)
+for both the \(N = 1000\) and \(N = 10000\) cases in Figure~\ref{fig:Cn_C0_sample:a}
+and Figure~\ref{fig:Cn_C0_sample:b}.
+As we can see, even after a few hundred time steps, they still have significantly large
+values compared to the true autocorrelation function \(\hat{C}_{v_a}(n) / \hat{C}_{v_a}(0)\).
+It is because we have samples of much smaller sizes, so the correlation between
+different time steps is more prominent.
+If we select \(n_\textnormal{cut}\) too large, the value of the
+integrated autocorrelation time will become alternating around \(0\).
+That means we include unnecessary noises in our data.
+
