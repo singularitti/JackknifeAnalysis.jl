@@ -293,22 +293,27 @@ Expand Equation~\eqref{eq:sigmaf} as
 %
 We plot \(\sigma^2_{f_1,N}\) and \(\sigma^2_{f_2,N}\) in Figure~\ref{fig:JA_f_std:a}
 and Figure~\ref{fig:JA_f_std:b}.
+As we can see, \(\sigma_{f_1,N}\) is around \(0.02\),
+and \(\sigma_{f_2,N}\) is around \(0.0125\), which are close to the standard deviation
+of \(f_1\) (\(\hat{\sigma}_{f_1,N} = 0.0214303\)) and
+\(f_2\) (\(\hat{\sigma}_{f_2,N} = 0.0126915\))
+from all \(M\) values listed in Table~\ref{tab:stdf1f2}.
 %
 \begin{figure}
     \centering
     \begin{minipage}[t]{0.8\linewidth}
         \centering
         \includegraphics[width=\linewidth]{JA_f1_std}
-        \subcaption{The standard deviation \(\sigma^2_{f_1,N}\) of these \(N/b\) groups as a
-        function of sizes of bins \(b\).}
+        \subcaption{The standard deviation \(\sigma_{f_1,N}\) of these \(N/b\) groups as
+            a function of sizes of bins \(b\).}
         \label{fig:JA_f_std:a}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.8\linewidth}
         \centering
         \includegraphics[width=\linewidth]{JA_f2_std}
-        \subcaption{The standard deviation \(\sigma^2_{f_2,N}\) of these \(N/b\) groups as a
-        function of sizes of bins \(b\).}
+        \subcaption{The standard deviation \(\sigma_{f_2,N}\) of these \(N/b\) groups as
+            a function of sizes of bins \(b\).}
         \label{fig:JA_f_std:b}
     \end{minipage}
     \caption{Plot the standard deviations of \(f_1\) and \(f_2\) after jackknife resampling.}
