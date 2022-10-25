@@ -222,29 +222,41 @@ function get_jackknife_f_mean(::typeof(f₂), index=1)
 end
 
 function plot_jackknife_f_mean(index=1)
-    plot(;
-        yscale=:log,
+    plt = plot(;
         xlims=extrema(binsizes),
         xlabel=L"size of bin ($b$)",
-        ylabel=L"$\frac{1}{N} \sum_k f_1(v'_{1,k}, v'_{2,k}) - f(\bar{v}_1, \bar{v}_2)$",
-        # legend=:bottomleft,
+        ylabel=L"$\Delta \bar{f} / 10^{-5}$",
+        legend=:left,
+        right_margin=15mm,
     )
-    let f = f₁, x = v1, y = v2
-        means = get_jackknife_f_mean(f, index)
-        f̄ = get_f_mean(f, x, y, index)
-        data = means .- f̄
-        scatter!(binsizes, data; label=L"$f_1$", markersizes=2, markerstrokewidth=0)
-        plot!(binsizes, data; label="")
-    end
-    let f = f₂, x = v3, y = v4
-        means = get_jackknife_f_mean(f, index)
-        f̄ = get_f_mean(f, x, y, index)
-        data = means .- f̄
-        scatter!(
-            twinx(), binsizes, data; label=L"$f_2$", markersizes=2, markerstrokewidth=0
-        )
-        plot!(twinx(), binsizes, data; label="")
-    end
+    means = get_jackknife_f_mean(f₁, index)
+    f̄ = get_f_mean(f₁, v1, v2, index)
+    data = (means .- f̄) / 1e-5
+    scatter!(plt, binsizes, data; label=L"$f_1$", markersizes=2, markerstrokewidth=0)
+    plot!(plt, binsizes, data; label="", ylims=extrema(data))
+    plt = twinx()
+    means = get_jackknife_f_mean(f₂, index)
+    f̄ = get_f_mean(f₂, v3, v4, index)
+    data = (means .- f̄) / 1e-5
+    scatter!(
+        plt,
+        binsizes,
+        data;
+        label=L"$f_2$",
+        markersizes=2,
+        markerstrokewidth=0,
+        xticks=:none,
+        legend=:right,
+    )
+    plot!(
+        plt,
+        binsizes,
+        data;
+        label="",
+        xlims=extrema(binsizes),
+        ylims=extrema(data),
+        framestyle=:box,
+    )
     savefig("tex/plots/JA_f1_f2_mean.pdf")
     return nothing
 end
