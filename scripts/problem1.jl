@@ -6,23 +6,19 @@ using LaTeXStrings: @L_str
 using Plots
 using Plots.Measures
 
-function initplot()
-    if !isdir("tex/plots")
-        mkpath("tex/plots")
-    end
-    Plots.default(;
-        framestyle=:box,
-        labelfontsize=12,
-        tickfontsize=10,
-        legendfontsize=12,
-        palette=:tab10,
-        grid=nothing,
-        legend_foreground_color=nothing,
-    )
-    return nothing
+if !isdir("tex/plots")
+    mkpath("tex/plots")
 end
 
-initplot()
+Plots.default(;
+    framestyle=:box,
+    labelfontsize=12,
+    tickfontsize=10,
+    legendfontsize=12,
+    palette=:tab10,
+    grid=nothing,
+    legend_foreground_color=nothing,
+)
 
 const v1 = read("data/v1", Population)
 const v2 = read("data/v2", Population)
