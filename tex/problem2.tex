@@ -21,7 +21,7 @@ standard deviation for \(f_i\), i.e., \(\hat{\sigma}_{f_i,N}\).
 For \(N = 5000\), there are \(320\) samples for each variable.
 The sample means for each variable are shown in Figure~\ref{fig:sample_means}.
 We can see that these data, at least over the range of \(5000\) numbers,
-are showing similar trends.
+show similar trends.
 It could suggest that these \(5\) variables are generated using the same random
 number generator.
 
@@ -36,7 +36,7 @@ number generator.
 We plot \(f_1(\bar{v}_1, \bar{v}_2)\) and \(f_2(\bar{v}_3, \bar{v}_4)\) in
 Figure~\ref{fig:fi}.
 
-Since \(f_1\) and \(f_2\) can only be applied onto the average values such as
+Since \(f_1\) and \(f_2\) can only be applied to the average values such as
 \((\bar{v}_{1,\eta}, \bar{v}_{2,\eta})\) and \((\bar{v}_{3,\eta}, \bar{v}_{4,\eta})\)
 for \(\eta = 1\), \(\ldots\), \(320\), we need to adapt Equation~\eqref{eq:varva}
 to the following form:
@@ -129,18 +129,18 @@ Therefore, the variance of \(f_1\) and \(f_2\) will be:
 
 \Question{} We now want to estimate \(\sigma_{\bar{v}_a,N}\) and \(\sigma_{f_i,N}\) using
 the jackknife method from a single sample of size \(N\).
-First we must deal with the autocorrelations in the data, and you have an idea of the
+First, we must deal with the autocorrelations in the data, and you have an idea of the
 integrated autocorrelation time from the first problem. We proceed as follows here. Average
 your \(N\) data values into bins of size \(b\). This will produce \(N/b\) data values.
-Then use the jacknife method to estimate \(\bar{v}_a\) and \(\sigma_{\bar{v}_a,N}\) from
-these \(N/b\) data values. The jacknife method resums these \(N/b\) values as done in class,
+Then use the jackknife method to estimate \(\bar{v}_a\) and \(\sigma_{\bar{v}_a,N}\) from
+these \(N/b\) data values. The jackknife method resums these \(N/b\) values as done in class,
 i.e.,
 %
 \begin{equation}
     v'_{a,k} = \frac{ 1 }{ N / b - 1 } \sum_{i=1, i \neq k}^{N/b} v_{a,i}.
 \end{equation}
 
-From these jacknife values, you can determine \(\bar{v}_a\) and \(\sigma_{\bar{v}_a,N}\).
+From these jackknife values, you can determine \(\bar{v}_a\) and \(\sigma_{\bar{v}_a,N}\).
 Do this for a few different values of \(b\) comparable to the integrated autocorrelation
 time to check that your results do not depend strongly on \(b\).
 
@@ -191,20 +191,20 @@ same, i.e.,
 The means of these \(N/b\) groups of data with each group as an average of \(b\) original
 values, are plotted in Figure~\ref{fig:JA_sample_means:a}.
 As we can see, these \(\bar{v}_a\) are almost constants for different sizes of bins \(b\),
-with very little variations.
+with very few variations.
 That is, the estimated \(\bar{v}_a\) do not strongly depend on \(b\).
 To have a clearer view of how these data changes, we plot \(\bar{v}_a - \barhat{v}_a\)
 as a function of \(b\), where the ``true mean'' \(\barhat{v}_a\) is the mean of
 the means, as shown in Figure~\ref{fig:JA_sample_means:b}.
 Here, to minimize the grouping bias, we select all \(b\) to be factors of \(5000\),
-so that there are only integral number of groups.
+so that there is only an integer number of groups.
 
 \begin{figure}
     \centering
     \begin{minipage}[t]{0.8\linewidth}
         \centering
         \includegraphics[width=\linewidth]{JA_sample_means}
-        \subcaption{The avarge values of these \(N/b\) groups as a function of
+        \subcaption{The average values of these \(N/b\) groups as a function of
             sizes of bins \(b\).}
         \label{fig:JA_sample_means:a}
     \end{minipage}
@@ -212,12 +212,12 @@ so that there are only integral number of groups.
     \begin{minipage}[t]{0.8\linewidth}
         \centering
         \includegraphics[width=\linewidth]{JA_sample_deviations}
-        \subcaption{The avarge values subtracted by the true mean of these \(N/b\) groups as
+        \subcaption{The average values subtracted by the true mean of these \(N/b\) groups as
             a function of sizes of bins \(b\), with \(y\)-axis scaled by a factor of
             \(10^{15}\).}
         \label{fig:JA_sample_means:b}
     \end{minipage}
-    \caption{The avarge values \(\bar{v}_a\) of the jackknife data as a function of \(b\).}
+    \caption{The average values \(\bar{v}_a\) of the jackknife data as a function of \(b\).}
     \label{fig:JA_sample_means}
 \end{figure}
 
