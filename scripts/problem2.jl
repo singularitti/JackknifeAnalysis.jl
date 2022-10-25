@@ -118,9 +118,6 @@ end
 jackknife(sample) = sampleby(sample, JackknifeSampler())
 
 function plot_jackknife_means(index=1)
-    binsizes = [
-        2, 4, 5, 8, 10, 20, 25, 40, 50, 100, 125, 200, 250, 500, 625, 1000, 1250, 2500
-    ]
     plot(;
         xlims=extrema(binsizes),
         xlabel=L"size of bin ($b$)",
