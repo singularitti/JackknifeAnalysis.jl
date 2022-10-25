@@ -1,7 +1,7 @@
 export mean, var, std, cov, cor, autocor, int_autocor_time, relation
 
-mean(data::Data) = sum(data) / length(data)
-mean(f, data::Data) = sum(f, data) / length(data)
+mean(data) = sum(data) / length(data)
+mean(f, data) = sum(f, data) / length(data)
 
 function var(population::Population)
     μ = mean(population)
