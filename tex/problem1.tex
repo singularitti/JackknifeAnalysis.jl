@@ -468,3 +468,37 @@ If we select \(n_\textnormal{cut}\) too large, the value of the
 integrated autocorrelation time will become alternating around \(0\).
 That means we include unnecessary noises in our data.
 
+Now, we plot the sample's integrated
+autocorrelation time \(\tau_{v_a}\) for both the \(N = 1000\) and \(N = 10000\) cases
+in Figure~\ref{fig:tau_sample:a} and Figure~\ref{fig:tau_sample:b}.
+As expected, these two plots show the same trend as the normalized autocorrelation function
+ones: after a few hundred steps, their values start to variate around a certain value.
+This is because we are integrating both positive- and negative-valued
+autocorrelation functions.
+However, we can observe that there exist ``plateaus'' for both of them, which is where
+the autocorrelation functions start to become unstable. We pick the \(n_\textnormal{cut}\)
+where the autocorrelation functions immediately become negative as our cut-off \(n\).
+
+\begin{figure}
+    \centering
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{tau_sample_1000}
+        \subcaption{The sample's normalized autocorrelation function
+            \(\tau_{v_a}\) for the \(N = 1000\) case, with \(n_\textnormal{cut}\)
+            up to \(200\).}
+        \label{fig:tau_sample:a}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{tau_sample_10000}
+        \subcaption{The sample's normalized autocorrelation function
+            \(\tau_{v_a}\) for the \(N = 10000\) case, with \(n_\textnormal{cut}\)
+            up to \(400\).}
+        \label{fig:tau_sample:b}
+    \end{minipage}
+    \caption{The sample's integrated
+        autocorrelation time \(\tau_{v_a}\) for both the \(N = 1000\) and \(N = 10000\) cases.}
+    \label{fig:tau_sample}
+\end{figure}
