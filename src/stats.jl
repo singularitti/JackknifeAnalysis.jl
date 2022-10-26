@@ -38,23 +38,21 @@ end
 
 std(args...) = sqrt(var(args...))
 
-function cov(population₁::Population, population₂::Population)
-    if size(population₁) != size(population₂)
+function cov(data₁, data₂)
+    if size(data₁) != size(data₂)
         throw(
-            DimensionMismatch(
-                "cannot compute covariance between variables of different size!"
-            ),
+            DimensionMismatch("cannot compute covariance between data of different size!")
         )
     end
-    μ₁, μ₂ = mean(population₁), mean(population₂)
-    return sum(zip(population₁, population₂)) do (x, y)
+    μ₁, μ₂ = mean(data₁), mean(data₂)
+    return sum(zip(data₁, data₂)) do (x, y)
         (x - μ₁) * (y - μ₂)
-    end / length(population₁)
+    end * _corrected(data₁)
 end
 
-function cor(population₁::Population, population₂::Population)
-    c = cov(population₁, population₂)
-    σ₁, σ₂ = std(population₁), std(population₂)
+function cor(data₁, data₂)
+    c = cov(data₁, data₂)
+    σ₁, σ₂ = std(data₁), std(data₂)
     return c / σ₁ / σ₂
 end
 
