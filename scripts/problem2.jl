@@ -43,6 +43,10 @@ function f₂(v3::Population, v4::Population, samplesize=5000)
     end
 end
 
+function getsamples(variable::Population, samplesize=5000)
+    return sampleby(variable, PartitionSampler(samplesize))
+end
+
 function sample_means(variable::Population, samplesize=5000)
     return mean.(sampleby(variable, PartitionSampler(samplesize)))
 end
