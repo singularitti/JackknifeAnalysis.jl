@@ -403,12 +403,15 @@ We can see the diagonals of the correlation coefficient matrix are indeed \(1\).
 might get from simulations. We want to see how well these groups reproduced the true
 statistical results for these data.
 Estimate the autocorrelation function \(C_{v_a}(n)\) from these two groups and the integrated
-autocorrelation time. Use these to determine the standard deviation of the mean
+autocorrelation time. Use these to determine the standard deviation of the means
 \(\sigma_{\bar{v}_a,N}\). Compare this with the results from the universe of data. Also,
 compare the normalized covariance matrix \(\hat{\rho}_{v_a, v_b}\) from these small samples
 with the universe of data.
 
 \Answer{}
+In the following text, we select the first \(1000\) and \(10000\) values from the whole
+\(M\) values for each variable as our samples.
+
 The sample's autocorrelation function is
 %
 \begin{equation}\label{eq:sampleautocor}
@@ -425,7 +428,7 @@ And the sample's integrated autocorrelation time is defined as
 %
 In addition, the standard deviation of the mean satisfies the relation
 %
-\begin{equation}
+\begin{equation}\label{eq:samplesigma}
     \sigma_{\bar{v}_a,N} = \sqrt{\frac{ 2\tau_{v_a} }{ N }} \sigma_{v_a},
 \end{equation}
 %
@@ -475,9 +478,6 @@ As expected, these two plots show the same trend as the normalized autocorrelati
 ones: after a few hundred steps, their values start to variate around a certain value.
 This is because we are integrating both positive- and negative-valued
 autocorrelation functions.
-However, we can observe that there exist ``plateaus'' for both of them, which is where
-the autocorrelation functions start to become unstable. We pick the \(n_\textnormal{cut}\)
-where the autocorrelation functions immediately become negative as our cut-off \(n\).
 
 \begin{figure}
     \centering
@@ -502,3 +502,47 @@ where the autocorrelation functions immediately become negative as our cut-off \
         autocorrelation time \(\tau_{v_a}\) for both the \(N = 1000\) and \(N = 10000\) cases.}
     \label{fig:tau_sample}
 \end{figure}
+
+However, we can observe that there exist ``plateaus'' for both of them, which is where
+the autocorrelation functions start to become unstable. We pick a series of
+\(n_\textnormal{cut}\) where the autocorrelation functions immediately become
+negative as our cut-off \(n\) for each variable.
+Then \(n_\textnormal{cut}\) for each \(\tau_{v_a}\) for both the
+\(N = 1000\) and \(N = 10000\) cases are listed in Table~\ref{tab:ncut}.
+
+\begin{table}[H]
+    \centering
+    \caption{\(n_\textnormal{cut}\) for each \(\tau_{v_a}\) for both the
+        \(N = 1000\) and \(N = 10000\) cases.}
+    \label{tab:ncut}
+    \begin{tabular}{@{}cccccc@{}}
+        \toprule
+        \(N\)     & \(\tau_{v_1}\) & \(\tau_{v_2}\) & \(\tau_{v_3}\) & \(\tau_{v_4}\) & \(\tau_{v_5}\) \\
+        \midrule
+        \(1000\)  & \(69\)         & \(82\)         & \(109\)        & \(59\)         & \(53\)         \\
+        \(10000\) & \(93\)         & \(91\)         & \(91\)         & \(98\)         & \(111\)        \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+By putting these \(n_\textnormal{cut}\) into Equation~\eqref{eq:sampletau},
+we can evaluate the standard deviation of the mean \(\sigma_{\bar{v}_a,N}\)
+by Equation~\eqref{eq:samplesigma}. The results are listed in Table~\ref{tab:samplesigma}.
+Compared with Table~\ref{tab:truestd}, we find that they are close to the true
+standard deviation of the means \(\sgbar{a}\).
+
+\begin{table}[H]
+    \centering
+    \caption{The standard deviation of the means
+        \(\sigma_{\bar{v}_a,N}\) for \(a = 1\), \(\ldots\), \(5\) estimated from a \(N = 1000\)
+        and a \(N = 10000\) case.}
+    \label{tab:samplesigma}
+    \begin{tabular}{@{}cccccc@{}}
+        \toprule
+        \(N\)     & \(\sigma_{\bar{v}_1,N}\) & \(\sigma_{\bar{v}_2,N}\) & \(\sigma_{\bar{v}_3,N}\) & \(\sigma_{\bar{v}_4,N}\) & \(\sigma_{\bar{v}_5,N}\) \\
+        \midrule
+        \(1000\)  & \(0.225063\)             & \(0.184500\)             & \(0.184032\)             & \(0.188168\)             & \(0.234308\)             \\
+        \(10000\) & \(0.0784604\)            & \(0.060660\)             & \(0.054631\)             & \(0.0638398\)            & \(0.0848508\)            \\
+        \bottomrule
+    \end{tabular}
+\end{table}
