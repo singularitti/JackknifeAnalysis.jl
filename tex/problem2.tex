@@ -109,7 +109,7 @@ But since we are considering naïve propagation of errors, i.e.,
 %
 then~\eqref{eq:varf} will be reduced to
 %
-\begin{equation}
+\begin{equation}\label{eq:reducedvarf}
     \hat{\Var}(f(\bar{x}, \bar{y})) =
     \biggl(\frac{ \partial f }{ \partial x } \at{x = \barhat{x}}\biggr)^2 \hat{\Var}(\bar{x}) +
     \biggl(\frac{ \partial f }{ \partial y } \at{y = \barhat{y}}\biggr)^2 \hat{\Var}(\bar{y}).
@@ -125,8 +125,16 @@ Therefore, the variance of \(f_1\) and \(f_2\) are:
     \biggl(\frac{ \barhat{v}_1 }{ \barhat{v}^2_2 } \sgbar{2} \biggr)^2, \\
     \hat{\Var}(f_2(\bar{v}_3, \bar{v}_4)) & =
     \exp( \barhat{v}_3 - \barhat{v}_4 )^2 \bigl(\hat{\Var}(\bar{v}_3) + \hat{\Var}(\bar{v}_4)\bigr) =
-    \exp( \barhat{v}_3 - \barhat{v}_4 )^2 \bigl(\sgbar{3}^2 + \sgbar{4}^2\bigr).
+    \exp( \barhat{v}_3 - \barhat{v}_4 )^2 \bigl(\sgbar{3}^2 + \sgbar{4}^2\bigr),
 \end{align}
+%
+where we calculate \(\sgbar{a}\) the same way as we have done in \label{p1q2}.
+
+Hence, the estimated standard deviation of \(f_1\) and \(f_2\) are
+\(\hat{\sigma}_{f_1,N} = 0.0415114\) and \(\hat{\sigma}_{f_2,N} = 0.0392291\).
+As we can see, these values are quite far from the ones we obtained in
+Table~\ref{tab:stdf1f2}.
+We could conclude that~\eqref{eq:reducedvarf} is a rather lousy approximation.
 
 
 \Question{} We now want to estimate \(\sigma_{\bar{v}_a,N}\) and \(\sigma_{f_i,N}\) using
