@@ -546,3 +546,43 @@ standard deviation of the means \(\sgbar{a}\).
         \bottomrule
     \end{tabular}
 \end{table}
+
+The covariance matrix is defined by
+%
+\begin{equation}
+    c_{v_a, v_b} = \frac{ 1 }{ M - 1 }
+    \sum_{i=1}^M (v_{a,i} - \bar{v}_a) (v_{b,i} - \bar{v}_b),
+\end{equation}
+%
+and its normalized version is
+%
+\begin{equation}
+    \rho_{v_a, v_b} = \frac{ c_{v_a, v_b} }{ \sigma_{v_a} \sigma_{v_b} }.
+\end{equation}
+%
+For \(N = 1000\), we have
+%
+\begin{equation}
+    \rho_{v_a, v_b} = \begin{bmatrix}
+        1        & 0.90946 & 0.55001 & 0.21543 & -0.03644 \\
+        0.90946  & 1       & 0.84746 & 0.57743 & 0.32274  \\
+        0.55001  & 0.84746 & 1       & 0.88479 & 0.6948   \\
+        0.21543  & 0.57743 & 0.88479 & 1       & 0.94989  \\
+        -0.03644 & 0.32274 & 0.6948  & 0.94989 & 1
+    \end{bmatrix},
+\end{equation}
+%
+and for \(N = 10000\), we have
+%
+\begin{equation}
+    \rho_{v_a, v_b} = \begin{bmatrix}
+        1        & 0.92751 & 0.59776 & 0.24    & -0.04414 \\
+        0.92751  & 1       & 0.85409 & 0.55606 & 0.26205  \\
+        0.59776  & 0.85409 & 1       & 0.85863 & 0.62344  \\
+        0.24     & 0.55606 & 0.85863 & 1       & 0.93609  \\
+        -0.04414 & 0.26205 & 0.62344 & 0.93609 & 1
+    \end{bmatrix}.
+\end{equation}
+%
+As we can see, \(\rho_{v_a, v_b}\) for \(N = 10000\) is closer than \(\rho_{v_a, v_b}\)
+for \(N = 1000\), but still a little bit off from the true Pearson correlation coefficient.
