@@ -50,6 +50,26 @@ function sample_means(variable::Population, samplesize=5000)
     return mean.(X)
 end
 
+function sample_truemean(variable::Population, samplesize=5000)
+    return mean(sample_means(variable, samplesize))
+end
+
+function sample_variance(variable::Population, samplesize=5000)
+    return var(variable, PartitionSampler(samplesize))
+end
+
+function var_f₁(samplesize=5000)
+    𝕍₁, 𝕍₂ = sample_variance(v₁, samplesize), sample_variance(v₂, samplesize)
+    v̄̂₁, v̄̂₂ = sample_truemean(v₁, samplesize), sample_truemean(v₂, samplesize)
+    return 1 / v̄̂₂^2 * 𝕍₁ + v̄̂₁^2 / v̄̂₂^4 * 𝕍₂
+end
+
+function var_f₂(samplesize=5000)
+    𝕍₃, 𝕍₄ = sample_variance(v₃, samplesize), sample_variance(v₄, samplesize)
+    v̄̂₃, v̄̂₄ = sample_truemean(v₃, samplesize), sample_truemean(v₄, samplesize)
+    return exp(v̄̂₃ - v̄̂₄)^2 * (𝕍₃ + 𝕍₄)
+end
+
 function plot_sample_means(samplesize=5000)
     plot(; xlabel="samples", ylabel=L"$\bar{v}_a$")
     for (i, variable) in enumerate(variables)
