@@ -153,11 +153,15 @@ function plot_sample_autocor(N, nₘₐₓ=20, index=1, path="tex/plots/Cn_C0_sa
     return savefig(path)
 end
 
-function sample_autocor(N=[1000, 10000], nₘₐₓ=200)
-    return map(N) do n
-        map(variables) do variable
-            s = sampleby(variable, PartitionSampler(n))[2]
-            relation(s, nₘₐₓ)
-        end
+function plot_autocor_time(N, nₘₐₓ=200, index=1, path="tex/plots/tau_sample_$N.pdf")
+    plt = plot(; legend=:bottom, right_margin=2mm)
+    for (i, variable) in enumerate(variables)
+        sample = sampleby(variable, PartitionSampler(N))[index]
+        τₙ = map(Base.Fix1(int_autocor_time, sample), 1:nₘₐₓ)
+        plot!(plt, 1:nₘₐₓ, τₙ; label=L"$v_{%$i}$")
+        xlims!(extrema(1:nₘₐₓ))
+        xlabel!(L"$n_\textnormal{cut}$")
+        ylabel!(L"$\tau_{v_a}$")
     end
+    return savefig(path)
 end
