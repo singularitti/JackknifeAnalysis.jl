@@ -177,9 +177,11 @@ function guess_nₘₐₓ(variable, N, nₘₐₓ=200, index=1)
     end
 end
 
+getsample(variable, N=1000, index=1) = sampleby(variable, PartitionSampler(N))[index]
+
 function get_sample_relation(N, index=1)
     return map(variables) do variable
-        sample = sampleby(variable, PartitionSampler(N))[index]
+        sample = getsample(variable, N, index)
         nₘₐₓ = guess_nₘₐₓ(variable, N, 400, index)
         relation(sample, nₘₐₓ)
     end
