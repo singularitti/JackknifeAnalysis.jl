@@ -17,15 +17,13 @@ Plots.default(;
     legend_foreground_color=nothing,
 )
 
-const v1 = read("data/v1", Population)
-const v2 = read("data/v2", Population)
-const v3 = read("data/v3", Population)
-const v4 = read("data/v4", Population)
-const v5 = read("data/v5", Population)
-const variables = [v1, v2, v3, v4, v5]
-const binsizes = [
-    2, 4, 5, 8, 10, 20, 25, 40, 50, 100, 125, 200, 250, 500, 625, 1000, 1250, 2500
-]
+const v₁ = read("data/v1", Population)
+const v₂ = read("data/v2", Population)
+const v₃ = read("data/v3", Population)
+const v₄ = read("data/v4", Population)
+const v₅ = read("data/v5", Population)
+const variables = [v₁, v₂, v₃, v₄, v₅]
+const 𝐛 = [2, 4, 5, 8, 10, 20, 25, 40, 50, 100, 125, 200, 250]
 
 f₁(v̄₁, v̄₂) = v̄₁ / v̄₂
 f₁(sample₁::Sample, sample₂::Sample) = f₁(mean(sample₁), mean(sample₂))
@@ -46,8 +44,7 @@ function f₂(v3::Population, v4::Population, samplesize=5000)
 end
 
 function sample_means(variable::Population, samplesize=5000)
-    X = sampleby(variable, PartitionSampler(samplesize))
-    return mean.(X)
+    return mean.(sampleby(variable, PartitionSampler(samplesize)))
 end
 
 function sample_truemean(variable::Population, samplesize=5000)
@@ -91,7 +88,7 @@ end
 
 function plot_f₁_f₂(samplesize=5000)
     plot(; xlabel="samples", ylabel=L"$f_i(\bar{v}_a)$", legend=:right)
-    results = f₁(v1, v2, samplesize)
+    results = f₁(v₁, v₂, samplesize)
     scatter!(
         eachindex(results),
         results;
@@ -105,7 +102,7 @@ function plot_f₁_f₂(samplesize=5000)
         label="",
         xlims=(firstindex(results), lastindex(results)),
     )
-    results = f₂(v3, v4, samplesize)
+    results = f₂(v₃, v₄, samplesize)
     scatter!(
         eachindex(results),
         results;
@@ -122,181 +119,175 @@ function plot_f₁_f₂(samplesize=5000)
     return savefig("tex/plots/f1_f2.pdf")
 end
 
-truemean_f₁(samplesize=5000) = mean(f₁(v1, v2, samplesize))
+truemean_f₁(samplesize=5000) = mean(f₁(v₁, v₂, samplesize))
 
-truestd_f₁(samplesize=5000) = std(Sample(f₁(v1, v2, samplesize)))
+truestd_f₁(samplesize=5000) = std(Sample(f₁(v₁, v₂, samplesize)))
 
-truemean_f₂(samplesize=5000) = mean(f₂(v3, v4, samplesize))
+truemean_f₂(samplesize=5000) = mean(f₂(v₃, v₄, samplesize))
 
-truestd_f₂(samplesize=5000) = std(Sample(f₂(v3, v4, samplesize)))
+truestd_f₂(samplesize=5000) = std(Sample(f₂(v₃, v₄, samplesize)))
 
-function getbins(variable, index, samplesize=5000, binsize=200)
-    sample = sampleby(variable, PartitionSampler(samplesize))[index]
-    return Sample(mean.(sampleby(Population(sample), PartitionSampler(binsize))))
+function getbins(variable, i, samplesize=5000, b=200)
+    sample = sampleby(variable, PartitionSampler(samplesize))[i]
+    return Sample(mean.(sampleby(Population(sample), PartitionSampler(b))))
 end
 
 jackknife(sample) = sampleby(sample, JackknifeSampler())
 
-function plot_jackknife_means(index=1)
+function plot_jackknife_means(i=1)
     plot(;
-        xlims=extrema(binsizes),
+        xlims=extrema(𝐛),
         xlabel=L"size of bin ($b$)",
         ylabel=L"$\bar{v}_a$",
         legend_column=2,
     )
-    for (i, variable) in enumerate(variables)
-        means = map(binsizes) do binsize
-            mean(jackknife(getbins(variable, index, 5000, binsize)))
+    for (j, variable) in enumerate(variables)
+        means = map(𝐛) do b
+            mean(jackknife(getbins(variable, i, 5000, b)))
         end
-        scatter!(
-            binsizes, means; label=L"$\bar{v}_{%$i}$", markersizes=2, markerstrokewidth=0
-        )
-        plot!(binsizes, means; label="")
+        scatter!(𝐛, means; label=L"$\bar{v}_{%$j}$", markersizes=2, markerstrokewidth=0)
+        plot!(𝐛, means; label="")
     end
     savefig("tex/plots/JA_sample_means.pdf")
     plot(;
-        xlims=extrema(binsizes),
+        xlims=extrema(𝐛),
         yformatter=x -> "$(round(x/1e-15; digits=3))",
         xlabel=L"size of bin ($b$)",
         ylabel=L"$(\bar{v}_a - \hat{\bar{v}}_a) / 10^{-15}$",
     )
-    for (i, variable) in enumerate(variables)
-        means = map(binsizes) do binsize
-            mean(jackknife(getbins(variable, index, 5000, binsize)))
+    for (j, variable) in enumerate(variables)
+        means = map(𝐛) do b
+            mean(jackknife(getbins(variable, i, 5000, b)))
         end
         μ = mean(means)
         deviations = map(means) do mean
             mean - μ
         end
         scatter!(
-            binsizes,
+            𝐛,
             deviations;
-            label=L"$\bar{v}_{%$i} - \hat{\bar{v}}_{%$i}$",
+            label=L"$\bar{v}_{%$i} - \hat{\bar{v}}_{%$j}$",
             markersizes=2,
             markerstrokewidth=0,
         )
-        plot!(binsizes, deviations; label="")
+        plot!(𝐛, deviations; label="")
     end
     savefig("tex/plots/JA_sample_deviations.pdf")
     return nothing
 end
 
-function plot_jackknife_std(index=1)
+function plot_jackknife_std(i=1)
     plot(;
-        xlims=extrema(binsizes),
+        xlims=extrema(𝐛),
         xlabel=L"size of bin ($b$)",
         ylabel=L"$\sigma_{\bar{v}_a}$",
         legend=:bottomleft,
     )
-    for (i, variable) in enumerate(variables)
-        stds = map(binsizes) do binsize
-            std(jackknife(getbins(variable, index, 5000, binsize)))
+    for (j, variable) in enumerate(variables)
+        stds = map(𝐛) do b
+            std(jackknife(getbins(variable, i, 5000, b)))
         end
         scatter!(
-            binsizes,
+            𝐛,
             stds;
             ylims=(0, Inf),
-            label=L"$\sigma_{\bar{v}_{%$i}}$",
+            label=L"$\sigma_{\bar{v}_{%$j}}$",
             markersizes=2,
             markerstrokewidth=0,
         )
-        plot!(binsizes, stds; label="")
+        plot!(𝐛, stds; label="")
     end
     savefig("tex/plots/JA_sample_std.pdf")
     return nothing
 end
 
-function getsample(variable₁, variable₂, index, binsize)
-    return map(
-        variable -> jackknife(getbins(variable, index, 5000, binsize)),
-        (variable₁, variable₂),
-    )
+function getsample(variable₁, variable₂, i, b)
+    return map(variable -> jackknife(getbins(variable, i, 5000, b)), (variable₁, variable₂))
 end
 
-function get_f_mean(f, variable₁, variable₂, index=1)
-    return map(binsizes) do binsize
-        sample₁, sample₂ = getsample(variable₁, variable₂, index, binsize)
+function get_f_mean(f, variable₁, variable₂, i=1)
+    return map(𝐛) do b
+        sample₁, sample₂ = getsample(variable₁, variable₂, i, b)
         f(mean(sample₁), mean(sample₂))
     end
 end
 
-function get_jackknife_f_mean(f, variable₁, variable₂, index, binsize)
-    sample₁, sample₂ = getsample(variable₁, variable₂, index, binsize)
+function get_jackknife_f_mean(f, variable₁, variable₂, i, b)
+    sample₁, sample₂ = getsample(variable₁, variable₂, i, b)
     return mean([f(x′, y′) for (x′, y′) in zip(sample₁, sample₂)])
 end
-function get_jackknife_f_mean(::typeof(f₁), index=1)
-    return map(binsizes) do binsize
-        get_jackknife_f_mean(f₁, v1, v2, index, binsize)
+function get_jackknife_f_mean(::typeof(f₁), i=1)
+    return map(𝐛) do b
+        get_jackknife_f_mean(f₁, v₁, v₂, i, b)
     end
 end
-function get_jackknife_f_mean(::typeof(f₂), index=1)
-    return map(binsizes) do binsize
-        get_jackknife_f_mean(f₂, v3, v4, index, binsize)
+function get_jackknife_f_mean(::typeof(f₂), i=1)
+    return map(𝐛) do b
+        get_jackknife_f_mean(f₂, v₃, v₄, i, b)
     end
 end
 
-function plot_jackknife_f_mean(index=1)
+function plot_jackknife_f_mean(i=1)
     plt = plot(;
-        xlims=extrema(binsizes),
+        xlims=extrema(𝐛),
         xlabel=L"size of bin ($b$)",
         ylabel=L"$\Delta \bar{f}_i / 10^{-5}$",
         legend=:right,
     )
-    means = get_jackknife_f_mean(f₁, index)
-    f̄ = get_f_mean(f₁, v1, v2, index)
+    means = get_jackknife_f_mean(f₁, i)
+    f̄ = get_f_mean(f₁, v₁, v₂, i)
     data = (means .- f̄) / 1e-5
-    scatter!(plt, binsizes, data; label=L"$f_1$", markersizes=2, markerstrokewidth=0)
-    plot!(plt, binsizes, data; label="")
-    means = get_jackknife_f_mean(f₂, index)
-    f̄ = get_f_mean(f₂, v3, v4, index)
+    scatter!(plt, 𝐛, data; label=L"$f_1$", markersizes=2, markerstrokewidth=0)
+    plot!(plt, 𝐛, data; label="")
+    means = get_jackknife_f_mean(f₂, i)
+    f̄ = get_f_mean(f₂, v₃, v₄, i)
     data = (means .- f̄) / 1e-5
-    scatter!(plt, binsizes, data; label=L"$f_2$", markersizes=2, markerstrokewidth=0)
-    plot!(plt, binsizes, data; label="")
+    scatter!(plt, 𝐛, data; label=L"$f_2$", markersizes=2, markerstrokewidth=0)
+    plot!(plt, 𝐛, data; label="")
     savefig("tex/plots/JA_f1_f2_mean.pdf")
     return nothing
 end
 
-function get_f_std(f, variable₁, variable₂, index, binsize)
+function get_f_std(f, variable₁, variable₂, i, b)
     sample₁, sample₂ = map(
-        variable -> jackknife(getbins(variable, index, 5000, binsize)),
-        (variable₁, variable₂),
+        variable -> jackknife(getbins(variable, i, 5000, b)), (variable₁, variable₂)
     )
     return std(f, sample₁, sample₂)
 end
-function get_f_std(::typeof(f₁), index=1)
-    return map(binsizes) do binsize
-        get_f_std(f₁, v1, v2, index, binsize)
+function get_f_std(::typeof(f₁), i=1)
+    return map(𝐛) do b
+        get_f_std(f₁, v₁, v₂, i, b)
     end
 end
-function get_f_std(::typeof(f₂), index=1)
-    return map(binsizes) do binsize
-        get_f_std(f₂, v3, v4, index, binsize)
+function get_f_std(::typeof(f₂), i=1)
+    return map(𝐛) do b
+        get_f_std(f₂, v₃, v₄, i, b)
     end
 end
 
-function plot_jackknife_f_std(::typeof(f₁), index=1)
+function plot_jackknife_f_std(::typeof(f₁), i=1)
     plot(;
-        xlims=extrema(binsizes),
+        xlims=extrema(𝐛),
         xlabel=L"size of bin ($b$)",
         ylabel=L"$\sigma_{f_1,N}$",
         legend=:none,
     )
-    stds = get_f_std(f₁, index)
-    scatter!(binsizes, stds; ylims=extrema(stds), markersizes=2, markerstrokewidth=0)
-    plot!(binsizes, stds; label="")
+    stds = get_f_std(f₁, i)
+    scatter!(𝐛, stds; ylims=extrema(stds), markersizes=2, markerstrokewidth=0)
+    plot!(𝐛, stds; label="")
     savefig("tex/plots/JA_f1_std.pdf")
     return nothing
 end
-function plot_jackknife_f_std(::typeof(f₂), index=1)
+function plot_jackknife_f_std(::typeof(f₂), i=1)
     plot(;
-        xlims=extrema(binsizes),
+        xlims=extrema(𝐛),
         xlabel=L"size of bin ($b$)",
         ylabel=L"$\sigma_{f_2,N}$",
         legend=:none,
     )
-    stds = get_f_std(f₂, index)
-    scatter!(binsizes, stds; ylims=extrema(stds), markersizes=2, markerstrokewidth=0)
-    plot!(binsizes, stds; label="")
+    stds = get_f_std(f₂, i)
+    scatter!(𝐛, stds; ylims=extrema(stds), markersizes=2, markerstrokewidth=0)
+    plot!(𝐛, stds; label="")
     savefig("tex/plots/JA_f2_std.pdf")
     return nothing
 end
