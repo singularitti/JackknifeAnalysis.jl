@@ -186,3 +186,8 @@ function get_sample_relation(N, index=1)
         relation(sample, nₘₐₓ)
     end
 end
+
+function sample_correlation_matrix(samples)
+    ρ = [cor(sample₁, sample₂) for sample₁ in samples, sample₂ in samples]
+    return map(x -> round(x; digits=5), ρ)
+end
