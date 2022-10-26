@@ -91,3 +91,6 @@ function relation(sample::Sample, nₘₐₓ)
     τ = int_autocor_time(sample, nₘₐₓ)
     return sqrt(2τ / N) * σ
 end
+
+_corrected(population::Population) = inv(length(population))
+_corrected(sample::Sample) = inv(length(sample) - 1)
