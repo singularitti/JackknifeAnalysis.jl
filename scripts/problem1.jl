@@ -165,3 +165,22 @@ function plot_autocor_time(N, nₘₐₓ=200, index=1, path="tex/plots/tau_sampl
     end
     return savefig(path)
 end
+
+function guess_nₘₐₓ(variable, N, nₘₐₓ=200, index=1)
+    s = sampleby(variable, PartitionSampler(N))[index]
+    terms = 1:nₘₐₓ
+    for n in terms
+        Cₙ = autocor(s, n)
+        if Cₙ < 0
+            return n - 1
+        end
+    end
+end
+
+function get_sample_relation(N, index=1)
+    return map(variables) do variable
+        sample = sampleby(variable, PartitionSampler(N))[index]
+        nₘₐₓ = guess_nₘₐₓ(variable, N, 400, index)
+        relation(sample, nₘₐₓ)
+    end
+end
