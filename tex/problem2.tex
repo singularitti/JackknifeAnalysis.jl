@@ -13,9 +13,9 @@ We will consider two functions in what follows
 \end{align}
 
 \Question{p2q1} Break the \(M\) measurements up into groups of size \(N\), calculate
-\(\bar{v}_a\) for each group and then calculate \(f_i\) for each group.
+\(\bar{v}_a\) for each group and then calculate \(f_i(\bar{v}_a)\) for each group.
 Calculate these functions of the data means for all \(M/N\) groups and find the
-standard deviation for \(f_i\), i.e., \(\hat{\sigma}_{f_i,N}\).
+standard deviation for \(f_i(\bar{v}_a)\), i.e., \(\hat{\sigma}_{f_i,N}\).
 
 \Answer{}
 For \(N = 5000\), there are \(320\) samples for each variable.
@@ -84,7 +84,7 @@ As discussed, the mean and standard deviation of \(f_1\) and
 \end{table}
 
 
-\Question{} Calculate \(\sigma_{f_i,N}\) from naïve propagation of errors, i.e., using
+\Question{} Calculate \(\hat{\sigma}_{f_i,N}\) from naïve propagation of errors, i.e., using
 \(\hat{\sigma}_{\bar{v}_a,N}\) and neglecting correlations between the \(v_i\). Compare with
 your results from Question~\ref{p2q1}.
 
@@ -94,10 +94,10 @@ get
 %
 \begin{equation}\label{eq:varf}
     \hat{\Var}(f(\bar{x}, \bar{y})) =
-    \biggl(\frac{ \partial f }{ \partial x } \at{x = \bar{x}}\biggr)^2 \hat{\Var}(\bar{x}) +
-    \biggl(\frac{ \partial f }{ \partial y } \at{y = \bar{y}}\biggr)^2 \hat{\Var}(\bar{y}) +
-    2\biggl(\frac{ \partial f }{ \partial x } \at{x = \bar{x}}\biggr)
-    \biggl(\frac{ \partial f }{ \partial y } \at{y = \bar{y}}\biggr)
+    \biggl(\frac{ \partial f }{ \partial x } \at{x = \barhat{x}}\biggr)^2 \hat{\Var}(\bar{x}) +
+    \biggl(\frac{ \partial f }{ \partial y } \at{y = \barhat{y}}\biggr)^2 \hat{\Var}(\bar{y}) +
+    2\biggl(\frac{ \partial f }{ \partial x } \at{x = \barhat{x}}\biggr)
+    \biggl(\frac{ \partial f }{ \partial y } \at{y = \barhat{y}}\biggr)
     \hat{\sigma}(\bar{x}, \bar{y}).
 \end{equation}
 %
@@ -111,18 +111,21 @@ then~\eqref{eq:varf} will be reduced to
 %
 \begin{equation}
     \hat{\Var}(f(\bar{x}, \bar{y})) =
-    \biggl(\frac{ \partial f }{ \partial x } \at{x = \bar{x}}\biggr)^2 \hat{\Var}(\bar{x}) +
-    \biggl(\frac{ \partial f }{ \partial y } \at{y = \bar{y}}\biggr)^2 \hat{\Var}(\bar{y}).
+    \biggl(\frac{ \partial f }{ \partial x } \at{x = \barhat{x}}\biggr)^2 \hat{\Var}(\bar{x}) +
+    \biggl(\frac{ \partial f }{ \partial y } \at{y = \barhat{y}}\biggr)^2 \hat{\Var}(\bar{y}).
 \end{equation}
 %
-Therefore, the variance of \(f_1\) and \(f_2\) will be:
+Therefore, the variance of \(f_1\) and \(f_2\) are:
 %
 \begin{align}
     \hat{\Var}(f_1(\bar{v}_1, \bar{v}_2)) & =
-    \frac{ 1 }{ \bar{v}^2_2 } \hat{\Var}(\bar{v}_1) +
-    +\frac{ \bar{v}^2_1 }{ \bar{v}^4_2 } \hat{\Var}(\bar{v}_2), \\
+    \frac{ 1 }{ \barhat{v}^2_2 } \hat{\Var}(\bar{v}_1) +
+    \frac{ \barhat{v}^2_1 }{ \barhat{v}^4_2 } \hat{\Var}(\bar{v}_2) =
+    \biggl(\frac{ 1 }{ \barhat{v}_2 } \sgbar{1}\biggr)^2 +
+    \biggl(\frac{ \barhat{v}_1 }{ \barhat{v}^2_2 } \sgbar{2} \biggr)^2, \\
     \hat{\Var}(f_2(\bar{v}_3, \bar{v}_4)) & =
-    \exp( \bar{v}_3 - \bar{v}_4 )^2 \bigl(\hat{\Var}(\bar{v}_3) + \hat{\Var}(\bar{v}_4)\bigr).
+    \exp( \barhat{v}_3 - \barhat{v}_4 )^2 \bigl(\hat{\Var}(\bar{v}_3) + \hat{\Var}(\bar{v}_4)\bigr) =
+    \exp( \barhat{v}_3 - \barhat{v}_4 )^2 \bigl(\sgbar{3}^2 + \sgbar{4}^2\bigr).
 \end{align}
 
 
