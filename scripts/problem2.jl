@@ -9,9 +9,9 @@ end
 
 Plots.default(;
     framestyle=:box,
-    labelfontsize=12,
-    tickfontsize=10,
-    legendfontsize=12,
+    labelfontsize=10,
+    tickfontsize=8,
+    legendfontsize=10,
     palette=:tab20,
     grid=nothing,
     legend_foreground_color=nothing,
@@ -81,7 +81,6 @@ function plot_sample_means(samplesize=5000)
             label=L"$\bar{v}_{%$i, N}$",
             markersizes=2,
             markerstrokewidth=0,
-            legend_columns=5,
         )
         plot!(
             eachindex(means), means; label="", xlims=(firstindex(means), lastindex(means))
@@ -150,12 +149,7 @@ end
 jackknife(sample) = sampleby(sample, JackknifeSampler())
 
 function plot_jackknife_means(i=1)
-    plot(;
-        xlims=extrema(𝐛),
-        xlabel=L"size of bin ($b$)",
-        ylabel=L"$\bar{v}_a$",
-        legend_column=2,
-    )
+    plot(; xlims=extrema(𝐛), xlabel=L"size of bin ($b$)", ylabel=L"$\bar{v}_a$")
     for (j, variable) in enumerate(variables)
         means = map(𝐛) do b
             mean(jackknife(getbins(variable, i, 5000, b)))
@@ -196,7 +190,7 @@ function plot_jackknife_std(i=1)
         xlims=extrema(𝐛),
         xlabel=L"size of bin ($b$)",
         ylabel=L"$\sigma_{\bar{v}_a}$",
-        legend=:bottomleft,
+        legend=:bottomright,
     )
     for (j, variable) in enumerate(variables)
         stds = map(𝐛) do b
@@ -212,8 +206,7 @@ function plot_jackknife_std(i=1)
         )
         plot!(𝐛, stds; label="")
     end
-    savefig("tex/plots/JA_sample_std.pdf")
-    return nothing
+    return savefig("tex/plots/JA_sample_std.pdf")
 end
 
 function getsample(variable₁, variable₂, i, b)
@@ -259,8 +252,7 @@ function plot_jackknife_f_mean(i=1)
     data = (means .- f̄) / 1e-5
     scatter!(plt, 𝐛, data; label=L"$f_2$", markersizes=2, markerstrokewidth=0)
     plot!(plt, 𝐛, data; label="")
-    savefig("tex/plots/JA_f1_f2_mean.pdf")
-    return nothing
+    return savefig("tex/plots/JA_f1_f2_mean.pdf")
 end
 
 function get_f_std(f, variable₁, variable₂, i, b)
@@ -290,8 +282,7 @@ function plot_jackknife_f_std(::typeof(f₁), i=1)
     stds = get_f_std(f₁, i)
     scatter!(𝐛, stds; ylims=extrema(stds), markersizes=2, markerstrokewidth=0)
     plot!(𝐛, stds; label="")
-    savefig("tex/plots/JA_f1_std.pdf")
-    return nothing
+    return savefig("tex/plots/JA_f1_std.pdf")
 end
 function plot_jackknife_f_std(::typeof(f₂), i=1)
     plot(;
@@ -303,6 +294,5 @@ function plot_jackknife_f_std(::typeof(f₂), i=1)
     stds = get_f_std(f₂, i)
     scatter!(𝐛, stds; ylims=extrema(stds), markersizes=2, markerstrokewidth=0)
     plot!(𝐛, stds; label="")
-    savefig("tex/plots/JA_f2_std.pdf")
-    return nothing
+    return savefig("tex/plots/JA_f2_std.pdf")
 end
