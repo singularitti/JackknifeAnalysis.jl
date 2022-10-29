@@ -31,8 +31,8 @@ function var(f, sample::JackknifeSample, samples::JackknifeSample...)
     if !all(length(sample′) == N for sample′ in samples)
         throw(DimensionMismatch("not all samples have the same length!"))
     end
-    f′ = map(f, sample, samples...)
-    fₘ = f(map(mean, (sample, samples...))...)
+    f′ = map(f, sample, samples...)  # f(x, y, ...) for (x, y, ...) in (sample, samples...)
+    fₘ = f(map(mean, (sample, samples...))...)  # Scalar, jackknife mean = original mean
     return (N - 1) / N * sum(abs2, f′ .- fₘ)
 end
 
