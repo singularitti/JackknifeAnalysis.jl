@@ -109,3 +109,8 @@ function covariance_matrix(variables)
     m = [cov(variable₁, variable₂) for variable₁ in variables, variable₂ in variables]
     return map(x -> round(x; digits=5), m)
 end
+
+function correlation_matrix(variables)
+    ρ = [cor(variable₁, variable₂) for variable₁ in variables, variable₂ in variables]
+    return map(x -> round(x; digits=5), ρ)
+end
