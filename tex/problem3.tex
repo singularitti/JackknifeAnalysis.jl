@@ -15,8 +15,55 @@ every MD time step. You should be able to run a few thousand steps, after therma
 virial.
 
 \Answer{}
+We run the Argon molecular dynamics from the last homework for a total \(24046\) steps,
+and after \(15000\) steps we reached desired temperature (around \(1.0718\)).
+Therefore, there are \(9047\) total steps for doing a statistical analysis.
 
+We plot the potential energy, kinetic energy, and total energy in Figure~\ref{fig:MD_e_t},
+which corresponds to the simulation time from \(t = 480\) to \(770\).
 
+\begin{figure}[hb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{e-t}
+    \caption{The potential energy, kinetic energy, and total energy for the
+        Argon molecular dynamics from simulation time from \(t = 480\) to \(770\).}
+    \label{fig:MD_e_t}
+\end{figure}
+
+The temperature and virial terms are plotted in
+Figure~\ref{fig:MD:a} and Figure~\ref{fig:MD:b}, respectively.
+We also plot the time average of the virial in Figure~\ref{fig:MD:b},
+for each time step \(m\), it is represented by
+%
+\begin{equation}
+    \langle \bm{r} \cdot \bm{F} \rangle (M) =
+    \frac{ 1 }{ M } \sum_{m=1}^{M}
+    \sum_{i=1}^N \langle \bm{r}_i(m) \cdot \bm{F}_i(m) \rangle,
+\end{equation}
+%
+where \(i\) labels each particle, and \(m\) labels each time step.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{MD_temperature}
+        \subcaption{The temperature for the
+            Argon molecular dynamics from simulation time from \(t = 480\) to \(770\).}
+        \label{fig:MD:a}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{MD_virial}
+        \subcaption{The virial and time-averaged virial for the
+            Argon molecular dynamics from simulation time from \(t = 480\) to \(770\).}
+        \label{fig:MD:b}
+    \end{minipage}
+    \caption{The temperature and virial terms for the
+        Argon molecular dynamics.}
+    \label{fig:MD}
+\end{figure}
 
 
 \Question{} Also measure the covariance matrix for these \(3\) quantities.
