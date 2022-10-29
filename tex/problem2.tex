@@ -53,7 +53,7 @@ and
     \barhat{f}_1 = \frac{ N }{ M } \sum_{\eta=1}^{M/N} \bar{f}_{1,\eta}
 \end{equation}
 as the true mean of \(f_1\)
-since \(f_1(\bar{v}_{1,\eta}, \bar{v}_{2,\eta})\) is already a function of the means.
+since \(f_1(\bar{v}_{1,\eta}, \bar{v}_{2,\eta})\) can only be applied to a group of data.
 Therefore, the true standard deviation \(\hat{\sigma}_{f_i,N}\) is
 %
 \begin{equation}
@@ -158,6 +158,27 @@ time to check that your results do not depend strongly on \(b\).
 In the following text, we select the first \(5000\) values of each variable as our original
 samples of data.
 
+Similar to Problem~\ref{sec:mock} Question~\ref{p1q7}, we know that for a sample of
+size \(N=5000\), the cutoff terms \(n_\textnormal{cut}\) for each variable are listed in
+Table~\ref{tab:JA_ncut}.
+%
+\begin{table}
+    \centering
+    \caption{The cutoff terms \(n_\textnormal{cut}\) of integrated autocorrelation
+        time for each variable when \(N = 5000\).}
+    \label{tab:JA_ncut}
+    \begin{tabular}{@{}ccccc@{}}
+        \toprule
+        \(n_{\textnormal{cut},v_1}\) & \(n_{\textnormal{cut},v_2}\) & \(n_{\textnormal{cut},v_3}\) & \(n_{\textnormal{cut},v_4}\) & \(n_{\textnormal{cut},v_5}\) \\
+        \midrule
+        \(83\)                       & \(90\)                       & \(89\)                       & \(77\)                       & \(73\)                       \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+%
+Thus, we could separate our data into bins of size \(b \approx 100\), where the results
+will not depend strongly on \(b\).
+
 To estimate the population mean of variable \(x\),
 the natural estimator is the sample mean
 %
@@ -227,7 +248,9 @@ so that there is only an integer number of groups.
             \(10^{15}\).}
         \label{fig:JA_sample_means:b}
     \end{minipage}
-    \caption{The average values \(\bar{v}_a\) of the jackknife data as a function of \(b\).}
+    \caption{The average values \(\bar{v}_a\) of the jackknife data as a function of \(b\).
+        We can see that around \(b \approx 100\), the deviations \(\bar{v}_a - \barhat{v}_a\)
+        do not change much.}
     \label{fig:JA_sample_means}
 \end{figure}
 
@@ -301,10 +324,10 @@ as shown in Snippet~\ref{lst:varjackknife}.
 After putting the correct factors before the squared terms, we will get
 Figure~\ref{fig:JA_sample_std}.
 As we can see, the standard deviation versus \(b\) varies much less than
-Figure~\ref{fig:JA_sample_std_wrong}, except for \(b = 2500\), we still get very large
-variation. But it is understandable since \(N/b = 2\) now, and \((N - 1) / N = 1/2\).
+Figure~\ref{fig:JA_sample_std_wrong}.
+And it does not depend strongly on \(b\) when \(b\) is around \(100\).
 %
-\begin{figure}[H]
+\begin{figure}[hb]
     \centering
     \includegraphics[width=0.8\textwidth]{JA_sample_std}
     \caption{The correct standard deviation of the jackknife data (\(\sigma_{\bar{v}_a,N}\)) as a
@@ -326,16 +349,7 @@ autocorrelation time. How does \(\sigma_{f_i,N}\) compare with \(\hat{\sigma}_{f
 Question~\ref{p2q1}?
 
 \Answer{}
-Expand Equation~\eqref{eq:sigmaf} as
-%
-\begin{align}
-    \sigma^2_{f_1,N} & = \frac{ N/b - 1 }{ N/b }
-    \sum_{k=1}^{N/b} \bigl( f_1(v'_{1,k}, v'_{2,k}) - f_1(\bar{v}_1, \bar{v}_2) \bigr)^2, \\
-    \sigma^2_{f_2,N} & = \frac{ N/b - 1 }{ N/b }
-    \sum_{k=1}^{N/b} \bigl( f_2(v'_{3,k}, v'_{4,k}) - f_2(\bar{v}_3, \bar{v}_4) \bigr)^2.
-\end{align}
-%
-\begin{figure}[H]
+\begin{figure}
     \centering
     \begin{minipage}[t]{0.8\linewidth}
         \centering
@@ -355,6 +369,15 @@ Expand Equation~\eqref{eq:sigmaf} as
     \caption{Plot the standard deviations of \(f_1\) and \(f_2\) after jackknife resampling.}
     \label{fig:JA_f_std}
 \end{figure}
+%
+Expand Equation~\eqref{eq:sigmaf} as
+%
+\begin{align}
+    \sigma^2_{f_1,N} & = \frac{ N/b - 1 }{ N/b }
+    \sum_{k=1}^{N/b} \bigl( f_1(v'_{1,k}, v'_{2,k}) - f_1(\bar{v}_1, \bar{v}_2) \bigr)^2, \\
+    \sigma^2_{f_2,N} & = \frac{ N/b - 1 }{ N/b }
+    \sum_{k=1}^{N/b} \bigl( f_2(v'_{3,k}, v'_{4,k}) - f_2(\bar{v}_3, \bar{v}_4) \bigr)^2.
+\end{align}
 %
 We plot \(\sigma^2_{f_1,N}\) and \(\sigma^2_{f_2,N}\) in Figure~\ref{fig:JA_f_std:a}
 and Figure~\ref{fig:JA_f_std:b}.
