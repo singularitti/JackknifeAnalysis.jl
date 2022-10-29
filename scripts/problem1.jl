@@ -12,9 +12,9 @@ end
 
 Plots.default(;
     framestyle=:box,
-    labelfontsize=12,
-    tickfontsize=10,
-    legendfontsize=12,
+    labelfontsize=10,
+    tickfontsize=8,
+    legendfontsize=10,
     palette=:tab10,
     grid=nothing,
     legend_foreground_color=nothing,
