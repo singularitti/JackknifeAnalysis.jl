@@ -335,15 +335,7 @@ Expand Equation~\eqref{eq:sigmaf} as
     \sum_{k=1}^{N/b} \bigl( f_2(v'_{3,k}, v'_{4,k}) - f_2(\bar{v}_3, \bar{v}_4) \bigr)^2.
 \end{align}
 %
-We plot \(\sigma^2_{f_1,N}\) and \(\sigma^2_{f_2,N}\) in Figure~\ref{fig:JA_f_std:a}
-and Figure~\ref{fig:JA_f_std:b}.
-As we can see, \(\sigma_{f_1,N}\) is around \(0.02\),
-and \(\sigma_{f_2,N}\) is around \(0.0125\), which are close to the standard deviation
-of \(f_1\) (\(\hat{\sigma}_{f_1,N} = 0.0214303\)) and
-\(f_2\) (\(\hat{\sigma}_{f_2,N} = 0.0126915\))
-from all \(M\) values listed in Table~\ref{tab:stdf1f2}.
-%
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{minipage}[t]{0.8\linewidth}
         \centering
@@ -363,6 +355,14 @@ from all \(M\) values listed in Table~\ref{tab:stdf1f2}.
     \caption{Plot the standard deviations of \(f_1\) and \(f_2\) after jackknife resampling.}
     \label{fig:JA_f_std}
 \end{figure}
+%
+We plot \(\sigma^2_{f_1,N}\) and \(\sigma^2_{f_2,N}\) in Figure~\ref{fig:JA_f_std:a}
+and Figure~\ref{fig:JA_f_std:b}.
+As we can see, \(\sigma_{f_1,N}\) is around \(0.02\),
+and \(\sigma_{f_2,N}\) is around \(0.0125\), which are close to the standard deviation
+of \(f_1\) (\(\hat{\sigma}_{f_1,N} = 0.0214303\)) and
+\(f_2\) (\(\hat{\sigma}_{f_2,N} = 0.0126915\))
+from all \(M\) values listed in Table~\ref{tab:stdf1f2}.
 
 Since we have the relation
 %
