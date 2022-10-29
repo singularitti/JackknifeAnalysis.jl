@@ -131,6 +131,17 @@ truemean_f₂(samplesize=5000) = mean(f₂(v₃, v₄, samplesize))
 
 truestd_f₂(samplesize=5000) = std(Sample(f₂(v₃, v₄, samplesize)))
 
+function guess_nₘₐₓ(variable, nₘₐₓ=200, i=1)
+    s = sampleby(variable, PartitionSampler(5000))[i]
+    terms = 1:nₘₐₓ
+    for n in terms
+        Cₙ = autocor(s, n)
+        if Cₙ < 0
+            return n - 1
+        end
+    end
+end
+
 function getbins(variable, i, samplesize=5000, b=200)
     sample = sampleby(variable, PartitionSampler(samplesize))[i]
     return Sample(mean.(sampleby(Population(sample), PartitionSampler(b))))
