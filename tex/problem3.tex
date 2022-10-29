@@ -32,16 +32,6 @@ which corresponds to the simulation time from \(t = 480\) to \(770\).
 
 The temperature and virial terms are plotted in
 Figure~\ref{fig:MD:a} and Figure~\ref{fig:MD:b}, respectively.
-We also plot the time average of the virial in Figure~\ref{fig:MD:b},
-for each time step \(m\), it is represented by
-%
-\begin{equation}
-    \langle \bm{r} \cdot \bm{F} \rangle (M) =
-    \frac{ 1 }{ M } \sum_{m=1}^{M}
-    \sum_{i=1}^N \langle \bm{r}_i(m) \cdot \bm{F}_i(m) \rangle,
-\end{equation}
-%
-where \(i\) labels each particle, and \(m\) labels each time step.
 
 \begin{figure}[H]
     \centering
@@ -56,7 +46,7 @@ where \(i\) labels each particle, and \(m\) labels each time step.
     \begin{minipage}[t]{0.8\linewidth}
         \centering
         \includegraphics[width=\linewidth]{MD_virial}
-        \subcaption{The virial and time-averaged virial for the
+        \subcaption{The virial for the
             Argon molecular dynamics from simulation time from \(t = 480\) to \(770\).}
         \label{fig:MD:b}
     \end{minipage}
