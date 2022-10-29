@@ -104,3 +104,8 @@ function plot_autocor_time_v(virial::Sample, path="tex/plots/MD_tau_virial.pdf")
     xlims!((1, Inf))
     return savefig(path)
 end
+
+function covariance_matrix(variables)
+    m = [cov(variable₁, variable₂) for variable₁ in variables, variable₂ in variables]
+    return map(x -> round(x; digits=5), m)
+end
