@@ -17,7 +17,7 @@ Plots.default(;
     legend_foreground_color=nothing,
 )
 
-function plot_autocor(
+function plot_autocor_u(
     u::Sample, k::Sample, nₘₐₓ=3000, path="tex/plots/MD_autocor_energy.pdf"
 )
     plot(; right_margin=3mm)
@@ -36,7 +36,7 @@ function plot_autocor(
     end
     return savefig(path)
 end
-function plot_autocor(
+function plot_autocor_t(
     temperature::Sample, nₘₐₓ=3000, path="tex/plots/MD_autocor_temperature.pdf"
 )
     plot(; legend=:none, right_margin=3mm)
@@ -57,7 +57,7 @@ function guess_nₘₐₓ(sample)
     return findfirst(<(0), Iterators.map(Base.Fix1(autocor, sample), 1:length(sample))) - 1
 end
 
-function plot_autocor_time(u::Sample, k::Sample, path="tex/plots/MD_tau_energy.pdf")
+function plot_autocor_time_u(u::Sample, k::Sample, path="tex/plots/MD_tau_energy.pdf")
     plot(; legend=:topleft, right_margin=2mm)
     xlabel!(L"$n_\textnormal{cut}$")
     ylabel!(L"$\tau$")
@@ -70,7 +70,7 @@ function plot_autocor_time(u::Sample, k::Sample, path="tex/plots/MD_tau_energy.p
     end
     return savefig(path)
 end
-function plot_autocor_time(temperature::Sample, path="tex/plots/MD_tau_temperature.pdf")
+function plot_autocor_time_t(temperature::Sample, path="tex/plots/MD_tau_temperature.pdf")
     plot(; legend=:none, right_margin=2mm)
     xlabel!(L"$n_\textnormal{cut}$")
     ylabel!(L"$\tau$")
