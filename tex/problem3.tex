@@ -11,7 +11,7 @@ and the time average of the virial, which is given by
 every MD time step. You should be able to run a few thousand steps, after thermalization.
 
 
-\Question{} Measure the autocorrelation times for the temperature, potential energy and
+\Question{p3q1} Measure the autocorrelation times for the temperature, potential energy and
 virial.
 
 \Answer{}
@@ -133,4 +133,56 @@ and the virial satisfy the following relation:
 jackknife method to give an error on the pressure from your simulation.
 
 \Answer{}
+The size of each bin should be at least larger than the \(n_\textnormal{cut}\)
+for each variable, as discussed in previously.
+The expression of \(P\) has two related variables, i.e., temperature and virial:
+%
+\begin{equation}
+    \frac{ \beta P }{ \rho } = 1 + \frac{ 1 }{ 3N_p T } \sum_{i=1}^{N}
+    \langle \bm{r}_i \cdot \bm{F}_i \rangle,
+\end{equation}
+%
+where \(N_p\) denotes the number of particles in the system.
+Therefore, as in Problem~\ref{sec:ja} Question~\ref{p2q3}, we can split temperature
+and virial into bins of size \(b\), where \(b\) should satisfy
+%
+\begin{equation}
+    b \geq \max \{n_{\textnormal{cut}, \tau_T}, n_{\textnormal{cut}, \tau_v}\},
+\end{equation}
+%
+where \(\tau_v\) denotes the integrated autocorrelation time for the virial.
+We should select the same \(b\) for the two variables,
+or else we do not have matching numbers of correlated data.
 
+From Question~\ref{p3q1} we know that
+\(n_{\textnormal{cut}, \tau_T} \geq 15\) and
+\(n_{\textnormal{cut}, \tau_v} \geq 16\), so the \(b\) we will use should be
+at least \(16\), but not too large since we do not want to include too much noises
+into our samples. We will pick \(b = 19\) for simplicity.
+However, we need to cut the last \(3\) data points to minimize bias.
+
+Thus, we separate the two variables into \(N / b = 476\) groups, each with
+size \(19\). Then we average the values in each group and treat it as one datum.
+The function here is
+%
+\begin{equation}\label{eq:f}
+    f(\bar{T}, \bar{v}) = 1 + \frac{ 1 }{ 3N_p \bar{T} } \bar{v},
+\end{equation}
+%
+where \(\bar{v}\) denotes the average value of each virial term, since we have done
+the summation over all particles when we calculte the virials, there is no need to
+add that \(\sum\) symbol in Equation~\eqref{eq:f}.
+
+After jackknife resampling, we have
+%
+\begin{equation}\label{eq:mdsigma}
+    \sigma^2_{f} = \frac{ N/b - 1 }{ N/b }
+    \sum_{k=1}^{N/b} \bigl( f(T'_k, v'_k) - f(\bar{T}, \bar{v}) \bigr)^2,
+\end{equation}
+%
+where \(\bar{T}\) and \(\bar{v}\) denote the average values of temperature and
+virial for all steps, and the summation is over each group of the jackknife
+data.
+After substituting data into Equation~\eqref{eq:mdsigma}, we obtain
+\(\sigma_{f} \approx \num{4.08629e-4}\), which is a relative small error considering
+the value of \(f\) is of magnitude around \(1\).
