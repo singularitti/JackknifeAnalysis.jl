@@ -93,7 +93,40 @@ Problem~\ref{sec:mock}.
 \Question{} Also measure the covariance matrix for these \(3\) quantities.
 
 \Answer{}
-
+The covariance matrix for temperature, potential energy, and virial is
+%
+\begin{equation}
+    \hat{c} =
+    \begin{bmatrix}
+        0.00024  & -0.30849  & 0.00425    \\
+        -0.30849 & 698.43424 & 84.42649   \\
+        0.00425  & 84.42649  & 1296.32289
+    \end{bmatrix}.
+\end{equation}
+%
+And the normalized version of the covariance is
+%
+\begin{equation}
+    \hat{\rho} =
+    \begin{bmatrix}
+        1        & -0.75095 & 0.00759 \\
+        -0.75095 & 1        & 0.08873 \\
+        0.00759  & 0.08873  & 1
+    \end{bmatrix}.
+\end{equation}
+%
+As we can see, the temperature and potential energy are negatively correlated.
+This is understandable since the total energy is fixed, and the potential energy and
+the kinetic energy are negatively correlated, while the temperature and the kinetic
+energy are positively correlated.
+And the temperature and the virial are positive correlated since the kinetic energy
+and the virial satisfy the following relation:
+%
+\begin{equation}
+    \langle T \rangle = \frac{ 1 }{ 2 }
+    \sum_i
+    \biggl\langle r_i \frac{ \partial U }{ \partial r_i } \biggr\rangle.
+\end{equation}
 
 
 \Question{} Use your estimate of the autocorrelation times, along with binning and the
