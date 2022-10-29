@@ -36,6 +36,22 @@ function plot_autocor(
     end
     return savefig(path)
 end
+function plot_autocor(
+    temperature::Sample, nₘₐₓ=3000, path="tex/plots/MD_autocor_temperature.pdf"
+)
+    plot(; legend=:none, right_margin=3mm)
+    xlabel!(L"$n$")
+    ylabel!(L"$\hat{C}(n) / \hat{C}(0)$")
+    C₀ = autocor(temperature, 0)
+    N = 0:nₘₐₓ
+    r = map(N) do n
+        Cₙ = autocor(temperature, n)
+        Cₙ / C₀
+    end
+    plot!(N, r)
+    xlims!(extrema(N))
+    return savefig(path)
+end
 
 function guess_nₘₐₓ(sample)
     return findfirst(<(0), Iterators.map(Base.Fix1(autocor, sample), 1:length(sample))) - 1
@@ -52,5 +68,15 @@ function plot_autocor_time(u::Sample, k::Sample, path="tex/plots/MD_tau_energy.p
         plot!(1:nₘₐₓ, 𝛕; label=label)
         xlims!((1, Inf))
     end
+    return savefig(path)
+end
+function plot_autocor_time(temperature::Sample, path="tex/plots/MD_tau_temperature.pdf")
+    plot(; legend=:none, right_margin=2mm)
+    xlabel!(L"$n_\textnormal{cut}$")
+    ylabel!(L"$\tau$")
+    nₘₐₓ = guess_nₘₐₓ(temperature)
+    𝛕 = map(Base.Fix1(int_autocor_time, temperature), 1:nₘₐₓ)
+    plot!(1:nₘₐₓ, 𝛕)
+    xlims!((1, Inf))
     return savefig(path)
 end
