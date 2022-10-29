@@ -114,3 +114,16 @@ function correlation_matrix(variables)
     ρ = [cor(variable₁, variable₂) for variable₁ in variables, variable₂ in variables]
     return map(x -> round(x; digits=5), ρ)
 end
+
+getbins(sample, b=19) = Sample(mean.(sampleby(Population(sample), PartitionSampler(b))))
+
+jackknife(sample) = sampleby(sample, JackknifeSampler())
+
+pressure(T, v, Nₚ=1000) = 1 + inv(3 * Nₚ * T) * v
+
+function get_f_std(f, variable₁, variable₂, b=19)
+    sample₁, sample₂ = map(
+        variable -> jackknife(getbins(variable, b)), (variable₁, variable₂)
+    )
+    return std(f, sample₁, sample₂)
+end
