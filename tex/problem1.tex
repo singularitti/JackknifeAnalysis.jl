@@ -102,14 +102,14 @@ since more values are averaged.
 
 \begin{figure}
     \centering
-    \begin{minipage}[t]{0.8\linewidth}
+    \begin{minipage}[t]{0.9\linewidth}
         \centering
         \includegraphics[width=\linewidth]{sample means N=1000}
         \subcaption{Histogram of the sample means for \(N = 1000\).}
         \label{fig:hist_mean:a}
     \end{minipage}
     \hfill
-    \begin{minipage}[t]{0.8\linewidth}
+    \begin{minipage}[t]{0.9\linewidth}
         \centering
         \includegraphics[width=\linewidth]{sample means N=10000}
         \subcaption{Histogram of the sample means for \(N = 10000\).}
@@ -212,9 +212,9 @@ Figure~\ref{fig:truecorlarge}.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{Cn_C0}
+    \includegraphics[width=0.8\textwidth]{Cn_C0_zoom}
     \caption{\(\hat{C}_{v_a}(n) / \hat{C}_{v_a}(0)\) as a function of \(n\)
-        for \(n\) in range \(200 - 2000\).}
+        for \(n\) in range \(125 - 1000\).}
     \label{fig:truecorlarge}
 \end{figure}
 
@@ -295,7 +295,7 @@ While the true standard deviation of the means
 \(\sgbar{a}\) for \(a = 1\), \(\ldots\), \(5\) and \(N = 1000\) and \(10000\) are
 listed in Table~\ref{tab:truestd}.
 
-\begin{table}[H]
+\begin{table}
     \centering
     \caption{The true standard deviations of all \(M\) data for each variable.}
     \label{tab:std}
@@ -322,7 +322,7 @@ We can see their expected values (\(\sgbar{a}\)) and our evaluated values
 (\(\hat{s}_{\bar{v}_a,N}\)) are different by some small amounts.
 It means that relation~\eqref{eq:relation} holds for our analysis.
 
-\begin{table}[H]
+\begin{table}
     \centering
     \caption{Compare \(\sgbar{a}\) and \(\hat{s}_{\bar{v}_a,N}\) for
     \(a = 1\), \(\ldots\), \(5\) and \(N = 1000\) and \(10000\).}
@@ -510,7 +510,7 @@ negative as our cut-off \(n\) for each variable.
 Then \(n_\textnormal{cut}\) for each \(\tau_{v_a}\) for both the
 \(N = 1000\) and \(N = 10000\) cases are listed in Table~\ref{tab:ncut}.
 
-\begin{table}[H]
+\begin{table}
     \centering
     \caption{\(n_\textnormal{cut}\) for each \(\tau_{v_a}\) for both the
         \(N = 1000\) and \(N = 10000\) cases.}
@@ -531,7 +531,7 @@ by Equation~\eqref{eq:samplesigma}. The results are listed in Table~\ref{tab:sam
 Compared with Table~\ref{tab:truestd}, we find that they are close to the true
 standard deviation of the means \(\sgbar{a}\).
 
-\begin{table}[H]
+\begin{table}[hb]
     \centering
     \caption{The standard deviation of the means
         \(\sigma_{\bar{v}_a,N}\) for \(a = 1\), \(\ldots\), \(5\) estimated from a \(N = 1000\)
