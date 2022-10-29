@@ -71,17 +71,15 @@ function guess_nₘₐₓ(sample)
     return findfirst(<(0), Iterators.map(Base.Fix1(autocor, sample), 1:length(sample))) - 1
 end
 
-function plot_autocor_time_u(u::Sample, k::Sample, path="tex/plots/MD_tau_energy.pdf")
-    plot(; legend=:topleft, right_margin=2mm)
+function plot_autocor_time_u(u::Sample, path="tex/plots/MD_tau_energy.pdf")
+    plot(; legend=:none, right_margin=2mm)
     xlabel!(L"$n_\textnormal{cut}$")
     ylabel!(L"$\tau$")
-    for (sample, label) in
-        zip((u, k, u .+ k), ("potential", "kinetic", "total") .* " energy")
-        nₘₐₓ = guess_nₘₐₓ(sample)
-        𝛕 = map(Base.Fix1(int_autocor_time, sample), 1:nₘₐₓ)
-        plot!(1:nₘₐₓ, 𝛕; label=label)
-        xlims!((1, Inf))
-    end
+    nₘₐₓ = guess_nₘₐₓ(u)
+    𝛕 = map(Base.Fix1(int_autocor_time, u), 1:nₘₐₓ)
+    plot!(1:nₘₐₓ, 𝛕; label="potential energy")
+    xlims!((1, Inf))
+    ylims!(extrema(𝛕))
     return savefig(path)
 end
 function plot_autocor_time_t(temperature::Sample, path="tex/plots/MD_tau_temperature.pdf")
@@ -92,6 +90,7 @@ function plot_autocor_time_t(temperature::Sample, path="tex/plots/MD_tau_tempera
     𝛕 = map(Base.Fix1(int_autocor_time, temperature), 1:nₘₐₓ)
     plot!(1:nₘₐₓ, 𝛕)
     xlims!((1, Inf))
+    ylims!(extrema(𝛕))
     return savefig(path)
 end
 function plot_autocor_time_v(virial::Sample, path="tex/plots/MD_tau_virial.pdf")
@@ -100,8 +99,9 @@ function plot_autocor_time_v(virial::Sample, path="tex/plots/MD_tau_virial.pdf")
     ylabel!(L"$\tau$")
     nₘₐₓ = guess_nₘₐₓ(virial)
     𝛕 = map(Base.Fix1(int_autocor_time, virial), 1:nₘₐₓ)
-    plot!(1:nₘₐₓ, 𝛕)
+    plot!(1:nₘₐₓ, 𝛕; label="virial")
     xlims!((1, Inf))
+    ylims!(extrema(𝛕))
     return savefig(path)
 end
 
