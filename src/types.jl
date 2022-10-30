@@ -4,24 +4,24 @@ export Population,
     SimpleSample, JackknifeSample, PartitionSampler, JackknifeSampler, sampleby, jackknife
 
 # See https://github.com/JuliaLang/julia/blob/bb2d863/base/subarray.jl#L14-L24
-abstract type Data{T,A<:AbstractVector{T}} <: AbstractVector{T} end
-function (::Type{T})(data) where {S,A,T<:Data{S,<:A}}
+abstract type Values{T,A<:AbstractVector{T}} <: AbstractVector{T} end
+function (::Type{T})(data) where {S,A,T<:Values{S,<:A}}
     @inline
     data = map(Base.Fix1(convert, S), data)
     return constructorof(T){S,typeof(data)}(data)
 end
-function (::Type{T})(data) where {S,A,T<:Data{<:S,<:A}}
+function (::Type{T})(data) where {S,A,T<:Values{<:S,<:A}}
     @inline
     # You can't use `S` since `T` has no type parameter; therefore, `S` is not defined!
     return constructorof(T){eltype(data),typeof(data)}(data)
 end
-function (::Type{T})(::UndefInitializer, n) where {S,A,T<:Data{S,<:A}}
+function (::Type{T})(::UndefInitializer, n) where {S,A,T<:Values{S,<:A}}
     return constructorof(T)(Vector{S}(undef, n))
 end
-struct Population{T,A} <: Data{T,A}
+struct Population{T,A} <: Values{T,A}
     values::A
 end
-abstract type Sample{T,A} <: Data{T,A} end
+abstract type Sample{T,A} <: Values{T,A} end
 struct SimpleSample{T,A} <: Sample{T,A}
     values::A
 end
@@ -46,15 +46,15 @@ end
 
 jackknife(sample::SimpleSample) = sampleby(sample, JackknifeSampler())
 
-Base.parent(data::Data) = data.values
+Base.parent(data::Values) = data.values
 
-Base.size(data::Data) = size(parent(data))
+Base.size(data::Values) = size(parent(data))
 
-Base.getindex(data::Data, I...) = getindex(parent(data), I...)
+Base.getindex(data::Values, I...) = getindex(parent(data), I...)
 
-Base.setindex!(data::Data, v, I...) = setindex!(parent(data), v, I...)
+Base.setindex!(data::Values, v, I...) = setindex!(parent(data), v, I...)
 
-Base.IndexStyle(::Type{<:Data}) = IndexLinear()
+Base.IndexStyle(::Type{<:Values}) = IndexLinear()
 
 Base.similar(::Population, ::Type{S}, dims::Dims) where {S} = Population{S}(undef, dims)
 Base.similar(::Sample, ::Type{S}, dims::Dims) where {S} = Sample{S}(undef, dims)
@@ -62,11 +62,11 @@ function Base.similar(::JackknifeSample, ::Type{S}, dims::Dims) where {S}
     return JackknifeSample{S}(undef, dims)
 end
 
-Base.BroadcastStyle(::Type{<:Data}) = Broadcast.ArrayStyle{Data}()
+Base.BroadcastStyle(::Type{<:Values}) = Broadcast.ArrayStyle{Values}()
 function Base.similar(
-    bc::Broadcast.Broadcasted{Broadcast.ArrayStyle{Data}}, ::Type{T}
+    bc::Broadcast.Broadcasted{Broadcast.ArrayStyle{Values}}, ::Type{T}
 ) where {T}
-    A = find_type(Data, bc.args)
+    A = find_type(Values, bc.args)
     return similar(A, T)
 end
 
