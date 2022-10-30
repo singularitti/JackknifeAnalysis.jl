@@ -1,7 +1,7 @@
 using ConstructionBase: constructorof
 
 export Population,
-    Sample, JackknifeSample, PartitionSampler, JackknifeSampler, sampleby, jackknife
+    SimpleSample, JackknifeSample, PartitionSampler, JackknifeSampler, sampleby, jackknife
 
 # See https://github.com/JuliaLang/julia/blob/bb2d863/base/subarray.jl#L14-L24
 abstract type Data{T,A<:AbstractVector{T}} <: AbstractVector{T} end
@@ -21,10 +21,11 @@ end
 struct Population{T,A} <: Data{T,A}
     values::A
 end
-struct Sample{T,A} <: Data{T,A}
+abstract type Sample{T,A} <: Data{T,A} end
+struct SimpleSample{T,A} <: Sample{T,A}
     values::A
 end
-struct JackknifeSample{T,A} <: Data{T,A}
+struct JackknifeSample{T,A} <: Sample{T,A}
     values::A
 end
 
@@ -35,15 +36,15 @@ end
 struct JackknifeSampler <: Sampler end
 
 function sampleby(population::Population, sampler::PartitionSampler)
-    return Sample.(Iterators.partition(population.values, sampler.n))
+    return SimpleSample.(Iterators.partition(population.values, sampler.n))
 end
-function sampleby(sample::Sample, ::JackknifeSampler)
+function sampleby(sample::SimpleSample, ::JackknifeSampler)
     f = inv(length(sample) - 1)
     ∑ = sum(sample)
     return JackknifeSample([(∑ - value) for value in sample]) * f
 end
 
-jackknife(sample::Sample) = sampleby(sample, JackknifeSampler())
+jackknife(sample::SimpleSample) = sampleby(sample, JackknifeSampler())
 
 Base.parent(data::Data) = data.values
 
