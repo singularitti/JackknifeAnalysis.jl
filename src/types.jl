@@ -15,6 +15,9 @@ function (::Type{T})(data) where {S,A,T<:Data{<:S,<:A}}
     # You can't use `S` since `T` has no type parameter; therefore, `S` is not defined!
     return constructorof(T){eltype(data),typeof(data)}(data)
 end
+function (::Type{T})(::UndefInitializer, n) where {S,A,T<:Data{S,<:A}}
+    return constructorof(T)(Vector{S}(undef, n))
+end
 struct Population{T,A} <: Data{T,A}
     values::A
 end
