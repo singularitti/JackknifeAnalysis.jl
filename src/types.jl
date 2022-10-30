@@ -1,4 +1,5 @@
-export Population, Sample, JackknifeSample, PartitionSampler, JackknifeSampler, sampleby
+export Population,
+    Sample, JackknifeSample, PartitionSampler, JackknifeSampler, sampleby, jackknife
 
 abstract type Data{T<:Number} <: AbstractVector{T} end
 struct Population{T} <: Data{T}
@@ -37,6 +38,8 @@ function sampleby(sample::Sample, ::JackknifeSampler)
     ∑ = sum(sample)
     return JackknifeSample([(∑ - value) for value in sample]) * f
 end
+
+jackknife(sample::Sample) = sampleby(sample, JackknifeSampler())
 
 Base.parent(data::Data) = data.data
 

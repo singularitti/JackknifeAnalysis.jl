@@ -146,8 +146,6 @@ function getbins(variable, i, samplesize=5000, b=200)
     return Sample(mean.(sampleby(Population(sample), PartitionSampler(b))))
 end
 
-jackknife(sample) = sampleby(sample, JackknifeSampler())
-
 function plot_jackknife_means(i=1)
     plot(; xlims=extrema(𝐛), xlabel=L"size of bin ($b$)", ylabel=L"$\bar{v}_a$")
     for (j, variable) in enumerate(variables)
