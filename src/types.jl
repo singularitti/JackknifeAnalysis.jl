@@ -16,13 +16,13 @@ function (::Type{T})(data) where {S,A,T<:Data{<:S,<:A}}
     return constructorof(T){eltype(data),typeof(data)}(data)
 end
 struct Population{T,A} <: Data{T,A}
-    data::A
+    values::A
 end
 struct Sample{T,A} <: Data{T,A}
-    data::A
+    values::A
 end
 struct JackknifeSample{T,A} <: Data{T,A}
-    data::A
+    values::A
 end
 
 abstract type Sampler end
@@ -32,7 +32,7 @@ end
 struct JackknifeSampler <: Sampler end
 
 function sampleby(population::Population, sampler::PartitionSampler)
-    return Sample.(Iterators.partition(population.data, sampler.n))
+    return Sample.(Iterators.partition(population.values, sampler.n))
 end
 function sampleby(sample::Sample, ::JackknifeSampler)
     f = inv(length(sample) - 1)
@@ -42,7 +42,7 @@ end
 
 jackknife(sample::Sample) = sampleby(sample, JackknifeSampler())
 
-Base.parent(data::Data) = data.data
+Base.parent(data::Data) = data.values
 
 Base.size(data::Data) = size(parent(data))
 
