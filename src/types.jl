@@ -1,27 +1,28 @@
+using ConstructionBase: constructorof
+
 export Population,
     Sample, JackknifeSample, PartitionSampler, JackknifeSampler, sampleby, jackknife
 
-abstract type Data{T<:Number} <: AbstractVector{T} end
-struct Population{T} <: Data{T}
-    data::Vector{T}
+# See https://github.com/JuliaLang/julia/blob/bb2d863/base/subarray.jl#L14-L24
+abstract type Data{T,A<:AbstractVector{T}} <: AbstractVector{T} end
+function (::Type{T})(data) where {S,A,T<:Data{S,<:A}}
+    @inline
+    data = map(Base.Fix1(convert, S), data)
+    return constructorof(T){S,typeof(data)}(data)
 end
-Population(A::AbstractVector) = Population(collect(A))
-function Population{S}(::UndefInitializer, n::Tuple{Int64}) where {S}
-    return Population(Vector{S}(undef, n))
+function (::Type{T})(data) where {S,A,T<:Data{<:S,<:A}}
+    @inline
+    # You can't use `S` since `T` has no type parameter; therefore, `S` is not defined!
+    return constructorof(T){eltype(data),typeof(data)}(data)
 end
-
-struct Sample{T} <: Data{T}
-    data::Vector{T}
+struct Population{T,A} <: Data{T,A}
+    data::A
 end
-Sample(A::AbstractVector) = Sample(collect(A))
-Sample{S}(::UndefInitializer, n::Tuple{Int64}) where {S} = Sample(Vector{S}(undef, n))
-
-struct JackknifeSample{T} <: Data{T}
-    data::Vector{T}
+struct Sample{T,A} <: Data{T,A}
+    data::A
 end
-JackknifeSample(A::AbstractVector) = JackknifeSample(collect(A))
-function JackknifeSample{S}(::UndefInitializer, n::Tuple{Int64}) where {S}
-    return JackknifeSample(Vector{S}(undef, n))
+struct JackknifeSample{T,A} <: Data{T,A}
+    data::A
 end
 
 abstract type Sampler end
