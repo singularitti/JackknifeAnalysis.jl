@@ -1,5 +1,4 @@
 using JackknifeAnalysis
-using LaTeXStrings: @L_str
 using Plots
 using Plots.Measures
 
@@ -24,8 +23,8 @@ end
 
 function plot_autocor_time_u(u::Sample, path="tex/plots/MD_tau_energy.pdf")
     plot(; legend=:none, right_margin=2mm)
-    xlabel!(L"$n_\textnormal{cut}$")
-    ylabel!(L"$\tau$")
+    xlabel!(raw"$n_\textnormal{cut}$")
+    ylabel!(raw"$\tau$")
     nₘₐₓ = guess_nₘₐₓ(u)
     𝛕 = map(Base.Fix1(int_autocor_time, u), 1:nₘₐₓ)
     plot!(1:nₘₐₓ, 𝛕; label="potential energy")
@@ -35,8 +34,8 @@ function plot_autocor_time_u(u::Sample, path="tex/plots/MD_tau_energy.pdf")
 end
 function plot_autocor_time_t(temperature::Sample, path="tex/plots/MD_tau_temperature.pdf")
     plot(; legend=:none, right_margin=2mm)
-    xlabel!(L"$n_\textnormal{cut}$")
-    ylabel!(L"$\tau$")
+    xlabel!(raw"$n_\textnormal{cut}$")
+    ylabel!(raw"$\tau$")
     nₘₐₓ = guess_nₘₐₓ(temperature)
     𝛕 = map(Base.Fix1(int_autocor_time, temperature), 1:nₘₐₓ)
     plot!(1:nₘₐₓ, 𝛕)
@@ -46,8 +45,8 @@ function plot_autocor_time_t(temperature::Sample, path="tex/plots/MD_tau_tempera
 end
 function plot_autocor_time_v(virial::Sample, path="tex/plots/MD_tau_virial.pdf")
     plot(; legend=:none, right_margin=2mm)
-    xlabel!(L"$n_\textnormal{cut}$")
-    ylabel!(L"$\tau$")
+    xlabel!(raw"$n_\textnormal{cut}$")
+    ylabel!(raw"$\tau$")
     nₘₐₓ = guess_nₘₐₓ(virial)
     𝛕 = map(Base.Fix1(int_autocor_time, virial), 1:nₘₐₓ)
     plot!(1:nₘₐₓ, 𝛕; label="virial")
