@@ -29,13 +29,15 @@ export autocorplot, autocortimeplot
     palette --> :tab20
     grid --> nothing
     @series begin
-        seriestype --> :hline
-        seriescolor --> :black
-        z_order --> :back
-        label --> ""
-        [0]
+        seriestype --> :scatter
+        terms, ratios
     end
-    return terms, ratios
+    @series begin
+        seriestype --> :path
+        z_order --> :back
+        label := ""
+        terms, ratios
+    end
 end
 
 @userplot AutocorTimePlot
