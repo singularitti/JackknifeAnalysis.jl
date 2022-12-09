@@ -7,15 +7,6 @@ if !isdir("tex/plots")
     mkpath("tex/plots")
 end
 
-Plots.default(;
-    framestyle=:box,
-    labelfontsize=12,
-    tickfontsize=10,
-    legendfontsize=12,
-    palette=:tab10,
-    grid=nothing,
-    legend_foreground_color=nothing,
-)
 autocorplot(u, 3000; label="potential energy")
 autocorplot!(k, 3000; label="kinetic energy")
 autocorplot!(u .+ k, 3000; label="total energy")
