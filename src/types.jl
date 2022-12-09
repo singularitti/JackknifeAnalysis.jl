@@ -57,7 +57,7 @@ Base.setindex!(data::Values, v, I...) = setindex!(parent(data), v, I...)
 Base.IndexStyle(::Type{<:Values}) = IndexLinear()
 
 Base.similar(::Population, ::Type{S}, dims::Dims) where {S} = Population{S}(undef, dims)
-Base.similar(::Sample, ::Type{S}, dims::Dims) where {S} = Sample{S}(undef, dims)
+Base.similar(::SimpleSample, ::Type{S}, dims::Dims) where {S} = SimpleSample{S}(undef, dims)
 function Base.similar(::JackknifeSample, ::Type{S}, dims::Dims) where {S}
     return JackknifeSample{S}(undef, dims)
 end
