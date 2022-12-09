@@ -7,8 +7,8 @@ export autocorplot
     # See http://juliaplots.org/RecipesBase.jl/stable/types/#User-Recipes-2
     sample, nₘₐₓ = plot.args
     C₀ = autocor(sample, 0)
-    range = 0:nₘₐₓ
-    ratios = map(range) do n
+    terms = 0:nₘₐₓ
+    ratios = map(terms) do n
         Cₙ = autocor(sample, n)
         Cₙ / C₀
     end
@@ -16,7 +16,7 @@ export autocorplot
     markersize --> 2
     markerstrokecolor --> :auto
     markerstrokewidth --> 0
-    xlims --> extrema(range)
+    xlims --> extrema(terms)
     ylims --> (-Inf, 1)
     xguide --> raw"$n$"
     yguide --> raw"$\hat{C}(n) / \hat{C}(0)$"
@@ -35,5 +35,5 @@ export autocorplot
         label --> ""
         [0]
     end
-    return range, ratios
+    return terms, ratios
 end
