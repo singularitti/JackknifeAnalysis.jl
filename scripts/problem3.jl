@@ -16,56 +16,16 @@ Plots.default(;
     grid=nothing,
     legend_foreground_color=nothing,
 )
+autocorplot(u, 3000; label="potential energy")
+autocorplot!(k, 3000; label="kinetic energy")
+autocorplot!(u .+ k, 3000; label="total energy")
+savefig("tex/plots/MD_autocor_energy.pdf")
 
-function plot_autocor_u(
-    u::Sample, k::Sample, nₘₐₓ=3000, path="tex/plots/MD_autocor_energy.pdf"
-)
-    plot(; right_margin=3mm)
-    xlabel!(L"$n$")
-    ylabel!(L"$\hat{C}(n) / \hat{C}(0)$")
-    for (sample, label) in
-        zip((u, k, u .+ k), ("potential", "kinetic", "total") .* " energy")
-        C₀ = autocor(sample, 0)
-        N = 0:nₘₐₓ
-        r = map(N) do n
-            Cₙ = autocor(sample, n)
-            Cₙ / C₀
-        end
-        plot!(N, r; label=label)
-        xlims!(extrema(N))
-    end
-    return savefig(path)
-end
-function plot_autocor_t(
-    temperature::Sample, nₘₐₓ=3000, path="tex/plots/MD_autocor_temperature.pdf"
-)
-    plot(; legend=:none, right_margin=3mm)
-    xlabel!(L"$n$")
-    ylabel!(L"$\hat{C}(n) / \hat{C}(0)$")
-    C₀ = autocor(temperature, 0)
-    N = 0:nₘₐₓ
-    r = map(N) do n
-        Cₙ = autocor(temperature, n)
-        Cₙ / C₀
-    end
-    plot!(N, r)
-    xlims!(extrema(N))
-    return savefig(path)
-end
-function plot_autocor_v(virial::Sample, nₘₐₓ=3000, path="tex/plots/MD_autocor_virial.pdf")
-    plot(; legend=:none, right_margin=3mm)
-    xlabel!(L"$n$")
-    ylabel!(L"$\hat{C}(n) / \hat{C}(0)$")
-    C₀ = autocor(virial, 0)
-    N = 0:nₘₐₓ
-    r = map(N) do n
-        Cₙ = autocor(virial, n)
-        Cₙ / C₀
-    end
-    plot!(N, r)
-    xlims!(extrema(N))
-    return savefig(path)
-end
+autocorplot(temperature, 300)
+savefig("tex/plots/MD_autocor_temperature.pdf")
+
+plot_autocor_v(virial, 300)
+savefig("tex/plots/MD_autocor_virial.pdf")
 
 function guess_nₘₐₓ(sample)
     return findfirst(<(0), Iterators.map(Base.Fix1(autocor, sample), 1:length(sample))) - 1
