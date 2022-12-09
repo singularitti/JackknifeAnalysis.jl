@@ -1,6 +1,6 @@
 using RecipesBase: @userplot, @recipe, @series
 
-export autocorplot
+export autocorplot, autocortimeplot
 
 @userplot AutoCorPlot
 @recipe function f(plot::AutoCorPlot)
@@ -36,4 +36,28 @@ export autocorplot
         [0]
     end
     return terms, ratios
+end
+
+@userplot AutocorTimePlot
+@recipe function f(plot::AutocorTimePlot)
+    sample, nₘₐₓ = plot.args
+    terms = 1:nₘₐₓ
+    𝛕 = map(Base.Fix1(int_autocor_time, sample), terms)
+    size --> (700, 400)
+    markersize --> 2
+    markerstrokecolor --> :auto
+    markerstrokewidth --> 0
+    xlims --> extrema(terms)
+    ylims --> extrema(𝛕)
+    xguide --> raw"$n_\textnormal{cut}$"
+    yguide --> raw"integrated autocorrelation time ($\tau$)"
+    guidefontsize --> 10
+    tickfontsize --> 8
+    legendfontsize --> 8
+    legend_foreground_color --> nothing
+    legend_position --> :topright
+    frame --> :box
+    palette --> :tab20
+    grid --> nothing
+    return terms, 𝛕
 end
