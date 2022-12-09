@@ -5,9 +5,9 @@ if !isdir("tex/plots")
     mkpath("tex/plots")
 end
 
-autocorplot(u, 3000; label="potential energy")
-autocorplot!(k, 3000; label="kinetic energy")
-autocorplot!(u .+ k, 3000; label="total energy")
+autocorplot(U, 3000; label="potential energy")
+autocorplot!(K, 100; label="kinetic energy")
+autocorplot!(U + K, 3000; label="total energy")
 savefig("tex/plots/MD_autocor_energy.pdf")
 
 autocorplot(temperature, 300)
@@ -20,7 +20,7 @@ function guess_nₘₐₓ(sample)
     return findfirst(<(0), Iterators.map(Base.Fix1(autocor, sample), 1:length(sample))) - 1
 end
 
-autocortimeplot(u, guess_nₘₐₓ(u); label="potential energy")
+autocortimeplot(U, guess_nₘₐₓ(U); label="potential energy")
 savefig("tex/plots/MD_tau_energy.pdf")
 
 autocortimeplot(temperature, guess_nₘₐₓ(temperature); label="temperature")
