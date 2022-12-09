@@ -21,7 +21,7 @@ function guess_nₘₐₓ(sample)
     return findfirst(<(0), Iterators.map(Base.Fix1(autocor, sample), 1:length(sample))) - 1
 end
 
-function plot_autocor_time_u(u::Sample, path="tex/plots/MD_tau_energy.pdf")
+function plot_autocor_time_u(u::SimpleSample, path="tex/plots/MD_tau_energy.pdf")
     plot(; legend=:none, right_margin=2mm)
     xlabel!(raw"$n_\textnormal{cut}$")
     ylabel!(raw"$\tau$")
@@ -32,7 +32,9 @@ function plot_autocor_time_u(u::Sample, path="tex/plots/MD_tau_energy.pdf")
     ylims!(extrema(𝛕))
     return savefig(path)
 end
-function plot_autocor_time_t(temperature::Sample, path="tex/plots/MD_tau_temperature.pdf")
+function plot_autocor_time_t(
+    temperature::SimpleSample, path="tex/plots/MD_tau_temperature.pdf"
+)
     plot(; legend=:none, right_margin=2mm)
     xlabel!(raw"$n_\textnormal{cut}$")
     ylabel!(raw"$\tau$")
@@ -43,7 +45,7 @@ function plot_autocor_time_t(temperature::Sample, path="tex/plots/MD_tau_tempera
     ylims!(extrema(𝛕))
     return savefig(path)
 end
-function plot_autocor_time_v(virial::Sample, path="tex/plots/MD_tau_virial.pdf")
+function plot_autocor_time_v(virial::SimpleSample, path="tex/plots/MD_tau_virial.pdf")
     plot(; legend=:none, right_margin=2mm)
     xlabel!(raw"$n_\textnormal{cut}$")
     ylabel!(raw"$\tau$")
