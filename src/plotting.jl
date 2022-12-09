@@ -57,9 +57,18 @@ end
     tickfontsize --> 8
     legendfontsize --> 8
     legend_foreground_color --> nothing
-    legend_position --> :topright
+    legend_position --> :bottomright
     frame --> :box
     palette --> :tab20
     grid --> nothing
-    return terms, 𝛕
+    @series begin
+        seriestype --> :scatter
+        terms, 𝛕
+    end
+    @series begin
+        seriestype --> :path
+        z_order --> :back
+        label := ""
+        terms, 𝛕
+    end
 end
