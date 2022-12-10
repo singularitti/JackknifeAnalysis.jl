@@ -83,7 +83,7 @@ version = "0.21.3"
 
 [[deps.JackknifeAnalysis]]
 deps = ["ConstructionBase", "RecipesBase"]
-git-tree-sha1 = "e2a9673380c72056ec8808230f66ccf946632095"
+git-tree-sha1 = "bd3f1bbab2180b0f21e15162492c059fcc71e203"
 repo-rev = "main"
 repo-url = "https://github.com/singularitti/JackknifeAnalysis.jl"
 uuid = "078b01e5-d5a2-45e2-8b83-70cffd3fbbf9"
