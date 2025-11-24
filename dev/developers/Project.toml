@@ -1,3 +1,6 @@
 [deps]
 JackknifeAnalysis = "078b01e5-d5a2-45e2-8b83-70cffd3fbbf9"
 JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
+
+[sources]
+JackknifeAnalysis = {rev = "main", url = "https://github.com/singularitti/JackknifeAnalysis.jl"}
